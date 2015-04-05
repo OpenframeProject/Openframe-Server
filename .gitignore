@@ -1,0 +1,17 @@
+__pycache__
+*~
+*.swp
+*.sqlite
+*.pyc
+*.log
+local_settings.py
+.idea/
+.coverage
+cover/
+.python-version
+node_modules/
+test/*.log
+.vagrant
+data/
+reports/
+config/deploy/*.rb

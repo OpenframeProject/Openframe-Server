@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Frame</title>
+</head>
+
+<body>
+    <div><h1>Frame</h1></div>
+    <div class="content">
+        <textarea>
+            
+        </textarea>
+    </div>
+    <script type="text/javascript" src="/static/js/libs/jquery-2.1.3.js"></script>
+    <script type="text/javascript">
+    var ws = new WebSocket("ws://localhost:8888/ws/jmwohl");
+    ws.onopen = function() {
+        ws.send("jmwohl");
+    };
+    ws.onmessage = function(evt) {
+        $('.content textarea').text(evt.data);
+    };
+    </script>
+</body>
+
+</html>
