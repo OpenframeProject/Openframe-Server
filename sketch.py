@@ -2,7 +2,7 @@ import sys
 import os
 import subprocess
 
-file = './static/index.html'
-subprocess.call(["xdg-open", file])
+file = 'Fields.jpg'
+subprocess.call(["open", file])
 # if sys.platform.startswith('linux'):
     

@@ -29,6 +29,10 @@ def do_find_by_id(collection, id):
     yield db[collection].find_one({'_id': id})
 
 @gen.coroutine
+def do_find_by_user(collection, id):
+    yield db[collection].find({'username': id})
+
+@gen.coroutine
 def do_find(collection, query):
     cursor = db[collection].find(query)
     for document in (yield cursor.to_list(length=100)):
@@ -56,7 +60,7 @@ def do_remove(collection, id):
 # Handlers
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render("index.html")
+        self.render("openframe.html")
 
 class FrameHandler(tornado.web.RequestHandler):
     def get(self):
@@ -74,8 +78,10 @@ class UpdateFrameHandler(tornado.web.RequestHandler):
             content = yield db.content.find_one({'_id': ObjectId(content_id)})
             print(content)
             clients[username].write_message(dumps(content))
+            self.write("{'success': true }");
         else:
             print("username " + username + " not connected")
+            self.write("{'success': false }")
 
 
 # endpoints for managing frame content
@@ -84,15 +90,35 @@ class ContentHandler(tornado.web.RequestHandler):
         print('get content: ' + content_id)
         content = do_find_by_id("content", content_id)
         print(content)
+
+    @gen.coroutine
     def post(self):
         print('create content')
+        db = self.settings['db']
+        # print(self.request.body.decode('utf-8'))
         doc = json.loads(self.request.body.decode('utf-8'))
-        do_insert('content', doc)
+        print(doc)
+        # do_insert('content', doc)
+        result = yield db.content.insert(doc)
+        # print(result)
+        self.write(dumps(result))
+
     def put(self, content_id):
         print('update content: ' + content_id)
         doc = json.loads(self.request.body.decode('utf-8'))
         do_update('content', content_id, doc)
         print(doc)
+
+# endpoints for managing frame content
+class UserContentHandler(tornado.web.RequestHandler):
+    @gen.coroutine
+    def get(self, username):
+        print('get content by username: ' + username)
+        db = self.settings['db']
+        cursor = db.content.find({'username': username})
+        content = yield cursor.to_list(length=100)
+        print(content)
+        self.write(dumps(content))
 
 
 class VersionHandler(tornado.web.RequestHandler):
@@ -104,15 +130,18 @@ class VersionHandler(tornado.web.RequestHandler):
 
 # Connect a client via websockets
 class ClientConnectionHandler(tornado.websocket.WebSocketHandler):
+    # when the connection is opened, add the reference to the connection list
     def open(self, username):
         print("WebSocket opened " + username)
         self.username = username
         clients[username] = self
-        self.write_message("connected")
+        self.write_message(u'{"connected": true}')
 
     def on_message(self, message):
-        self.write_message(u"You said: " + message)
+        print(message)
+        # self.write_message(u"You said: " + message)
 
+    # when the connection is closed, remove the reference from the connection list
     def on_close(self):
         print("WebSocket closed")
         del clients[self.username]
@@ -128,6 +157,7 @@ class Application(tornado.web.Application):
             (r"/update/(\w+)/(\w+)", UpdateFrameHandler),
             (r"/content", ContentHandler),
             (r"/content/(\w+)", ContentHandler),
+            (r"/user/content/(\w+)", UserContentHandler),
             (r'/ws/(\w+)', ClientConnectionHandler),
             (r"/version", VersionHandler),
         ]
@@ -135,7 +165,8 @@ class Application(tornado.web.Application):
         settings = {
             "template_path": Settings.TEMPLATE_PATH,
             "static_path": Settings.STATIC_PATH,
-            "db": db
+            "db": db,
+            "debug": True
         }
         
         tornado.web.Application.__init__(self, handlers, **settings)
