@@ -6,55 +6,19 @@ from tornado import gen
 import tornado.web
 import tornado.websocket
 import json
-import motor
+
+from pymongo import MongoClient
 from bson.objectid import ObjectId
 from bson.json_util import dumps
 
 # global db reference
-db = motor.MotorClient().of_db
+mongo_client = MongoClient('localhost', 27017)
+db = mongo_client.openframe
 
-# dictionary containing refs to connected clients
-clients = {}
+content = db.content
 
-
-
-
-# DB actions
-@gen.coroutine
-def do_insert(collection, doc):
-    yield db[collection].insert(doc)
-
-@gen.coroutine
-def do_find_by_id(collection, id):
-    yield db[collection].find_one({'_id': id})
-
-@gen.coroutine
-def do_find_by_user(collection, id):
-    yield db[collection].find({'username': id})
-
-@gen.coroutine
-def do_find(collection, query):
-    cursor = db[collection].find(query)
-    for document in (yield cursor.to_list(length=100)):
-        print(document)
-
-@gen.coroutine
-def do_update(collection, id, doc):
-    coll = db[collection]
-    result = yield coll.update({'_id': id}, {'$set': doc})
-    print('updated', result['n'], 'document')
-    new_document = yield coll.find_one({'_id': id})
-    print('document is now', new_document)
-
-@gen.coroutine
-def do_remove(collection, id):
-    coll = db[collection]
-    n = yield coll.count()
-    print(n, 'documents before calling remove()')
-    result = yield coll.remove({'_id': id})
-    print((yield coll.count()), 'documents after')
-
-
+# dictionary containing refs to connected of_clients
+of_clients = {}
 
 
 # Handlers
@@ -76,17 +40,44 @@ class UpdateFrameHandler(tornado.web.RequestHandler):
     # @tornado.web.asynchronous
     @gen.coroutine
     def get(self, username, content_id):
-        if username in clients:
+        if username in of_clients:
             print("username " + username + " connected")
             db = self.settings['db']
             content = yield db.content.find_one({'_id': ObjectId(content_id)})
             print(content)
-            clients[username].write_message(dumps(content))
+            of_clients[username].write_message(dumps(content))
             self.write("{'success': true }");
         else:
             print("username " + username + " not connected")
             self.write("{'success': false }")
 
+# User REST Api
+class UsersHandler(tornado.web.RequestHandler):
+    def get(self, username=None):
+        users = db.users
+        if id:
+            users = users.find_one({"username": username})
+        else:
+            users = users.find()
+        self.write(dumps(users))
+
+    @gen.coroutine
+    def post(self):
+        print('create user')
+        users = db.users
+        doc = json.loads(self.request.body.decode('utf-8'))
+        print(doc)
+        res = {'success': True}
+        user_id = users.insert(doc).inserted_id
+        if not user_id:
+            res.success = False
+        self.write(dumps(res))
+
+    def put(self, content_id):
+        print('update content: ' + content_id)
+        doc = json.loads(self.request.body.decode('utf-8'))
+        do_update('content', content_id, doc)
+        print(doc)
 
 # endpoints for managing frame content
 class ContentHandler(tornado.web.RequestHandler):
@@ -138,7 +129,7 @@ class ClientConnectionHandler(tornado.websocket.WebSocketHandler):
     def open(self, username):
         print("WebSocket opened " + username)
         self.username = username
-        clients[username] = self
+        of_clients[username] = self
         self.write_message(u'{"connected": true}')
 
     def on_message(self, message):
@@ -148,7 +139,7 @@ class ClientConnectionHandler(tornado.websocket.WebSocketHandler):
     # when the connection is closed, remove the reference from the connection list
     def on_close(self):
         print("WebSocket closed")
-        del clients[self.username]
+        del of_clients[self.username]
 
     def check_origin(self, origin):
     	return True
@@ -163,6 +154,8 @@ class Application(tornado.web.Application):
             (r"/content", ContentHandler),
             (r"/content/(\w+)", ContentHandler),
             (r"/user/content/(\w+)", UserContentHandler),
+            (r"/users/(\w+)", UsersHandler),
+            (r"/users", UsersHandler),
             (r'/ws/(\w+)', ClientConnectionHandler),
             (r"/version", VersionHandler),
         ]
