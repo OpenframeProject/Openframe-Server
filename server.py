@@ -60,6 +60,10 @@ def do_remove(collection, id):
 # Handlers
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
+        self.render("index.html")
+
+class TestHandler(tornado.web.RequestHandler):
+    def get(self):
         self.render("openframe.html")
 
 class FrameHandler(tornado.web.RequestHandler):
@@ -153,6 +157,7 @@ class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
             (r"/", MainHandler),
+            (r"/of", TestHandler),
             (r"/frame", FrameHandler),
             (r"/update/(\w+)/(\w+)", UpdateFrameHandler),
             (r"/content", ContentHandler),
