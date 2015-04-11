@@ -30,36 +30,50 @@
     <script type="text/javascript">
     var $body = $('body'),
         user = 'jonwohl',
-        domain = url_domain(window.location);;
+        domain = url_domain(window.location),
+        connected = false;
 
     if (window.location.hash) {
         user = window.location.hash.substring(1);
         console.log(user);
     }
-    var ws = new WebSocket("ws://" + domain + ":8888/ws/" + user);
-    ws.onopen = function() {
-        ws.send("connecting as " + user);
-    };
-    ws.onmessage = function(evt) {
-        var data = JSON.parse(evt.data);
-        console.log(data);
-        if (data.url) {
-            $body.css({
-                'background-image': 'url("' + data.url + '")'
-            });
-        }
-    };
 
-    ws.onclose = function(evt) {
-        // attempt to re-open connection
+    function open_ws(domain, user) {
         var ws = new WebSocket("ws://" + domain + ":8888/ws/" + user);
-    };
+        ws.onopen = function() {
+            ws.send("connecting as " + user);
+            connected = true;
+        };
+        ws.onmessage = function(evt) {
+            var data = JSON.parse(evt.data);
+            console.log(data);
+            if (data.url) {
+                $body.css({
+                    'background-image': 'url("' + data.url + '")'
+                });
+            }
+        };
+
+        ws.onclose = function(evt) {
+            // attempt to re-open connection
+            connected = false;
+        };
+    }
+
+    function check_connection() {
+        if (!connected) {
+            open_ws(domain, user);
+        }
+    }
 
     function url_domain(data) {
         var a = document.createElement('a');
         a.href = data;
         return a.hostname;
     }
+
+    setInterval(check_connection, 20000);
+    check_connection();
     </script>
 </body>
 
