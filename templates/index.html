@@ -89,6 +89,7 @@
             $("#Login").removeClass('hide');
             $("#OpenFrame").addClass('hide');
             $("#AdminUser").val('').focus();
+            return false;
         });
 
         $("form#LoginForm").on('submit', function() {
