@@ -18,7 +18,7 @@
                     <div class="form-group">
                         <input type="text" class="form-control" id="AdminUser" placeholder="username" autofocus>
                     </div>
-                    <a id="LoginButton" href="#" class="btn btn-default">Login</a>
+                    <button id="LoginButton" href="#" class="btn btn-default">Login</button>
                 </form>
             </div>
         </div>
@@ -30,7 +30,7 @@
                 <div class="col-md-6">
                     <div class="pull-left">
                         <span class="" id="LoggedInAs">Signed in as <strong>jonwohl</strong></span>
-                        <a class="btn btn-default btn-sm" href="#logout" id="LogoutButton">Logout</a>
+                        <button class="btn btn-default btn-sm" href="#logout" id="LogoutButton">Logout</button>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -50,7 +50,7 @@
                     <div class="form-group">
                         <label for="SendToUser">URL</label>
                         <input type="text" class="form-control" id="URL" placeholder="...">
-                        <a class="btn btn-default" href="#add-content" id="AddContent">Add Content</a>
+                        <button class="btn btn-default" href="#add-content" id="AddContent">Add Content</button>
                     </div>
                 </form>
             </div>
@@ -64,8 +64,8 @@
                 <img class="content-thumb" src="<%= url %>">
             </div>
             <div class="col-md-9">
-                <a class="btn btn-default btn-xs send-button" href="#send" rel="<%= id %>">Send to Frame</a>
-                <a class="btn btn-default btn-xs remove-button" href="#delete" rel="<%= id %>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                <button class="btn btn-default btn-xs send-button" href="#send" rel="<%= id %>">Send to Frame</button>
+                <button class="btn btn-default btn-xs remove-button" href="#delete" rel="<%= id %>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
             </div>
         </div>
     </script>
