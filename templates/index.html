@@ -98,6 +98,8 @@
 
         function login(username) {
             open_ws(username);
+            var $art = $("#Art");
+            $art.empty();
             $("#LoggedInAs strong").text(username);
             $("#Login").addClass('hide');
             $("#OpenFrame").removeClass('hide');
