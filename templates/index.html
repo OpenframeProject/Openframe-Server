@@ -189,7 +189,10 @@
 
 
         function open_ws(username) {
-            var ws = new WebSocket("ws://localhost:8888/admin/ws/" + username);
+            var domain = url_domain(window.location);
+            console.log(domain);
+
+            var ws = new WebSocket("ws://" + domain + ":8888/admin/ws/" + username);
             ws.onopen = function() {
                 ws.send("connecting as " + username);
             };
@@ -205,6 +208,12 @@
                 }
 
             };
+        }
+
+        function url_domain(data) {
+            var a = document.createElement('a');
+            a.href = data;
+            return a.hostname;
         }
 
         // open_ws('jonwohl');
