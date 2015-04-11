@@ -1,0 +1,14 @@
+#Login {
+  margin-top: 10%;
+}
+.add-content-wrap {
+  margin: 20px 0px;
+}
+.content-item {
+  /*margin: 10px 0px;*/
+  padding: 10px 0px;
+  border-top: 1px solid #aaa;
+}
+.content-thumb {
+  height: 100px;
+}

@@ -15,11 +15,16 @@ from bson.json_util import dumps
 mongo_client = MongoClient('localhost', 27017)
 db = mongo_client.openframe
 
-content = db.content
 
-# dictionary containing refs to connected of_clients
+# dictionary containing refs to connected of_clients and of_admins
 of_clients = {}
+of_admins = {}
 
+def update_admins():
+    print('updating admins ', of_admins)
+    for key in of_admins:
+        print(key)
+        of_admins[key].write_message(dumps({'active_users': list(of_clients.keys())}))
 
 # Handlers
 class MainHandler(tornado.web.RequestHandler):
@@ -37,16 +42,14 @@ class FrameHandler(tornado.web.RequestHandler):
 
 # endpoint for updating frame content
 class UpdateFrameHandler(tornado.web.RequestHandler):
-    # @tornado.web.asynchronous
-    @gen.coroutine
     def get(self, username, content_id):
         if username in of_clients:
             print("username " + username + " connected")
-            db = self.settings['db']
-            content = yield db.content.find_one({'_id': ObjectId(content_id)})
-            print(content)
-            of_clients[username].write_message(dumps(content))
-            self.write("{'success': true }");
+            content = db.content
+            content_item = content.find_one({'_id': ObjectId(content_id)})
+            print(content_item)
+            of_clients[username].write_message(dumps(content_item))
+            self.write("{'success': true }")
         else:
             print("username " + username + " not connected")
             self.write("{'success': false }")
@@ -55,72 +58,73 @@ class UpdateFrameHandler(tornado.web.RequestHandler):
 class UsersHandler(tornado.web.RequestHandler):
     def get(self, username=None):
         users = db.users
-        if id:
-            users = users.find_one({"username": username})
+        if username:
+            users_resp = users.find_one({"username": username})
         else:
-            users = users.find()
-        self.write(dumps(users))
+            users_resp = users.find()
+        self.write(dumps(users_resp))
 
-    @gen.coroutine
     def post(self):
         print('create user')
         users = db.users
         doc = json.loads(self.request.body.decode('utf-8'))
         print(doc)
         res = {'success': True}
-        user_id = users.insert(doc).inserted_id
+        user_id = users.insert(doc)
         if not user_id:
             res.success = False
         self.write(dumps(res))
 
-    def put(self, content_id):
-        print('update content: ' + content_id)
-        doc = json.loads(self.request.body.decode('utf-8'))
-        do_update('content', content_id, doc)
-        print(doc)
+    def put(self, username):
+        print('NOT YET IMPLEMENTED')
+        print('update user: ' + username)
 
 # endpoints for managing frame content
 class ContentHandler(tornado.web.RequestHandler):
-    def get(self, content_id):
-        print('get content: ' + content_id)
-        content = do_find_by_id("content", content_id)
-        print(content)
-
-    @gen.coroutine
+    def get(self, content_id=None):
+        content = db.content
+        if content_id:
+            print('get content: ' + content_id)
+            content_resp = content.find_one({'_id': ObjectId(content_id)})
+        else:
+            content_resp = content.find()
+        self.write(dumps(content_resp))
+    
     def post(self):
-        print('create content')
-        db = self.settings['db']
-        # print(self.request.body.decode('utf-8'))
+        print('create content item')
+        content = db.content
         doc = json.loads(self.request.body.decode('utf-8'))
         print(doc)
-        # do_insert('content', doc)
-        result = yield db.content.insert(doc)
-        # print(result)
-        self.write(dumps(result))
+        res = {'success': True}
+        content_id = content.insert(doc)
+        if not content_id:
+            res.success = False
+        self.write(dumps(res))
 
     def put(self, content_id):
+        print('NOT YET IMPLEMENTED')
         print('update content: ' + content_id)
-        doc = json.loads(self.request.body.decode('utf-8'))
-        do_update('content', content_id, doc)
-        print(doc)
 
-# endpoints for managing frame content
-class UserContentHandler(tornado.web.RequestHandler):
-    @gen.coroutine
+    def delete(self, content_id=None):
+        content = db.content
+        res = {'success': True}
+        if content_id:
+            print('get content: ' + content_id)
+            content_resp = content.remove({'_id': ObjectId(content_id)})
+        else:
+            res.success = False
+        self.write(dumps(res))
+
+# Get content by username
+class ContentByUserHandler(tornado.web.RequestHandler):
     def get(self, username):
-        print('get content by username: ' + username)
-        db = self.settings['db']
-        cursor = db.content.find({'username': username})
-        content = yield cursor.to_list(length=100)
-        print(content)
-        self.write(dumps(content))
-
-
-class VersionHandler(tornado.web.RequestHandler):
-    def get(self):
-        response = { 'version': '3.5.1',
-                     'last_build':  date.today().isoformat() }
-        self.write(response)
+        content = db.content
+        if not username:
+            print('username missing')
+            resp = {'error': 'username required'}
+        else:
+            resp = content.find({'username': username})
+        self.write(dumps(resp))
 
 
 # Connect a client via websockets
@@ -131,6 +135,7 @@ class ClientConnectionHandler(tornado.websocket.WebSocketHandler):
         self.username = username
         of_clients[username] = self
         self.write_message(u'{"connected": true}')
+        update_admins()
 
     def on_message(self, message):
         print(message)
@@ -140,24 +145,59 @@ class ClientConnectionHandler(tornado.websocket.WebSocketHandler):
     def on_close(self):
         print("WebSocket closed")
         del of_clients[self.username]
+        update_admins()
 
     def check_origin(self, origin):
     	return True
 
+# Connect an admin via websockets
+class AdminConnectionHandler(tornado.websocket.WebSocketHandler):
+    # when the connection is opened, add the reference to the connection list
+    def open(self, username):
+        print("WebSocket opened " + username)
+        self.username = username
+        of_admins[username] = self
+        self.write_message(u'{"connected": true}')
+        update_admins()
+
+    def on_message(self, message):
+        print(message)
+        # self.write_message(u"You said: " + message)
+
+    # when the connection is closed, remove the reference from the connection list
+    def on_close(self):
+        print("WebSocket closed")
+        del of_admins[self.username]
+
+    def check_origin(self, origin):
+        return True
+
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
+
+            # Static files
             (r"/", MainHandler),
             (r"/of", TestHandler),
             (r"/frame", FrameHandler),
+            
+            
+            # RPC calls
             (r"/update/(\w+)/(\w+)", UpdateFrameHandler),
+            
+
+            # RESTish calls
             (r"/content", ContentHandler),
             (r"/content/(\w+)", ContentHandler),
-            (r"/user/content/(\w+)", UserContentHandler),
+            (r"/content/user/(\w+)", ContentByUserHandler),
+
             (r"/users/(\w+)", UsersHandler),
             (r"/users", UsersHandler),
+            
+            # WebSocket
             (r'/ws/(\w+)', ClientConnectionHandler),
-            (r"/version", VersionHandler),
+            (r'/client/ws/(\w+)', ClientConnectionHandler),
+            (r'/admin/ws/(\w+)', AdminConnectionHandler),
         ]
 
         settings = {

@@ -7,28 +7,210 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>OpenFrame</title>
     <link rel="stylesheet" type="text/css" href="/static/components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
 </head>
 
 <body>
-    <div class="container">
-        <div class="page-header">
-            <h1>OpenFrame</h1>
-        </div>
+    <div class="container" id="Login">
         <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <select class="form-control" id="username">
-                        <option>jonwohl</option>
-                        <option>ishback</option>
-                    </select>
-                </div>
+            <div class="col-md-12 text-center">
+                <form class="form-inline" id="LoginForm">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="AdminUser" placeholder="username" value="jonwohl" autofocus>
+                    </div>
+                    <a id="LoginButton" href="#" class="btn btn-default">Login</a>
+                </form>
             </div>
         </div>
     </div>
+    <div class="container hide" id="OpenFrame">
+        <div class="page-header">
+            <h1>OpenFrame</h1>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="pull-left">
+                        <span class="" id="LoggedInAs">Signed in as <strong>jonwohl</strong></span>
+                        <a class="btn btn-default btn-sm" href="#logout" id="LogoutButton">Logout</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-inline pull-right">
+                        <div class="form-group">
+                            <label for="SendToUser">Send to frame</label>
+                            <select class="form-control input-sm" id="SendToUser">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row add-content-wrap">
+            <div class="col-md-12">
+                <form class="form-inline" id="AddForm">
+                    <div class="form-group">
+                        <label for="SendToUser">URL</label>
+                        <input type="text" class="form-control" id="URL" placeholder="...">
+                        <a class="btn btn-default" href="#add-content" id="AddContent">Add Content</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="Art">
+        </div>
+    </div>
+    <script type="text/template" id="ContentItemTemplate">
+        <div class="row content-item">
+            <div class="col-md-3">
+                <img class="content-thumb" src="<%= url %>">
+            </div>
+            <div class="col-md-9">
+                <a class="btn btn-default btn-xs send-button" href="#send" rel="<%= id %>">Send to Frame</a>
+                <a class="btn btn-default btn-xs remove-button" href="#delete" rel="<%= id %>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+            </div>
+        </div>
+    </script>
     <script type="text/javascript" src="/static/components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="/static/components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/components/lodash/lodash.js"></script>
     <script type="text/javascript">
+    $(function() {
+        var user,
+            content_item_tpl = _.template($("#ContentItemTemplate").html());
+
+        // Login Button handler
+        $(document).on('click', '#LoginButton', function() {
+            user = $('#AdminUser').val();
+            if (user) {
+                login(user);
+            }
+        });
+
+        $(document).on('click', '#LogoutButton', function() {
+            $("#Login").removeClass('hide');
+            $("#OpenFrame").addClass('hide');
+            $("#AdminUser").val('').focus();
+        });
+
+        $("form#LoginForm").on('submit', function() {
+            $("#LoginButton").trigger('click');
+            return false;
+        });
+
+        function login(username) {
+            open_ws(username);
+            $("#LoggedInAs strong").text(username);
+            $("#Login").addClass('hide');
+            $("#OpenFrame").removeClass('hide');
+            fetchContent(username);
+        }
+
+        // add event handler
+        $("#AddForm").on('submit', addContent);
+        $(document).on('click', '#AddContent', addContent);
+
+        // send to frame handler
+        $(document).on('click', '.send-button', function(e) {
+            // e.preventDefault();
+            var $el = $(e.target),
+                username = $('#SendToUser').val(),
+                content_id = $el.attr('rel');
+            updateFrame(username, content_id);
+            return false;
+        });
+
+        // remove content handler
+        $(document).on('click', '.remove-button', function(e) {
+            // e.preventDefault();
+            var $el = $(this),
+                content_id = $el.attr('rel');
+            deleteContent(content_id);
+            return false;
+        });
+
+        function updateFrame(username, content_id) {
+            console.log('clicked', username, content_id);
+
+            $.getJSON('/update/' + username + '/' + content_id)
+                .done(function(resp) {
+                    console.log(resp);
+                })
+        }
+
+        function addContent() {
+            $.ajax({
+                url: '/content',
+                method: 'POST',
+                data: JSON.stringify({
+                    url: $('#URL').val(),
+                    username: user
+                }),
+                dataType: 'json'
+            }).done(function(resp) {
+                console.log(resp);
+                fetchContent(user);
+                $('#URL').val('').focus();
+            });
+            return false;
+        }
+
+        function deleteContent(content_id) {
+            $.ajax({
+                url: '/content/' + content_id,
+                method: 'DELETE',
+                // data: JSON.stringify({
+                //     url: $('#URL').val(),
+                //     username: user
+                // }),
+                dataType: 'json'
+            }).done(function(resp) {
+                console.log(resp);
+                fetchContent(user);
+            });
+            return false;
+        }
+
+        function fetchContent(user) {
+            $.getJSON('/content/user/' + user)
+                .done(function(content_list) {
+                    console.log(content_list);
+                    var $art = $("#Art");
+
+                    $art.empty();
+
+                    for (var i = 0; i < content_list.length; i++) {
+                        content_item = content_item_tpl({
+                            "url": content_list[i].url,
+                            "id": content_list[i]._id.$oid
+                        })
+                        $art.append(content_item);
+                    };
+                });
+        }
+
+
+        function open_ws(username) {
+            var ws = new WebSocket("ws://localhost:8888/admin/ws/" + username);
+            ws.onopen = function() {
+                ws.send("connecting as " + username);
+            };
+            ws.onmessage = function(evt) {
+                var data = JSON.parse(evt.data);
+                console.log(data);
+                if (data.active_users) {
+                    $("#SendToUser").empty();
+
+                    for (var i = 0; i < data.active_users.length; i++) {
+                        $("#SendToUser").append('<option>' + data.active_users[i] + '</option>');
+                    }
+                }
+
+            };
+        }
+
+        // open_ws('jonwohl');
+
+        // fetchContent();
+    });
     </script>
 </body>
 
