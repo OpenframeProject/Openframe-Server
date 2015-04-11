@@ -49,7 +49,11 @@
                 <form class="form-inline" id="AddForm">
                     <div class="form-group">
                         <label for="SendToUser">URL</label>
-                        <input type="text" class="form-control" id="URL" placeholder="...">
+                        <input type="text" class="form-control" id="URL" placeholder="source url">
+                        <select class="form-control" id="Type">
+                            <option name="image">image</option>
+                            <option name="youtube">youtube</option>
+                        </select>
                         <button class="btn btn-default" href="#add-content" id="AddContent">Add Content</button>
                     </div>
                 </form>
@@ -145,6 +149,7 @@
                 method: 'POST',
                 data: JSON.stringify({
                     url: $('#URL').val(),
+                    type: $('#Type').val(),
                     username: user
                 }),
                 dataType: 'json'

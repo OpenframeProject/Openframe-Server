@@ -26,6 +26,11 @@
 </head>
 
 <body>
+    <div id="Video" style="position: fixed; width: 100%; height: 100%; display: none;">
+        <iframe frameborder="0" height="100%" width="100%" src="https://youtube.com/embed/ID?autoplay=1&controls=0&showinfo=0&autohide=1">
+        </iframe>
+    </div>
+
     <script type="text/javascript" src="/static/js/libs/jquery-2.1.3.js"></script>
     <script type="text/javascript">
     var $body = $('body'),
@@ -43,10 +48,22 @@
     ws.onmessage = function(evt) {
         var data = JSON.parse(evt.data);
         console.log(data);
-        if (data.url) {
-            $body.css({
-                'background-image': 'url("' + data.url + '")'
-            });
+        if (data.type && data.url) {
+            switch (data.type) {
+                case 'image':
+                    $('#Video').hide();
+                     $('iframe').attr('src', null);
+                    $body.css({
+                        'background-image': 'url("' + data.url + '")'
+                    });
+                case 'youtube':
+                    // https://www.youtube.com/watch?v=x-rIe1sCJU4
+                    var vid = data.url.match(/v=(.*)/);
+                    console.log(vid);
+                    var url = 'https://youtube.com/embed/' + vid[1] + '?autoplay=1&controls=0&showinfo=0&autohide=1'
+                    $('#Video').show();
+                    $('iframe').attr('src', url);
+            }
         }
     };
 
