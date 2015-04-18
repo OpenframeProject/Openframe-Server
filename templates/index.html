@@ -63,7 +63,9 @@
     <script type="text/template" id="ContentItemTemplate">
         <div class="row content-item">
             <div class="col-md-3">
-                <img class="content-thumb" src="<%= url %>">
+                <div class="content-thumb-wrap">
+                    <img class="content-thumb" src="<%= url %>">
+                </div>
             </div>
             <div class="col-md-9">
                 <button class="btn btn-default btn-xs send-button" href="#send" rel="<%= id %>">Send to Frame</button>
@@ -77,7 +79,8 @@
     <script type="text/javascript">
     $(function() {
         var user,
-            content_item_tpl = _.template($("#ContentItemTemplate").html());
+            content_item_tpl = _.template($("#ContentItemTemplate").html()),
+            max_thumb_height = 100;
 
         // Login Button handler
         $(document).on('click', '#LoginButton', function() {
@@ -204,14 +207,7 @@
             ws.onmessage = function(evt) {
                 var data = JSON.parse(evt.data);
                 console.log(data);
-                if (data.active_users) {
-                    $("#SendToUser").empty();
-
-                    for (var i = 0; i < data.active_users.length; i++) {
-                        $("#SendToUser").append('<option>' + data.active_users[i] + '</option>');
-                    }
-                }
-
+                handle_message(data);
             };
         }
 
@@ -219,6 +215,50 @@
             var a = document.createElement('a');
             a.href = data;
             return a.hostname;
+        }
+
+        function handle_message(message) {
+            if (!message.event) {
+                console.log('A message with no event!!', message);
+                return;
+            }
+
+            switch (message.event) {
+                case 'update-active-frames':
+                    console.log('update-active-frames', message);
+                    if (message.active_frames) {
+                        $("#SendToUser").empty();
+
+                        for (var i = 0; i < message.active_frames.length; i++) {
+                            $("#SendToUser").append('<option>' + message.active_frames[i].username + '</option>');
+                            console.log(message.active_frames[i].screen_width, message.active_frames[i].screen_height);
+                            var r = message.active_frames[i].screen_width / message.active_frames[i].screen_height,
+                                thumb_h = max_thumb_height,
+                                thumb_w = r * thumb_h;
+
+                            console.log('adjust image wrap', r, thumb_w, thumb_h);
+
+                            $(".content-thumb-wrap").css({
+                                'width': thumb_w + 'px',
+                                'height': thumb_h + 'px'
+                            });
+
+                            // TODO: figure out sizing of image within thumb wrap
+                            if (r <= 1) {
+                                // width less than height
+                                $(".content-thumb").css({
+                                    'height': thumb_h + 'px'
+                                });
+                            } else {
+                                // width greater than height
+                                $(".content-thumb").css({
+                                    'width': thumb_w + 'px'
+                                });
+                            }
+
+                        }
+                    }
+            }
         }
 
         // open_ws('jonwohl');

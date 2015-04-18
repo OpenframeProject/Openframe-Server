@@ -1,6 +1,6 @@
 import Settings
 from datetime import date
-import tornado.escape
+from tornado.escape import json_encode, json_decode
 import tornado.ioloop
 from tornado import gen
 import tornado.web
@@ -24,7 +24,27 @@ def update_admins():
     print('updating admins ', of_admins)
     for key in of_admins:
         print(key)
-        of_admins[key].write_message(dumps({'active_users': list(of_clients.keys())}))
+        active_frames = []
+
+        for client in of_clients:
+            active_frame = {
+                'username': client,
+                'screen_width': of_clients[client].screen_width,
+                'screen_height': of_clients[client].screen_height,
+            }
+            active_frames.append(active_frame) 
+
+        message = {
+            'event': 'update-frames',
+            'active_frames': active_frames
+        }
+        print('emitting event', message)
+        emit_ws_event(of_admins[key], 'update-active-frames', message)
+        # of_admins[key].write_message(dumps(message))
+
+def emit_ws_event(ws_connection, event, message):
+    message['event'] = event
+    ws_connection.write_message(json_encode(message))
 
 # Handlers
 class MainHandler(tornado.web.RequestHandler):
@@ -129,16 +149,27 @@ class ContentByUserHandler(tornado.web.RequestHandler):
 
 # Connect a client via websockets
 class ClientConnectionHandler(tornado.websocket.WebSocketHandler):
+    screen_width = None
+    screen_height = None
     # when the connection is opened, add the reference to the connection list
     def open(self, username):
         print("WebSocket opened " + username)
         self.username = username
         of_clients[username] = self
-        self.write_message(u'{"connected": true}')
-        update_admins()
+        message = {
+            'connected': True
+        }
+        emit_ws_event(self, 'connect', message)
+        # update_admins()
 
     def on_message(self, message):
-        print(message)
+        message_dict = json_decode(message)
+        if 'event' in message_dict:
+            if message_dict['event'] == 'setup':
+                self.screen_width = message_dict['screen_width']
+                self.screen_height = message_dict['screen_height']
+                print('settings', message_dict)
+                update_admins()
         # self.write_message(u"You said: " + message)
 
     # when the connection is closed, remove the reference from the connection list
@@ -157,10 +188,14 @@ class AdminConnectionHandler(tornado.websocket.WebSocketHandler):
         print("WebSocket opened " + username)
         self.username = username
         of_admins[username] = self
-        self.write_message(u'{"connected": true}')
+        message = {
+            'connected': True
+        }
+        emit_ws_event(self, 'connect', message)
         update_admins()
 
     def on_message(self, message):
+
         print(message)
         # self.write_message(u"You said: " + message)
 
