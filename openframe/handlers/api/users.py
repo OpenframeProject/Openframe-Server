@@ -16,7 +16,7 @@ class UsersHandler(BaseHandler):
     def post(self):
         print('create user')
         users = self.db.users
-        doc = json.loads(self.request.body.decode('utf-8'))
+        doc = json_decode(self.request.body.decode('utf-8'))
         print(doc)
         res = {'success': True}
         user_id = users.insert(doc)

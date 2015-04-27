@@ -83,11 +83,11 @@ class BaseHandler(tornado.web.RequestHandler):
         })
         return namespace
 
-    def update_admins():
-        print('updating admins ', admins)
-        for key in admins:
+    def update_admins(self):
+        print('updating admins ', self.admins)
+        for key in self.admins:
             print(key)
-            admins[key].write_message(json_encode({'active_users': list(frames.keys())}))
+            self.admins[key].write_message(json_encode({'active_users': list(self.frames.keys())}))
 
 
     @staticmethod
@@ -116,8 +116,8 @@ class BaseWebSocketHandler(tornado.websocket.WebSocketHandler):
         """A connection to the PostgreSQL database."""
         return self.application.admins
 
-    def update_admins():
-        print('updating admins ', admins)
-        for key in admins:
+    def update_admins(self):
+        print('updating admins ', self.admins)
+        for key in self.admins:
             print(key)
-            admins[key].write_message(json_encode({'active_users': list(frames.keys())}))
+            self.admins[key].write_message(json_encode({'active_users': list(self.frames.keys())}))

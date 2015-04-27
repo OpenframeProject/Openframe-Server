@@ -7,9 +7,9 @@ class AdminConnectionHandler(BaseWebSocketHandler):
     def open(self, username):
         print("WebSocket opened " + username)
         self.username = username
-        of_admins[username] = self
+        self.admins[username] = self
         self.write_message(u'{"connected": true}')
-        update_admins()
+        self.update_admins()
 
     def on_message(self, message):
         print(message)
@@ -18,7 +18,7 @@ class AdminConnectionHandler(BaseWebSocketHandler):
     # when the connection is closed, remove the reference from the connection list
     def on_close(self):
         print("WebSocket closed")
-        del of_admins[self.username]
+        del self.admins[self.username]
 
     def check_origin(self, origin):
         return True

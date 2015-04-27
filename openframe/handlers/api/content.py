@@ -2,6 +2,8 @@ from openframe.handlers.base import BaseHandler
 
 from tornado.escape import to_unicode, json_decode, json_encode
 import tornado.web
+from bson.objectid import ObjectId
+from bson.json_util import dumps
 
 # endpoints for managing frame content
 class ContentHandler(BaseHandler):
@@ -17,7 +19,7 @@ class ContentHandler(BaseHandler):
     def post(self):
         print('create content item')
         content = self.db.content
-        doc = json.loads(self.request.body.decode('utf-8'))
+        doc = json_decode(self.request.body.decode('utf-8'))
         print(doc)
         res = {'success': True}
         content_id = content.insert(doc)
@@ -40,7 +42,7 @@ class ContentHandler(BaseHandler):
         self.write(dumps(res))
 
 # Get content by username
-class ContentByUserHandler(tornado.web.RequestHandler):
+class ContentByUserHandler(BaseHandler):
     def get(self, username):
         content = self.db.content
         if not username:

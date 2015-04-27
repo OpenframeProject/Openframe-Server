@@ -15,4 +15,5 @@ test/*.log
 data/
 reports/
 config/deploy/*.rb
-static/components
+openframe/static/components
+.DS_Store
