@@ -1,4 +1,3 @@
-from datetime import date
 import tornado.escape
 import tornado.ioloop
 from tornado import gen

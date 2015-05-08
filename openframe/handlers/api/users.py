@@ -1,6 +1,7 @@
 from openframe.handlers.base import BaseHandler
 
 from tornado.escape import to_unicode, json_decode, json_encode
+from bson.json_util import dumps
 import tornado.web
 
 # User REST Api
@@ -11,7 +12,7 @@ class UsersHandler(BaseHandler):
             users_resp = users.find_one({"username": username})
         else:
             users_resp = users.find()
-        self.write(json_encode(users_resp))
+        self.write(dumps(users_resp))
 
     def post(self):
         print('create user')
@@ -22,7 +23,7 @@ class UsersHandler(BaseHandler):
         user_id = users.insert(doc)
         if not user_id:
             res.success = False
-        self.write(json_encode(res))
+        self.write(dumps(res))
 
     def put(self, username):
         print('NOT YET IMPLEMENTED')
