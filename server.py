@@ -13,6 +13,7 @@ from bson.json_util import dumps
 from openframe import settings
 from openframe.handlers.base import BaseHandler
 from openframe.handlers.api.content import ContentHandler, ContentByUserHandler
+from openframe.handlers.api.frames import FramesHandler, FramesByUserHandler, FramesByOwnerHandler
 from openframe.handlers.api.users import UsersHandler
 from openframe.handlers.websockets.admin import AdminConnectionHandler
 from openframe.handlers.websockets.frame import FrameConnectionHandler
@@ -28,7 +29,7 @@ class MainHandler(tornado.web.RequestHandler):
         self.render("index.html")
 
 class FrameHandler(tornado.web.RequestHandler):
-    def get(self):
+    def get(self, username, framename):
         self.render("frame.html")
 
 
@@ -52,7 +53,7 @@ class Application(tornado.web.Application):
 
             # Static files
             (r"/", MainHandler),
-            (r"/frame", FrameHandler),
+            (r"/frame/(\w+)/(\w+)", FrameHandler),
             
             
             # RPC calls
@@ -66,6 +67,11 @@ class Application(tornado.web.Application):
 
             (r"/users/(\w+)", UsersHandler),
             (r"/users", UsersHandler),
+
+            (r"/frames", FramesHandler),
+            (r"/frames/(\w+)", FramesHandler),
+            (r"/frames/user/(\w+)", FramesByUserHandler),
+            (r"/frames/owner/(\w+)", FramesByOwnerHandler),
             
             # WebSocket
             (r'/ws/(\w+)', FrameConnectionHandler),

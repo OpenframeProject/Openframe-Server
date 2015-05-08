@@ -6,19 +6,7 @@ An open-source platform for displaying digital artwork.
 {
 	"_id" : ObjectId("55270f447d5ea945d9841a9d"),
 	"username" : "jonwohl",
-	"email" : "jon@jonwohl.com",
-	"frames" : [
-		{
-			"frame_id": ObjectId("55270f447d5ea945d9841a9d"),
-			"name": "Living Room",
-			"active": true
-		},
-		{
-			"frame_id": ObjectId("55270f447d5ea945d9841a9d"),
-			"name": "Office",
-			"active": false
-		}
-	]
+	"email" : "jon@jonwohl.com"
 }
 ```
 
@@ -37,5 +25,19 @@ An open-source platform for displaying digital artwork.
 	"username" : "jonwohl",
 	"type" : "video",
 	"url" : "http://localhost:8888/static/content/Fields.jpg"
+}
+```
+
+### Frame Document
+```json
+{
+	"_id" : ObjectId("553e547bf54ddb6517975d3c"),
+	"owner" : "jonwohl",
+	"name" : "Office",
+	"active": false,
+	"users" : [
+		"jonwohl",
+		"ishback"
+	]
 }
 ```
