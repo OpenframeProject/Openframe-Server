@@ -17,16 +17,24 @@ from openframe.handlers.api.frames import FramesHandler, FramesByUserHandler, Fr
 from openframe.handlers.api.users import UsersHandler
 from openframe.handlers.websockets.admin import AdminConnectionHandler
 from openframe.handlers.websockets.frame import FrameConnectionHandler
+from openframe.db.connection import db
+from openframe.db.frames import Frames
 
 # global db reference
-mongo_client = MongoClient('localhost', 27017)
-db = mongo_client.openframe
-
+# mongo_client = MongoClient('localhost', 27017)
+# db = mongo_client.openframe
 
 # Handlers
-class MainHandler(BaseHandler):
+class SplashHandler(BaseHandler):
     def get(self):
-        self.render("index.html")
+        self.render("splash.html")
+
+class MainHandler(BaseHandler):
+    def get(self, username=None):
+        frames = []
+        if username:
+            frames = Frames.getByUser(username, active=True)
+        self.render("index.html", user=username, frames=frames)
 
 class FrameHandler(BaseHandler):
     def get(self, frame_id, username, framename):
@@ -65,9 +73,10 @@ class Application(tornado.web.Application):
         handlers = [
 
             # Static files
-            (r"/", MainHandler),
+            (r"/", SplashHandler),
+            (r"/(\w+)/?", MainHandler),
             # /frame/[id]/[username]/[framename]
-            (r"/frame/(\w+)/(\w+)/(\w+)", FrameHandler),
+            (r"/frame/(\w+)/(\w+)/(\w+)/?", FrameHandler),
             
             
             # RPC calls

@@ -116,12 +116,13 @@ class BaseWebSocketHandler(tornado.websocket.WebSocketHandler):
         """A connection to the PostgreSQL database."""
         return self.application.admins
 
+
     # The admin log in should render the connected frames on the server on the initial request as opposed to requiring this WS update
     def update_admins(self, frame_id=None, username=None):
         print('updating admins ', self.admins)
         if frame_id:
             frames = self.db.frames
-            frame = frames.find_one("_id": frame_id)
+            frame = frames.find_one({"_id": frame_id})
             users = frame.users
             logged_in_users = self.admins.keys
             intersection = users & logged_in_users

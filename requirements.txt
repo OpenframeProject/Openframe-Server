@@ -1,2 +1,2 @@
 tornado==4.1
-motor==0.4
+pymongo==3.0.1

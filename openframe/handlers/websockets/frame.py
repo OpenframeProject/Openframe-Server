@@ -1,7 +1,8 @@
 from tornado.escape import to_unicode, json_decode, json_encode
-from pymongo.collection import ReturnDocument
-from openframe.handlers.base import BaseWebSocketHandler
+from bson.json_util import dumps
 
+from openframe.handlers.base import BaseWebSocketHandler
+from openframe.db.frames import Frames
 
 
 class FrameConnectionHandler(BaseWebSocketHandler):
@@ -27,25 +28,28 @@ class FrameConnectionHandler(BaseWebSocketHandler):
     # list
     def on_close(self):
         print("WebSocket closed")
+        self._deactivateFrame()
         del self.frames[self.frame_id]
-        self.update_admins(frame_id)
+        # self.update_admins(frame_id)
 
     def check_origin(self, origin):
         return True
 
     def _activateFrame(self):
-        frames = self.db.frames
-        frame = frames.find_and_update_one({"_id": self.frame_id}, {"$set": {"active": True}}, return_document=ReturnDocument.AFTER)
-        self._updateUsers(frame)
+        frame = Frames.updateById(self.frame_id, {"active": True});
+        self._updateUsers(frame, event="frame:connected")
 
     def _deactivateFrame(self):
-        frames = self.db.frames
-        frames.update_one({"_id": self.frame_id}, {"$set": {"active": False}})
+        frame = Frames.updateById(self.frame_id, {"active": False});
+        self._updateUsers(frame, event="frame:disconnected")
 
-    def _updateUsers(self, frame):
+    def _updateUsers(self, frame, event=None):
         frame_users = frame['users']
-        active_users = self.admins.keys
-        intersection = users & active_users
+        active_users = list(self.admins.keys())
+        print(frame_users)
+        print(active_users)
+
+        intersection = list(set(frame_users) & set(active_users))
         for key in intersection:
             print(key)
-            self.admins[key].write_message(json_encode({'active_frames': list(self.frames.keys())}))
+            self.admins[key].write_message(dumps({'name': event, 'data': frame}))

@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <div class="container" id="Login">
+    <div class="container hide" id="Login">
         <div class="row">
             <div class="col-md-12 text-center">
                 <form class="form-inline" id="LoginForm">
@@ -23,14 +23,14 @@
             </div>
         </div>
     </div>
-    <div class="container hide" id="OpenFrame">
+    <div class="container" id="OpenFrame">
         <div class="row page-header">
             <div class="col-md-12">
                 <h1>OpenFrame</h1>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="pull-left">
-                            <span class="" id="LoggedInAs">Signed in as <strong>jonwohl</strong></span>
+                            <span class="" id="LoggedInAs">Signed in as <strong>{{ user }}</strong></span>
                             <button class="btn btn-default btn-sm" href="#logout" id="LogoutButton">Logout</button>
                         </div>
                     </div>
@@ -40,6 +40,9 @@
                                 <label for="SendToFrame">Send to frame</label>
                                 <select class="form-control input-sm" id="SendToFrame">
                                     <!-- Render active frames in tornado template -->
+                                    {% for frame in frames %}
+                                        <option value="{{ frame['_id'] }}">{{ frame['name'] }}</option>
+                                    {% end %}
                                 </select>
                             </div>
                         </div>
@@ -77,38 +80,40 @@
     <script type="text/javascript" src="/static/components/lodash/lodash.js"></script>
     <script type="text/javascript">
     $(function() {
-        var user,
+        var user = '{{ user }}',
             content_item_tpl = _.template($("#ContentItemTemplate").html());
 
         // Login Button handler
-        $(document).on('click', '#LoginButton', function() {
-            user = $('#AdminUser').val();
-            if (user) {
-                login(user);
-            }
-        });
+        // $(document).on('click', '#LoginButton', function() {
+        //     user = $('#AdminUser').val();
+        //     if (user) {
+        //         login(user);
+        //     }
+        //     return false;
+        // });
 
         $(document).on('click', '#LogoutButton', function() {
-            $("#Login").removeClass('hide');
-            $("#OpenFrame").addClass('hide');
-            $("#AdminUser").val('').focus();
+            window.location = "/";
             return false;
         });
 
-        $("form#LoginForm").on('submit', function() {
-            $("#LoginButton").trigger('click');
-            return false;
-        });
+        // $("form#LoginForm").on('submit', function() {
+        //     user = $('#AdminUser').val();
+        //     if (user) {
+        //         login(user);
+        //     }
+        //     return false;
+        // });
 
-        function login(username) {
-            open_ws(username);
-            var $art = $("#Art");
-            $art.empty();
-            $("#LoggedInAs strong").text(username);
-            $("#Login").addClass('hide');
-            $("#OpenFrame").removeClass('hide');
-            fetchContent(username);
-        }
+        // function login(username) {
+        //     open_ws(username);
+        //     var $art = $("#Art");
+        //     $art.empty();
+        //     $("#LoggedInAs strong").text(username);
+        //     $("#Login").addClass('hide');
+        //     $("#OpenFrame").removeClass('hide');
+        //     fetchContent(username);
+        // }
 
         // add event handler
         $("#AddForm").on('submit', addContent);
@@ -195,6 +200,7 @@
 
 
         function open_ws(username) {
+            console.log("open_ws", username);
             var domain = url_domain(window.location);
             console.log(domain);
 
@@ -205,13 +211,24 @@
             ws.onmessage = function(evt) {
                 var data = JSON.parse(evt.data);
                 console.log(data);
-                if (data.active_frames) {
-                    $("#SendToFrame").empty();
-
-                    for (var i = 0; i < data.active_frames.length; i++) {
-                        $("#SendToFrame").append('<option>' + data.active_frames[i] + '</option>');
-                    }
+                if (data.name === 'frame:connected') {
+                    var frame = data.data,
+                        _id = frame._id.$oid;
+                    $("option[value='" + _id + "'").remove();
+                    $("#SendToFrame").append('<option value="' + frame._id.$oid + '">' + frame.name + '</option>');
                 }
+                if (data.name === 'frame:disconnected') {
+                    var frame = data.data,
+                        _id = frame._id.$oid;
+                    $("option[value='" + _id + "'").remove();
+                }
+                // if (data.active_frames) {
+                //     $("#SendToFrame").empty();
+
+                //     for (var i = 0; i < data.active_frames.length; i++) {
+                //         $("#SendToFrame").append('<option>' + data.active_frames[i] + '</option>');
+                //     }
+                // }
 
             };
         }
@@ -222,9 +239,13 @@
             return a.hostname;
         }
 
-        // open_ws('jonwohl');
 
-        // fetchContent();
+        function init() {
+            open_ws(user);
+            fetchContent(user);
+        }
+
+        init();
     });
     </script>
 </body>

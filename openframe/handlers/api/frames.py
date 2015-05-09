@@ -45,7 +45,7 @@ class FramesHandler(BaseHandler):
 class FramesByUserHandler(BaseHandler):
     def get(self, username):
         active = self.get_argument('active', None)
-        query = {'users': username};
+        query = {'users': username}
         if active:
             query['active'] = True if active == "true" else False
         frames = self.db.frames
@@ -61,7 +61,7 @@ class FramesByOwnerHandler(BaseHandler):
     def get(self, username):
         frames = self.db.frames
         active = self.get_argument('active', None)
-        query = {'owner': username};
+        query = {'owner': username}
         if active:
             query['active'] = True if active == "true" else False
         if not username:
