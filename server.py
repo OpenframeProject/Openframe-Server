@@ -24,27 +24,40 @@ db = mongo_client.openframe
 
 
 # Handlers
-class MainHandler(tornado.web.RequestHandler):
+class MainHandler(BaseHandler):
     def get(self):
         self.render("index.html")
 
-class FrameHandler(tornado.web.RequestHandler):
-    def get(self, username, framename):
-        self.render("frame.html")
+class FrameHandler(BaseHandler):
+    def get(self, frame_id, username, framename):
+        frames = self.db.frames
+        frame = frames.find_one({'_id': frame_id})
+        print(frame)
+        if not frame:
+            print("No frame, create it.")
+            frame_id = frames.insert({
+                "_id": frame_id,
+                "owner": username,
+                "name": framename,
+                "users": [
+                        username
+                    ]
+                })
+        self.render("frame.html", frame_id=frame_id)
 
 
 # endpoint for updating frame content
 class UpdateFrameHandler(BaseHandler):
-    def get(self, username, content_id):
-        if username in self.frames:
-            print("username " + username + " connected")
+    def get(self, frame_id, content_id):
+        if frame_id in self.frames:
+            print("frame_id " + frame_id + " connected")
             content = self.db.content
             content_item = content.find_one({'_id': ObjectId(content_id)})
             print(content_item)
-            self.frames[username].write_message(dumps(content_item))
+            self.frames[frame_id].write_message(dumps(content_item))
             self.write("{'success': true }")
         else:
-            print("username " + username + " not connected")
+            print("frame_id " + frame_id + " not connected")
             self.write("{'success': false }")
 
 class Application(tornado.web.Application):
@@ -53,7 +66,8 @@ class Application(tornado.web.Application):
 
             # Static files
             (r"/", MainHandler),
-            (r"/frame/(\w+)/(\w+)", FrameHandler),
+            # /frame/[id]/[username]/[framename]
+            (r"/frame/(\w+)/(\w+)/(\w+)", FrameHandler),
             
             
             # RPC calls

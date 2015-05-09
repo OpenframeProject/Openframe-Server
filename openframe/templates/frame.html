@@ -31,17 +31,13 @@
     var $body = $('body'),
         user = 'jonwohl',
         domain = url_domain(window.location),
-        connected = false;
+        connected = false,
+        frame_id = {{ frame_id }};
 
-    if (window.location.hash) {
-        user = window.location.hash.substring(1);
-        console.log(user);
-    }
-
-    function open_ws(domain, user) {
-        var ws = new WebSocket("ws://" + domain + ":8888/ws/" + user);
+    function open_ws(domain, frame_id) {
+        var ws = new WebSocket("ws://" + domain + ":8888/ws/" + frame_id);
         ws.onopen = function() {
-            ws.send("connecting as " + user);
+            ws.send("connecting frame: " + frame_id);
             connected = true;
         };
         ws.onmessage = function(evt) {
@@ -62,7 +58,7 @@
 
     function check_connection() {
         if (!connected) {
-            open_ws(domain, user);
+            open_ws(domain, frame_id);
         }
     }
 

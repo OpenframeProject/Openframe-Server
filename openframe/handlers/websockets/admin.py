@@ -9,7 +9,7 @@ class AdminConnectionHandler(BaseWebSocketHandler):
         self.username = username
         self.admins[username] = self
         self.write_message(u'{"connected": true}')
-        self.update_admins()
+        self.update_admins(username=username)
 
     def on_message(self, message):
         print(message)

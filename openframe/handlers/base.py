@@ -87,7 +87,7 @@ class BaseHandler(tornado.web.RequestHandler):
         print('updating admins ', self.admins)
         for key in self.admins:
             print(key)
-            self.admins[key].write_message(json_encode({'active_users': list(self.frames.keys())}))
+            self.admins[key].write_message(json_encode({'active_frames': list(self.frames.keys())}))
 
 
     @staticmethod
@@ -116,8 +116,17 @@ class BaseWebSocketHandler(tornado.websocket.WebSocketHandler):
         """A connection to the PostgreSQL database."""
         return self.application.admins
 
-    def update_admins(self):
+    # The admin log in should render the connected frames on the server on the initial request as opposed to requiring this WS update
+    def update_admins(self, frame_id=None, username=None):
         print('updating admins ', self.admins)
-        for key in self.admins:
-            print(key)
-            self.admins[key].write_message(json_encode({'active_users': list(self.frames.keys())}))
+        if frame_id:
+            frames = self.db.frames
+            frame = frames.find_one("_id": frame_id)
+            users = frame.users
+            logged_in_users = self.admins.keys
+            intersection = users & logged_in_users
+            for key in intersection:
+                print(key)
+                self.admins[key].write_message(json_encode({'active_frames': list(self.frames.keys())}))
+        if username:
+            self

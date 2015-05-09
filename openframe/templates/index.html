@@ -37,8 +37,9 @@
                     <div class="col-md-6">
                         <div class="form-inline pull-right">
                             <div class="form-group">
-                                <label for="SendToUser">Send to frame</label>
-                                <select class="form-control input-sm" id="SendToUser">
+                                <label for="SendToFrame">Send to frame</label>
+                                <select class="form-control input-sm" id="SendToFrame">
+                                    <!-- Render active frames in tornado template -->
                                 </select>
                             </div>
                         </div>
@@ -117,9 +118,9 @@
         $(document).on('click', '.send-button', function(e) {
             // e.preventDefault();
             var $el = $(e.target),
-                username = $('#SendToUser').val(),
+                frame_id = $('#SendToFrame').val(),
                 content_id = $el.attr('rel');
-            updateFrame(username, content_id);
+            updateFrame(frame_id, content_id);
             return false;
         });
 
@@ -132,10 +133,10 @@
             return false;
         });
 
-        function updateFrame(username, content_id) {
-            console.log('clicked', username, content_id);
+        function updateFrame(frame_id, content_id) {
+            console.log('clicked', frame_id, content_id);
 
-            $.getJSON('/update/' + username + '/' + content_id)
+            $.getJSON('/update/' + frame_id + '/' + content_id)
                 .done(function(resp) {
                     console.log(resp);
                 })
@@ -204,11 +205,11 @@
             ws.onmessage = function(evt) {
                 var data = JSON.parse(evt.data);
                 console.log(data);
-                if (data.active_users) {
-                    $("#SendToUser").empty();
+                if (data.active_frames) {
+                    $("#SendToFrame").empty();
 
-                    for (var i = 0; i < data.active_users.length; i++) {
-                        $("#SendToUser").append('<option>' + data.active_users[i] + '</option>');
+                    for (var i = 0; i < data.active_frames.length; i++) {
+                        $("#SendToFrame").append('<option>' + data.active_frames[i] + '</option>');
                     }
                 }
 
