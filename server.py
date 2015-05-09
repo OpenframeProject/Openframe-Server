@@ -38,12 +38,11 @@ class MainHandler(BaseHandler):
 
 class FrameHandler(BaseHandler):
     def get(self, frame_id, username, framename):
-        frames = self.db.frames
-        frame = frames.find_one({'_id': frame_id})
+        frame = Frames.getById(frame_id)
         print(frame)
         if not frame:
             print("No frame, create it.")
-            frame_id = frames.insert({
+            frame_id = Frames.insert({
                 "_id": frame_id,
                 "owner": username,
                 "name": framename,
@@ -72,34 +71,33 @@ class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
 
-            # Static files
-            (r"/", SplashHandler),
-            (r"/(\w+)/?", MainHandler),
-            # /frame/[id]/[username]/[framename]
-            (r"/frame/(\w+)/(\w+)/(\w+)/?", FrameHandler),
-            
-            
             # RPC calls
             (r"/update/(\w+)/(\w+)", UpdateFrameHandler),
             
 
             # RESTish calls
-            (r"/content", ContentHandler),
-            (r"/content/(\w+)", ContentHandler),
-            (r"/content/user/(\w+)", ContentByUserHandler),
+            (r"/content/?", ContentHandler),
+            (r"/content/(\w+)/?", ContentHandler),
+            (r"/content/user/(\w+)/?", ContentByUserHandler),
 
-            (r"/users/(\w+)", UsersHandler),
+            (r"/users/(\w+)/?", UsersHandler),
             (r"/users", UsersHandler),
 
-            (r"/frames", FramesHandler),
-            (r"/frames/(\w+)", FramesHandler),
-            (r"/frames/user/(\w+)", FramesByUserHandler),
-            (r"/frames/owner/(\w+)", FramesByOwnerHandler),
+            (r"/frames/?", FramesHandler),
+            (r"/frames/(\w+)/?", FramesHandler),
+            (r"/frames/user/(\w+)/?", FramesByUserHandler),
+            (r"/frames/owner/(\w+)/?", FramesByOwnerHandler),
             
             # WebSocket
-            (r'/ws/(\w+)', FrameConnectionHandler),
-            (r'/client/ws/(\w+)', FrameConnectionHandler),
-            (r'/admin/ws/(\w+)', AdminConnectionHandler),
+            (r'/ws/(\w+)/?', FrameConnectionHandler),
+            (r'/client/ws/(\w+)/?', FrameConnectionHandler),
+            (r'/admin/ws/(\w+)/?', AdminConnectionHandler),
+
+            # Static files
+            # /frame/[id]/[username]/[framename]
+            (r"/frame/(\w+)/(\w+)/(\w+)/?", FrameHandler),
+            (r"/(\w+)/?", MainHandler),
+            (r"/", SplashHandler),
         ]
 
         config = {

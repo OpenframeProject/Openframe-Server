@@ -7,6 +7,13 @@ class Frames():
 	collection = db.frames
 
 	@staticmethod
+	def getAll():
+		"""
+		Get all frames
+		"""
+		return Frames.collection.find()
+
+	@staticmethod
 	def getById(frame_id):
 		"""
 		Get a frame by id
@@ -35,9 +42,24 @@ class Frames():
 		return list(Frames.collection.find(query))
 
 	@staticmethod
+	def insert(doc):
+		"""
+		Insert a doc into the frames collection
+		"""
+		return Frames.collection.insert(doc)
+
+	@staticmethod
 	def updateById(frame_id, doc):
 		"""
 		Update a frame by id, returning the updated doc
 		"""
 		fid = frame_id if not ObjectId.is_valid(frame_id) else ObjectId(frame_id)
 		return Frames.collection.find_one_and_update({"_id": fid}, {"$set": doc}, return_document=ReturnDocument.AFTER)
+
+	@staticmethod
+	def deleteById(frame_id):
+		"""
+		Update a frame by id, returning the updated doc
+		"""
+		fid = frame_id if not ObjectId.is_valid(frame_id) else ObjectId(frame_id)
+		return Frames.collection.delete_one({"_id": fid})

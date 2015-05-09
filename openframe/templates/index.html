@@ -41,7 +41,7 @@
                                 <select class="form-control input-sm" id="SendToFrame">
                                     <!-- Render active frames in tornado template -->
                                     {% for frame in frames %}
-                                        <option value="{{ frame['_id'] }}">{{ frame['name'] }}</option>
+                                        <option value="{{ frame['_id'] }}">{{ frame['name'] }} ({{ frame['owner'] }})</option>
                                     {% end %}
                                 </select>
                             </div>
@@ -213,13 +213,13 @@
                 console.log(data);
                 if (data.name === 'frame:connected') {
                     var frame = data.data,
-                        _id = frame._id.$oid;
+                        _id = frame._id.$oid || frame._id;
                     $("option[value='" + _id + "'").remove();
-                    $("#SendToFrame").append('<option value="' + frame._id.$oid + '">' + frame.name + '</option>');
+                    $("#SendToFrame").append('<option value="' + _id+ '">' + frame.name + ' ('+frame.owner+')</option>');
                 }
                 if (data.name === 'frame:disconnected') {
                     var frame = data.data,
-                        _id = frame._id.$oid;
+                        _id = frame._id.$oid || frame._id;
                     $("option[value='" + _id + "'").remove();
                 }
                 // if (data.active_frames) {

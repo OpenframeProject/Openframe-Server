@@ -1,9 +1,10 @@
-from openframe.handlers.base import BaseHandler
-
 from tornado.escape import to_unicode, json_decode, json_encode
 import tornado.web
 from bson.objectid import ObjectId
 from bson.json_util import dumps
+
+from openframe.handlers.base import BaseHandler
+from openframe.db.frames import Frames
 
 # endpoints for managing frames
 class FramesHandler(BaseHandler):
@@ -11,7 +12,7 @@ class FramesHandler(BaseHandler):
         frames = self.db.frames
         if frame_id:
             print('get frame: ' + frame_id)
-            frame_resp = frames.find_one({'_id': ObjectId(frame_id)})
+            frame_resp = Frames.getById(frame_id)
         else:
             frame_resp = frames.find()
         self.write(dumps(frame_resp))
@@ -31,15 +32,9 @@ class FramesHandler(BaseHandler):
         print('NOT YET IMPLEMENTED')
         print('update frame: ' + frame_id)
 
-    def delete(self, frame_id=None):
-        frames = self.db.frames
-        res = {'success': True}
-        if frame_id:
-            print('get frames: ' + frame_id)
-            frame_resp = frames.remove({'_id': ObjectId(frame_id)})
-        else:
-            res.success = False
-        self.write(dumps(res))
+    def delete(self, frame_id):
+        res = Frames.deleteById(frame_id)
+        self.write(dumps(res.acknowledged))
 
 # Get frames by username
 class FramesByUserHandler(BaseHandler):
