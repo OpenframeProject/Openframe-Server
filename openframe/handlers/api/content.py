@@ -5,6 +5,8 @@ import tornado.web
 from bson.objectid import ObjectId
 from bson.json_util import dumps
 
+from openframe.db.content import Content
+
 # endpoints for managing frame content
 class ContentHandler(BaseHandler):
     def get(self, content_id=None):
@@ -44,10 +46,5 @@ class ContentHandler(BaseHandler):
 # Get content by username
 class ContentByUserHandler(BaseHandler):
     def get(self, username):
-        content = self.db.content
-        if not username:
-            print('username missing')
-            resp = {'error': 'username required'}
-        else:
-            resp = content.find({'username': username})
+        resp = Content.getByUser(username)
         self.write(dumps(resp))
