@@ -46,7 +46,7 @@ class Frames():
 		"""
 		Insert a doc into the frames collection
 		"""
-		return Frames.collection.insert(doc)
+		return Frames.collection.insert_one(doc)
 
 	@staticmethod
 	def updateById(frame_id, doc):

@@ -42,7 +42,7 @@ class FrameHandler(BaseHandler):
         print(frame)
         if not frame:
             print("No frame, create it.")
-            frame_id = Frames.insert({
+            result = Frames.insert({
                 "_id": frame_id,
                 "owner": username,
                 "name": framename,
@@ -88,10 +88,16 @@ class Application(tornado.web.Application):
             (r"/frames/user/(\w+)/?", FramesByUserHandler),
             (r"/frames/owner/(\w+)/?", FramesByOwnerHandler),
             
+
+
+
             # WebSocket
             (r'/ws/(\w+)/?', FrameConnectionHandler),
             (r'/client/ws/(\w+)/?', FrameConnectionHandler),
             (r'/admin/ws/(\w+)/?', AdminConnectionHandler),
+
+
+
 
             # Static files
             # /frame/[id]/[username]/[framename]

@@ -19,18 +19,19 @@ class FramesHandler(BaseHandler):
     
     def post(self):
         print('create frame item')
-        frames = self.db.frames
         doc = json_decode(self.request.body.decode('utf-8'))
-        print(doc)
-        res = {'success': True}
-        frame_id = frames.insert(doc)
-        if not frame_id:
-            res.success = False
-        self.write(dumps(res))
+        result = Frames.insert(doc)
+        if not result:
+            print('Problem inserting new frame')
+        self.write(dumps(doc))
 
     def put(self, frame_id):
-        print('NOT YET IMPLEMENTED')
         print('update frame: ' + frame_id)
+        doc = json_decode(self.request.body.decode('utf-8'))
+        result = Frames.updateById(frame_id, doc)
+        if not result:
+            print('Problem updating frame')
+        self.write(dumps(result))
 
     def delete(self, frame_id):
         res = Frames.deleteById(frame_id)
