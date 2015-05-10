@@ -19,6 +19,7 @@ from openframe.handlers.websockets.admin import AdminConnectionHandler
 from openframe.handlers.websockets.frame import FrameConnectionHandler
 from openframe.db.connection import db
 from openframe.db.frames import Frames
+from openframe.db.content import Content
 
 # global db reference
 # mongo_client = MongoClient('localhost', 27017)
@@ -32,9 +33,11 @@ class SplashHandler(BaseHandler):
 class MainHandler(BaseHandler):
     def get(self, username=None):
         frames = []
+        content = []
         if username:
             frames = Frames.getByUser(username, active=True)
-        self.render("index.html", user=username, frames=frames)
+            content = Content.getByUser(username)
+        self.render("index.html", user=username, frames=frames, content=content)
 
 class FrameHandler(BaseHandler):
     def get(self, frame_id, username, framename):
