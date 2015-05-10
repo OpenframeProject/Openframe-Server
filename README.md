@@ -14,7 +14,7 @@ An open-source platform for displaying digital artwork.
 ```json
 {
 	"_id" : ObjectId("553e547bf54ddb6517975d3c"),
-	"username" : "jonwohl",
+	"users" : ["jonwohl"],
 	"type" : "image",
 	"url" : "http://localhost:8888/static/content/Fields.jpg"
 }
@@ -22,7 +22,7 @@ An open-source platform for displaying digital artwork.
 
 {
 	"_id" : ObjectId("553e547bf54ddb6517975d3c"),
-	"username" : "jonwohl",
+	"users" : ["jonwohl"],
 	"type" : "video",
 	"url" : "http://localhost:8888/static/content/Fields.jpg"
 }
