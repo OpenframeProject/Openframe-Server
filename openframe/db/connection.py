@@ -1,7 +1,6 @@
+from openframe import settings
 from pymongo import MongoClient
-from bson.objectid import ObjectId
-from bson.json_util import dumps
 
 # global db reference
-mongo_client = MongoClient('localhost', 27017)
+mongo_client = MongoClient(settings.MONGO_HOST, settings.MONGO_PORT)
 db = mongo_client.openframe

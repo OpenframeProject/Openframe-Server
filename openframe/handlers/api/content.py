@@ -1,47 +1,41 @@
 from openframe.handlers.base import BaseHandler
+from openframe.db.content import Content
 
 from tornado.escape import to_unicode, json_decode, json_encode
 import tornado.web
 from bson.objectid import ObjectId
 from bson.json_util import dumps
 
-from openframe.db.content import Content
 
 # endpoints for managing frame content
 class ContentHandler(BaseHandler):
     def get(self, content_id=None):
-        content = self.db.content
         if content_id:
             print('get content: ' + content_id)
-            content_resp = content.find_one({'_id': ObjectId(content_id)})
+            content_resp = content = Content.getById(content_id)
         else:
-            content_resp = content.find()
+            content_resp = Content.getAll()
         self.write(dumps(content_resp))
     
     def post(self):
         print('create content item')
-        content = self.db.content
         doc = json_decode(self.request.body.decode('utf-8'))
-        print(doc)
-        res = {'success': True}
-        content_id = content.insert(doc)
+        content_id = Content.insert(doc)
         if not content_id:
-            res.success = False
-        self.write(dumps(res))
+            print('problem inserting new content')
+        self.write(dumps(doc))
 
     def put(self, content_id):
-        print('NOT YET IMPLEMENTED')
         print('update content: ' + content_id)
+        doc = json_decode(self.request.body.decode('utf-8'))
+        result = Content.updateById(content_id, doc)
+        if not result:
+            print('Problem updating content')
+        self.write(dumps(result))
 
-    def delete(self, content_id=None):
-        content = self.db.content
-        res = {'success': True}
-        if content_id:
-            print('get content: ' + content_id)
-            content_resp = content.remove({'_id': ObjectId(content_id)})
-        else:
-            res.success = False
-        self.write(dumps(res))
+    def delete(self, content_id):
+        res = Content.deleteById(content_id)
+        self.write(dumps(res.acknowledged))
 
 # Get content by username
 class ContentByUserHandler(BaseHandler):
