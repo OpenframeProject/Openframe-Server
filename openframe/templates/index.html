@@ -20,13 +20,18 @@
                         <li role="presentation"><a href="#">Logout</a></li>
                     </ul>
                 </nav>
-                <h3 class="text-muted">openframe/<strong>{{ user }}</strong></h3>
+                <h3 class="text-muted"><span class="openframe">openframe/<span class="username">{{ user }}</span></h3>
             </div>
             <div class="row" id="frames-list">
                 <div class="col-md-12">
                     <ul class="frames-list">
                         {% for frame in frames %}
-                        <li data-frame-id="{{ frame['_id'] }}">{{ frame['name'] }} ({{ frame['owner'] }})</li>
+                        <li data-frame-id="{{ frame['_id'] }}">
+                        <div class="frame-outer-container">
+                            <div class="frame"></div>
+                            <div class="frame-name"><h6 class="text-center">{{ frame['name'] }} ({{ frame['owner'] }})</h6></div>
+                        </div>
+                        </li>
                         {% end %}
                     </ul>
                 </div>
@@ -61,14 +66,15 @@
                         {% for content_item in content %}
                         <li>
                             <div class="row content-item">
-                                <div class="col-md-2" id="content_pic">
-                                    <img class="content-thumb" src="{{ content_item['url'] }}">
+                                <div class="col-md-3">
+                                    <div class="img-container" style="background-image: url('{{ content_item['url'] }}')"></div>
                                 </div>
-                                <div class="col-md-8 col-send">
-                                    <button class="btn btn-default btn-xs btn-send center-block" href="#send" rel="{{ content_item['_id'] }}">Send to Frame</button>
+                                <div class="col-md-6 col-send">
+                                    <button class="btn btn-default btn-xs btn-send center-block no-border" href="#send" rel="{{ content_item['_id'] }}">Send to Frame</button>
                                 </div>
-                                <div class="col-md-2">
-                                    <button class="btn btn-default btn-xs remove-button center-block" href="#delete" rel="{{ content_item['_id'] }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2 col-delete">
+                                    <button class="btn btn-default btn-xs remove-button center-block no-border" href="#delete" rel="<%= id %>"><span class="icon icon-delete" aria-hidden="true"></span></button>
                                 </div>
                             </div>
                         </li>
@@ -86,14 +92,15 @@
     <script type="text/template" id="ContentItemTemplate">
         <li>
             <div class="row content-item">
-                <div class="col-md-2">
-                    <img class="content-thumb" src="<%= url %>">
+                <div class="col-md-3">
+                    <div class="img-container" style="background-image: url('<%= url %>')"></div>
                 </div>
-                <div class="col-md-8 col-send">
-                    <button class="btn btn-default btn-xs btn-send center-block" href="#send" rel="<%= id %>">Send to Frame</button>
+                <div class="col-md-6 col-send">
+                    <button class="btn btn-default btn-xs btn-send center-block no-border" href="#send" rel="<%= id %>"><span class="icon icon-send" aria-hidden="true"></span></br>Send to Frame</button>
                 </div>
-                <div class="col-md-2">
-                    <button class="btn btn-default btn-xs remove-button center-block" href="#delete" rel="<%= id %>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <div class="col-md-1"></div>
+                <div class="col-md-2 col-delete">
+                    <button class="btn btn-default btn-xs remove-button center-block no-border" href="#delete" rel="<%= id %>"><span class="icon icon-delete" aria-hidden="true"></span></button>
                 </div>
             </div>
         </li>
@@ -141,8 +148,8 @@
         // }
 
         // add event handler
-        $("#AddForm").on('submit', addContent);
-        $(document).on('click', '#AddContent', addContent);
+        $("#add-form").on('submit', addContent);
+        $(document).on('click', '#add-content-button', addContent);
 
         // send to frame handler
         $(document).on('click', '.btn-send', function(e) {
