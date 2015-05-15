@@ -62,10 +62,3 @@ class Users():
         """
         cid = user_id if not ObjectId.is_valid(user_id) else ObjectId(user_id)
         return Users.collection.delete_one({"_id": cid})
-
-    def deleteById(user_id):
-        """
-        Update user by id, returning the updated doc
-        """
-        cid = user_id if not ObjectId.is_valid(user_id) else ObjectId(user_id)
-        return Users.collection.delete_one({"_id": cid})
