@@ -15,7 +15,7 @@ from openframe.handlers.base import BaseHandler
 from openframe.handlers.pages import SplashHandler, MainHandler, FrameHandler
 from openframe.handlers.api.content import ContentHandler, ContentByUserHandler
 from openframe.handlers.api.frames import FramesHandler, \
-    FramesByUserHandler, FramesByOwnerHandler
+    FramesByUserHandler, FramesByOwnerHandler, UpdateFrameContentHandler
 from openframe.handlers.api.users import UsersHandler
 from openframe.handlers.websockets.admin import AdminWebSocketHandler
 from openframe.handlers.websockets.frame import FrameWebSocketHandler
@@ -26,26 +26,6 @@ from openframe.micropubsub import MicroPubSub
 from openframe.frame_manager import FrameManager
 from openframe.admin_manager import AdminManager
 
-# global db reference
-# mongo_client = MongoClient('localhost', 27017)
-# db = mongo_client.openframe
-
-
-# endpoint for updating frame content
-class UpdateFrameHandler(BaseHandler):
-
-    def get(self, frame_id, content_id):
-        if frame_id in self.frames:
-            print("frame_id " + frame_id + " connected")
-            content = self.db.content
-            content_item = content.find_one({'_id': ObjectId(content_id)})
-            print(content_item)
-            self.frames[frame_id].write_message(dumps(content_item))
-            self.write("{'success': true }")
-        else:
-            print("frame_id " + frame_id + " not connected")
-            self.write("{'success': false }")
-
 
 class Application(tornado.web.Application):
 
@@ -53,7 +33,7 @@ class Application(tornado.web.Application):
         handlers = [
 
             # RPC calls
-            (r"/update/(\w+)/(\w+)", UpdateFrameHandler),
+            (r"/update/(\w+)/(\w+)", UpdateFrameContentHandler),
 
 
             # RESTish calls
@@ -94,36 +74,13 @@ class Application(tornado.web.Application):
             "debug": True
         }
 
-        # self._frames = {}
-
-        # self._admins = {}
-
         self._db = db
 
         self._pubsub = MicroPubSub()
 
-        self._frame_manager = FrameManager()
+        self._frame_manager = FrameManager(self)
 
-        self._admin_manager = AdminManager()
-
-        # Setup event handling for admin and frame managers
-        self._pubsub.subscribe(
-            'frame:connected', self._frame_manager.addFrameConnection)
-
-        self._pubsub.subscribe(
-            'frame:disconnected', self._frame_manager.removeFrameConnection)
-
-        self._pubsub.subscribe(
-            'frame:connected', self._admin_manager.addFrameConnection)
-
-        self._pubsub.subscribe(
-            'frame:disconnected', self._admin_manager.removeFrameConnection)
-
-        self._pubsub.subscribe(
-            'admin:connected', self._admin_manager.addAdminConnection)
-
-        self._pubsub.subscribe(
-            'admin:disconnected', self._admin_manager.removeAdminConnection)
+        self._admin_manager = AdminManager(self)
 
         tornado.web.Application.__init__(self, handlers, **config)
 

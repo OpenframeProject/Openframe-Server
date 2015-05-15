@@ -34,6 +34,11 @@ class BaseHandler(tornado.web.RequestHandler):
         """A dictionary of frame WS connection."""
         return self.application.frames
 
+    @property
+    def pubsub(self):
+        """Access to the application-wide pubsub system."""
+        return self.application.pubsub
+
     def prepare(self):
         """
         This method runs before the HTTP-handling methods. It sets the XSRF

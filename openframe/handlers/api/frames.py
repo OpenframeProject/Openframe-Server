@@ -6,8 +6,13 @@ from bson.json_util import dumps
 from openframe.handlers.base import BaseHandler
 from openframe.db.frames import Frames
 
-# endpoints for managing frames
+
 class FramesHandler(BaseHandler):
+
+    """
+    endpoints for managing frames
+    """
+
     def get(self, frame_id=None):
         frames = self.db.frames
         if frame_id:
@@ -16,7 +21,7 @@ class FramesHandler(BaseHandler):
         else:
             frame_resp = frames.find()
         self.write(dumps(frame_resp))
-    
+
     def post(self):
         print('create frame item')
         doc = json_decode(self.request.body.decode('utf-8'))
@@ -37,8 +42,13 @@ class FramesHandler(BaseHandler):
         res = Frames.deleteById(frame_id)
         self.write(dumps(res.acknowledged))
 
-# Get frames by username
+
 class FramesByUserHandler(BaseHandler):
+
+    """
+    Get frames by username
+    """
+
     def get(self, username):
         active = self.get_argument('active', None)
         query = {'users': username}
@@ -52,8 +62,13 @@ class FramesByUserHandler(BaseHandler):
             resp = frames.find(query)
         self.write(dumps(resp))
 
-# Get frames by owner
+
 class FramesByOwnerHandler(BaseHandler):
+
+    """
+    Get frames by owner
+    """
+
     def get(self, username):
         frames = self.db.frames
         active = self.get_argument('active', None)
@@ -66,3 +81,16 @@ class FramesByOwnerHandler(BaseHandler):
         else:
             resp = frames.find(query)
         self.write(dumps(resp))
+
+
+class UpdateFrameContentHandler(BaseHandler):
+
+    """
+    Push content item to frame
+    """
+
+    def get(self, frame_id, content_id):
+        # publish an update content event, handled by the frame manager
+        self.pubsub.publish(
+            'frame:update_content', frame_id=frame_id, content_id=content_id)
+        self.write('hi!')

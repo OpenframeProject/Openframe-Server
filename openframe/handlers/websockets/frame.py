@@ -34,6 +34,7 @@ class FrameWebSocketHandler(BaseWebSocketHandler):
         Update this frame object in the db, then publish event to the system
         """
         frame = Frames.updateById(self.frame_id, {"active": True})
+        self.frame = frame
         # publish this event, handled in frame and admin managers
         self.pubsub.publish("frame:connected", frame_ws=self)
 

@@ -41,9 +41,10 @@
             connected = true;
         };
         ws.onmessage = function(evt) {
-            var data = JSON.parse(evt.data);
-            console.log(data);
-            if (data.url) {
+            var message = JSON.parse(evt.data);
+            console.log(message);
+            if (message.name == "frame:update_content") {
+                data = message.data;
                 $body.css({
                     'background-image': 'url("' + data.url + '")'
                 });
