@@ -8,10 +8,15 @@ from tornado.escape import to_unicode, json_decode, json_encode
 import tornado.web
 import tornado.websocket
 
+from bson.objectid import ObjectId
+from bson.json_util import dumps
+
 from openframe import settings
+from openframe.micropubsub import MicroPubSub
 
 
 class BaseHandler(tornado.web.RequestHandler):
+
     """Common handler functions here (e.g. user auth, template helpers)"""
 
     @property
@@ -51,7 +56,7 @@ class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self) -> str:
         """
         See http://tornado.readthedocs.org/en/latest/guide/security.html
-        #user-authentication
+        # user-authentication
 
         :return: the current user's e-mail address
         """
@@ -87,19 +92,34 @@ class BaseHandler(tornado.web.RequestHandler):
         print('updating admins ', self.admins)
         for key in self.admins:
             print(key)
-            self.admins[key].write_message(json_encode({'active_frames': list(self.frames.keys())}))
-
+            self.admins[key].write_message(
+                json_encode({'active_frames': list(self.frames.keys())}))
 
     @staticmethod
     def iso_date_str_to_fmt_str(iso_date_str, fmt_str):
-        """ Takes an ISO date string and returns a new string formated by fmt_str """
-        date = datetime.datetime.strptime(iso_date_str, '%Y-%m-%dT%H:%M:%S.%f+00:00')
+        """
+        Takes an ISO date string and returns a new string formated by fmt_str
+        """
+        date = datetime.datetime.strptime(
+            iso_date_str, '%Y-%m-%dT%H:%M:%S.%f+00:00')
         date_formatted = date.strftime(fmt_str)
         return date_formatted
 
 
-
 class BaseWebSocketHandler(tornado.websocket.WebSocketHandler):
+
+    def __init__(self, application, request, **kwargs):
+        tornado.websocket.WebSocketHandler.__init__(self, application, request,
+                                                    **kwargs)
+        """
+        Instantiate an instance-scoped pubsub to handle websocket
+        event subscriptions. Should allow websocket handlers to do something like:
+
+        self.on_event('frame:update', self.handle_event)
+
+        Which would get triggered when an evented 'frame:update' message comes over the pipe
+        """
+        self.ps = MicroPubSub()
 
     @property
     def db(self):
@@ -107,27 +127,36 @@ class BaseWebSocketHandler(tornado.websocket.WebSocketHandler):
         return self.application.db
 
     @property
-    def frames(self):
-        """A connection to the PostgreSQL database."""
-        return self.application.frames
+    def pubsub(self):
+        """Access to the application-wide pubsub system."""
+        return self.application.pubsub
 
-    @property
-    def admins(self):
-        """A connection to the PostgreSQL database."""
-        return self.application.admins
+    def on_message(self, message):
+        """
+        Extract event name and data from message, call corresponding event handler
+        """
+        message = json_decode(message)
+        event = message.name
+        data = message.data
+        self.ps.publish(event, data=data)
 
+    def on_event(self, event, callback):
+        """
+        Subscribe to some event, presumably coming from the websocket message
+        """
+        self.ps.subscribe(event, callback)
 
-    # The admin log in should render the connected frames on the server on the initial request as opposed to requiring this WS update
-    def update_admins(self, frame_id=None, username=None):
-        print('updating admins ', self.admins)
-        if frame_id:
-            frames = self.db.frames
-            frame = frames.find_one({"_id": frame_id})
-            users = frame.users
-            logged_in_users = self.admins.keys
-            intersection = users & logged_in_users
-            for key in intersection:
-                print(key)
-                self.admins[key].write_message(json_encode({'active_frames': list(self.frames.keys())}))
-        if username:
-            self
+    def send(self, event, data=None):
+        """
+        Send an "evented" message out to the websocket client, i.e. in the form:
+        {
+            'name': 'some:event',
+            'data': {
+                'some': 'data',
+                'thinga': 'mabob'
+            }
+        }
+        """
+        message = dumps({'name': event, 'data': data})
+        print('sending: ' + message)
+        self.write_message(message)

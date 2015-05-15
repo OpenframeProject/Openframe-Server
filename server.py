@@ -12,52 +12,28 @@ from bson.json_util import dumps
 
 from openframe import settings
 from openframe.handlers.base import BaseHandler
+from openframe.handlers.pages import SplashHandler, MainHandler, FrameHandler
 from openframe.handlers.api.content import ContentHandler, ContentByUserHandler
-from openframe.handlers.api.frames import FramesHandler, FramesByUserHandler, FramesByOwnerHandler
+from openframe.handlers.api.frames import FramesHandler, \
+    FramesByUserHandler, FramesByOwnerHandler
 from openframe.handlers.api.users import UsersHandler
-from openframe.handlers.websockets.admin import AdminConnectionHandler
-from openframe.handlers.websockets.frame import FrameConnectionHandler
+from openframe.handlers.websockets.admin import AdminWebSocketHandler
+from openframe.handlers.websockets.frame import FrameWebSocketHandler
 from openframe.db.connection import db
 from openframe.db.frames import Frames
 from openframe.db.content import Content
+from openframe.micropubsub import MicroPubSub
+from openframe.frame_manager import FrameManager
+from openframe.admin_manager import AdminManager
 
 # global db reference
 # mongo_client = MongoClient('localhost', 27017)
 # db = mongo_client.openframe
 
-# Handlers
-class SplashHandler(BaseHandler):
-    def get(self):
-        self.render("splash.html")
-
-class MainHandler(BaseHandler):
-    def get(self, username=None):
-        frames = []
-        content = []
-        if username:
-            frames = Frames.getByUser(username, active=True)
-            content = Content.getByUser(username)
-        self.render("index.html", user=username, frames=frames, content=content)
-
-class FrameHandler(BaseHandler):
-    def get(self, frame_id, username, framename):
-        frame = Frames.getById(frame_id)
-        print(frame)
-        if not frame:
-            print("No frame, create it.")
-            result = Frames.insert({
-                "_id": frame_id,
-                "owner": username,
-                "name": framename,
-                "users": [
-                        username
-                    ]
-                })
-        self.render("frame.html", frame_id=frame_id)
-
 
 # endpoint for updating frame content
 class UpdateFrameHandler(BaseHandler):
+
     def get(self, frame_id, content_id):
         if frame_id in self.frames:
             print("frame_id " + frame_id + " connected")
@@ -70,13 +46,15 @@ class UpdateFrameHandler(BaseHandler):
             print("frame_id " + frame_id + " not connected")
             self.write("{'success': false }")
 
+
 class Application(tornado.web.Application):
+
     def __init__(self):
         handlers = [
 
             # RPC calls
             (r"/update/(\w+)/(\w+)", UpdateFrameHandler),
-            
+
 
             # RESTish calls
             (r"/content/?", ContentHandler),
@@ -90,14 +68,14 @@ class Application(tornado.web.Application):
             (r"/frames/(\w+)/?", FramesHandler),
             (r"/frames/user/(\w+)/?", FramesByUserHandler),
             (r"/frames/owner/(\w+)/?", FramesByOwnerHandler),
-            
+
 
 
 
             # WebSocket
-            (r'/ws/(\w+)/?', FrameConnectionHandler),
-            (r'/client/ws/(\w+)/?', FrameConnectionHandler),
-            (r'/admin/ws/(\w+)/?', AdminConnectionHandler),
+            (r'/ws/(\w+)/?', FrameWebSocketHandler),
+            (r'/client/ws/(\w+)/?', FrameWebSocketHandler),
+            (r'/admin/ws/(\w+)/?', AdminWebSocketHandler),
 
 
 
@@ -116,18 +94,43 @@ class Application(tornado.web.Application):
             "debug": True
         }
 
-        self._frames = {}
+        # self._frames = {}
 
-        self._admins = {}
+        # self._admins = {}
 
         self._db = db
-        
+
+        self._pubsub = MicroPubSub()
+
+        self._frame_manager = FrameManager()
+
+        self._admin_manager = AdminManager()
+
+        # Setup event handling for admin and frame managers
+        self._pubsub.subscribe(
+            'frame:connected', self._frame_manager.addFrameConnection)
+
+        self._pubsub.subscribe(
+            'frame:disconnected', self._frame_manager.removeFrameConnection)
+
+        self._pubsub.subscribe(
+            'frame:connected', self._admin_manager.addFrameConnection)
+
+        self._pubsub.subscribe(
+            'frame:disconnected', self._admin_manager.removeFrameConnection)
+
+        self._pubsub.subscribe(
+            'admin:connected', self._admin_manager.addAdminConnection)
+
+        self._pubsub.subscribe(
+            'admin:disconnected', self._admin_manager.removeAdminConnection)
+
         tornado.web.Application.__init__(self, handlers, **config)
 
     @property
     def frames(self):
         return self._frames
-    
+
     @property
     def admins(self):
         return self._admins
@@ -135,14 +138,25 @@ class Application(tornado.web.Application):
     @property
     def db(self):
         return self._db
-    
-    
+
+    @property
+    def pubsub(self):
+        return self._pubsub
+
+    @property
+    def frame_manager(self):
+        return self._frame_manager
+
+    @property
+    def admin_manager(self):
+        return self._admin_manager
+
 
 def main():
-	application = Application()
-	application.listen(8888)
+    application = Application()
+    application.listen(8888)
 
-	tornado.ioloop.IOLoop.instance().start()
+    tornado.ioloop.IOLoop.instance().start()
 
 if __name__ == "__main__":
-	main()
+    main()
