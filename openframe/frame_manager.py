@@ -1,5 +1,7 @@
 from openframe.db.frames import Frames
 from openframe.db.content import Content
+from bson.objectid import ObjectId
+from bson.json_util import dumps
 
 
 class FrameManager():
@@ -36,6 +38,8 @@ class FrameManager():
     def update_frame_content(self, frame_id, content_id):
         print('FrameManager::update_frame_content: ' +
               content_id + " -> " + frame_id)
+
+        # send content to frame if frame connected
         content = Content.getById(content_id)
         if frame_id in self.frames:
-            self.frames[frame_id].send("frame:update_content", content)
+            self.frames[frame_id].send('frame:update_content', content)

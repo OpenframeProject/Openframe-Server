@@ -104,7 +104,9 @@
     <script type="text/javascript">
     $(function() {
         var user = '{{ user }}',
-            content_item_tpl = _.template($("#ContentItemTemplate").html());
+            content_item_tpl = _.template($("#ContentItemTemplate").html()),
+            selected_frame = null,
+            ws;
 
         // Login Button handler
         // $(document).on('click', '#LoginButton', function() {
@@ -143,10 +145,11 @@
         $(document).on('click', '#AddContent', addContent);
 
         // send to frame handler
-        $(document).on('click', '.send-button', function(e) {
+        $(document).on('click', '.btn-send', function(e) {
             // e.preventDefault();
             var $el = $(e.target),
-                frame_id = $('#SendToFrame').val(),
+                // frame_id = $('#SendToFrame').val(),
+                frame_id = selected_frame,
                 content_id = $el.attr('rel');
             updateFrame(frame_id, content_id);
             return false;
@@ -163,11 +166,20 @@
 
         function updateFrame(frame_id, content_id) {
             console.log('clicked', frame_id, content_id);
+            message = {
+                name: 'frame:update_content',
+                data: {
+                    frame_id: frame_id,
+                    content_id: content_id
+                }
+            };
 
-            $.getJSON('/update/' + frame_id + '/' + content_id)
-                .done(function(resp) {
-                    console.log(resp);
-                })
+            ws.send(JSON.stringify(message));
+
+            // $.getJSON('/update/' + frame_id + '/' + content_id)
+            //     .done(function(resp) {
+            //         console.log(resp);
+            //     });
         }
 
         function addContent() {
@@ -227,23 +239,36 @@
             var domain = url_domain(window.location);
             console.log(domain);
 
-            var ws = new WebSocket("ws://" + domain + ":8888/admin/ws/" + username);
+            ws = new WebSocket("ws://" + domain + ":8888/admin/ws/" + username);
             ws.onopen = function() {
-                ws.send("connecting as " + username);
+                // ws.send("connecting as " + username);
             };
             ws.onmessage = function(evt) {
-                var data = JSON.parse(evt.data);
-                console.log(data);
-                if (data.name === 'frame:connected') {
-                    var frame = data.data,
+                var message = JSON.parse(evt.data),
+                    data,
+                    frame,
+                    content;
+                console.log(message);
+                if (message.name === 'frame:connected') {
+                    frame = message.data,
                         _id = frame._id.$oid || frame._id;
-                    $("option[value='" + _id + "'").remove();
-                    $("#SendToFrame").append('<option value="' + _id + '">' + frame.name + ' (' + frame.owner + ')</option>');
+                    // TEMPORARY
+                    selected_frame = _id;
+                    // $("option[value='" + _id + "'").remove();
+                    // $("#SendToFrame").append('<option value="' + _id + '">' + frame.name + ' (' + frame.owner + ')</option>');
                 }
-                if (data.name === 'frame:disconnected') {
-                    var frame = data.data,
+                if (message.name === 'frame:disconnected') {
+                    frame = message.data,
                         _id = frame._id.$oid || frame._id;
-                    $("option[value='" + _id + "'").remove();
+                    // TEMPORARY
+                    selected_frame = null;
+                    // $("option[value='" + _id + "'").remove();
+                }
+                if (message.name === 'frame:content_updated') {
+                    console.log('received frame:content_updated');
+                    data = message.data;
+                    frame = data.frame;
+                    content = data.content;
                 }
                 // if (data.active_frames) {
                 //     $("#SendToFrame").empty();

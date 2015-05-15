@@ -138,14 +138,14 @@ class BaseWebSocketHandler(tornado.websocket.WebSocketHandler):
 
     def on_message(self, message):
         """
-        Extract event name and data from message, call corresponding event handler
+        Extract event name and data from message, call corresponding event handler.
         """
         message = json_decode(message)
-        event = message.name
-        data = message.data
+        event = message['name']
+        data = message['data']
         self.ps.publish(event, data=data)
 
-    def on_event(self, event, callback):
+    def on(self, event, callback):
         """
         Subscribe to some event, presumably coming from the websocket message
         """

@@ -37,17 +37,27 @@
     function open_ws(domain, frame_id) {
         var ws = new WebSocket("ws://" + domain + ":8888/ws/" + frame_id);
         ws.onopen = function() {
-            ws.send("connecting frame: " + frame_id);
+            // ws.send("connecting frame: " + frame_id);
             connected = true;
         };
         ws.onmessage = function(evt) {
-            var message = JSON.parse(evt.data);
+            var message = JSON.parse(evt.data),
+                data,
+                _id;
             console.log(message);
             if (message.name == "frame:update_content") {
-                data = message.data;
+                content = message.data;
+                _id = content._id.$oid || content._id;
                 $body.css({
-                    'background-image': 'url("' + data.url + '")'
+                    'background-image': 'url("' + content.url + '")'
                 });
+                ws.send(JSON.stringify({
+                    name: 'frame:content_updated',
+                    data: {
+                        frame_id: frame_id,
+                        content_id: _id
+                    }
+                }));
             }
         };
 

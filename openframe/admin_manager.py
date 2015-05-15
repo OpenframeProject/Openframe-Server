@@ -19,6 +19,8 @@ class AdminManager():
         self.pubsub.subscribe(
             'admin:disconnected', self.remove_admin_connection)
 
+        self.pubsub.subscribe('frame:updated', self.update_admin_frame)
+
     @property
     def application(self):
         return self._application
@@ -60,3 +62,13 @@ class AdminManager():
         for user in users:
             if user in self.admins:
                 self.admins[user].send('frame:disconnected', frame)
+
+    def update_admin_frame(self, frame, content):
+        print('AdminManager::update_admin_frame')
+        users = frame['users']
+        # for each user, if the user is connected, send frame:updated event to
+        # websocket client (i.e. to admin page)
+        for user in users:
+            if user in self.admins:
+                data = {'frame': frame, 'content': content}
+                self.admins[user].send('frame:updated', data)

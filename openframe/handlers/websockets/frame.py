@@ -1,8 +1,9 @@
 from tornado.escape import to_unicode, json_decode, json_encode
-from bson.json_util import dumps
+from bson.objectid import ObjectId
 
 from openframe.handlers.base import BaseWebSocketHandler
 from openframe.db.frames import Frames
+from openframe.db.content import Content
 
 
 class FrameWebSocketHandler(BaseWebSocketHandler):
@@ -16,8 +17,7 @@ class FrameWebSocketHandler(BaseWebSocketHandler):
         # set this frame to active in the db
         self._activateFrame()
 
-    def on_message(self, message):
-        print(message)
+        self.on('frame:content_updated', self._handleContentUpdated)
 
     # when the connection is closed, remove the reference from the connection
     # list
@@ -48,3 +48,16 @@ class FrameWebSocketHandler(BaseWebSocketHandler):
         frame = Frames.updateById(self.frame_id, {"active": False})
         # publish the disconnection event, handled in frame and admin managers
         self.pubsub.publish("frame:disconnected", frame_ws=self)
+
+    def _handleContentUpdated(self, data):
+        print('_handleContentUpdated')
+        content_id = data['content_id']
+        frame_id = data['frame_id']
+
+        # update frame in db to reflect current content
+        frame = Frames.updateById(
+            frame_id, {'current_content_id': ObjectId(content_id)})
+        # get content
+        content = Content.getById(content_id)
+        # publish frame:updated event
+        self.pubsub.publish('frame:updated', frame=frame, content=content)

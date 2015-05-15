@@ -35,6 +35,7 @@ An open-source platform for displaying digital artwork.
 	"owner" : "jonwohl",
 	"name" : "Office",
 	"active": false,
+	"current_content_id": ObjectId("553e547bf54ddb6517975d2s"),
 	"users" : [
 		"jonwohl",
 		"ishback"

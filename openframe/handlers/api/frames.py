@@ -93,4 +93,3 @@ class UpdateFrameContentHandler(BaseHandler):
         # publish an update content event, handled by the frame manager
         self.pubsub.publish(
             'frame:update_content', frame_id=frame_id, content_id=content_id)
-        self.write('hi!')
