@@ -15,7 +15,7 @@
 @gray:                   lighten(@gray-base, 33.5%); // #555
 @gray-lighter:           lighten(@gray-base, 93.5%); // #eee
 
-@brand-primary:         darken(#428bca, 6.5%); // #337ab7
+@brand-primary:         #3A3A3A;
 @brand-success:         #5cb85c;
 @brand-info:            #5bc0de;
 @brand-warning:         #f0ad4e;
@@ -34,7 +34,7 @@
 //** Global textual link color.
 @link-color:            @brand-primary;
 //** Link hover color set via `darken()` function.
-@link-hover-color:      darken(@link-color, 15%);
+@link-hover-color:      lighten(@link-color, 30%);
 //** Link hover decoration.
 @link-hover-decoration: underline;
 
@@ -50,15 +50,15 @@
 @font-family-base:        @font-family-sans-serif;
 
 @font-size-base:          14px;
-@font-size-large:         ceil((@font-size-base * 1.25)); // ~18px
+@font-size-large:         ceil((@font-size-base * 1.35)); // ~19px
 @font-size-small:         ceil((@font-size-base * 0.85)); // ~12px
 
 @font-size-h1:            floor((@font-size-base * 2.6)); // ~36px
 @font-size-h2:            floor((@font-size-base * 2.15)); // ~30px
-@font-size-h3:            ceil((@font-size-base * 1.7)); // ~24px
-@font-size-h4:            ceil((@font-size-base * 1.25)); // ~18px
+@font-size-h3:            ceil((@font-size-base * 1.8)); // ~24px
+@font-size-h4:            ceil((@font-size-base * 1.35)); // ~18px
 @font-size-h5:            @font-size-base;
-@font-size-h6:            ceil((@font-size-base * 0.85)); // ~12px
+@font-size-h6:            ceil((@font-size-base * 1)); // ~14px
 
 //** Unit-less `line-height` for use in components like buttons.
 @line-height-base:        1.428571429; // 20/14
@@ -416,7 +416,7 @@
 
 //=== Shared nav styles
 @nav-link-padding:                          10px 0px;
-@nav-link-hover-bg:                         @gray-lighter;
+@nav-link-hover-bg:                         none;
 
 @nav-disabled-link-color:                   @gray-light;
 @nav-disabled-link-hover-color:             @gray-light;
@@ -435,7 +435,7 @@
 
 //== Pills
 @nav-pills-border-radius:                   @border-radius-base;
-@nav-pills-active-link-hover-bg:            @component-active-bg;
+@nav-pills-active-link-hover-bg:            none;
 @nav-pills-active-link-hover-color:         @component-active-color;
 
 
