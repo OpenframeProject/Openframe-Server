@@ -60,4 +60,5 @@ class FrameWebSocketHandler(BaseWebSocketHandler):
         # get content
         content = Content.getById(content_id)
         # publish frame:updated event
-        self.pubsub.publish('frame:updated', frame=frame, content=content)
+        self.pubsub.publish(
+            'frame:updated_content', frame=frame, content=content)

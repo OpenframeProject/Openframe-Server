@@ -19,7 +19,7 @@ class AdminManager():
         self.pubsub.subscribe(
             'admin:disconnected', self.remove_admin_connection)
 
-        self.pubsub.subscribe('frame:updated', self.update_admin_frame)
+        self.pubsub.subscribe('frame:updated_content', self.update_admin_frame)
 
     @property
     def application(self):
@@ -71,4 +71,4 @@ class AdminManager():
         for user in users:
             if user in self.admins:
                 data = {'frame': frame, 'content': content}
-                self.admins[user].send('frame:updated', data)
+                self.admins[user].send('frame:updated_content', data)
