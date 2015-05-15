@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,7 +20,7 @@
                         <li role="presentation"><a href="#">Logout</a></li>
                     </ul>
                 </nav>
-                <h3 class="text-muted">openframe/{{ user }}</h3>
+                <h3 class="text-muted">openframe/<strong>{{ user }}</strong></h3>
             </div>
             <div class="row" id="frames-list">
                 <div class="col-md-12">
@@ -37,16 +38,19 @@
                 </div>
             </div> -->
 
-            <div class="row">
-                <div class="col-md-12">
-                    <form class="form-inline" id="AddForm">
-                        <div class="form-group">
-                            <!-- <label for="SendToUser">URL</label> -->
-                            <input type="text" class="form-control" id="URL" placeholder="URL">
-                            <button class="btn btn-default" href="#add-content" id="AddContent">Add Content</button>
+            <div class="row" id="add-content-div">
+                
+                <form class="form-inline" id="add-form">
+                    <div class="form-group">
+                        <!-- <label for="SendToUser">URL</label> -->
+                        <div class="col-md-10" >
+                            <input type="text" class="form-control" id="URL" placeholder="enter URL">
                         </div>
-                    </form>
-                </div>
+                        <div class="col-md-2" >
+                            <button class="btn btn-default btn-add-content" href="#add-content" id="add-content-button">Add Content</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -57,12 +61,14 @@
                         {% for content_item in content %}
                         <li>
                             <div class="row content-item">
-                                <div class="col-md-3">
+                                <div class="col-md-2" id="content_pic">
                                     <img class="content-thumb" src="{{ content_item['url'] }}">
                                 </div>
-                                <div class="col-md-9">
-                                    <button class="btn btn-default btn-xs send-button" href="#send" rel="{{ content_item['_id'] }}">Send to Frame</button>
-                                    <button class="btn btn-default btn-xs remove-button" href="#delete" rel="{{ content_item['_id'] }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                                <div class="col-md-8 col-send">
+                                    <button class="btn btn-default btn-xs btn-send center-block" href="#send" rel="{{ content_item['_id'] }}">Send to Frame</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-default btn-xs remove-button center-block" href="#delete" rel="{{ content_item['_id'] }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
                                 </div>
                             </div>
                         </li>
@@ -80,12 +86,14 @@
     <script type="text/template" id="ContentItemTemplate">
         <li>
             <div class="row content-item">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <img class="content-thumb" src="<%= url %>">
                 </div>
-                <div class="col-md-9">
-                    <button class="btn btn-default btn-xs send-button" href="#send" rel="<%= id %>">Send to Frame</button>
-                    <button class="btn btn-default btn-xs remove-button" href="#delete" rel="<%= id %>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <div class="col-md-8 col-send">
+                    <button class="btn btn-default btn-xs btn-send center-block" href="#send" rel="<%= id %>">Send to Frame</button>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-default btn-xs remove-button center-block" href="#delete" rel="<%= id %>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
                 </div>
             </div>
         </li>
