@@ -21,6 +21,9 @@ ul {
 #frames-list {
   height: 280px;
 }
+.frames-list li {
+  display: inline-block;
+}
 .frame-outer-container {
   width: 180px;
   height: 180px;

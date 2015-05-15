@@ -4,7 +4,8 @@ OF_Admin = (function(username, socker) {
         _connectedFrames = [],
         _ws,
         _domain = _url_domain(window.location),
-        _content_item_tpl = _.template($("#ContentItemTemplate").html());
+        _content_item_tpl = _.template($("#ContentItemTemplate").html()),
+        _frame_tpl = _.template($("#FrameTemplate").html());
 
     function _init() {
         _setupUserEventHandling();
@@ -114,6 +115,8 @@ OF_Admin = (function(username, socker) {
     function _handleFrameConnected(frame) {
         var _id = frame._id.$oid || frame._id;
 
+        frame.frame_id = _id;
+
         // TEMP
         _selected_frame = _id;
 
@@ -121,6 +124,10 @@ OF_Admin = (function(username, socker) {
         if (index === -1) {
             _connectedFrames.push(_id);
         }
+
+        var frame_html = _frame_tpl(frame);
+
+        $('ul.frames-list').append(frame_html);
     }
 
     function _handleFrameDisonnected(frame) {
@@ -130,6 +137,8 @@ OF_Admin = (function(username, socker) {
         if (index > -1) {
             _connectedFrames.splice(index, 1);
         }
+
+        $('li[data-frame-id="' + _id + '"]').remove();
     }
 
     function _handleFrameContentUpdated(data) {
