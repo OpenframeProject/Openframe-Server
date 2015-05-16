@@ -17,7 +17,7 @@
             <div class="page-header">
                 <nav>
                     <ul class="nav nav-pills pull-right">
-                        <li role="presentation"><a href="#">Logout</a></li>
+                        <li role="presentation"><a href="#">logout</a></li>
                     </ul>
                 </nav>
                 <h3 class="text-muted"><span class="openframe">openframe/<span class="username">{{ user }}</span></h3>
@@ -29,7 +29,8 @@
                         <li data-frame-id="{{ frame['_id'] }}">
                             <div class="frame-outer-container">
                                 <div class="frame"></div>
-                                <div class="frame-name"><h6 class="text-center">{{ frame['name'] }} ({{ frame['owner'] }})</h6></div>
+                                <div class="frame-name"><h6 class="text-center">{{ frame['name'] }}</h6></div> 
+                                <!-- ({{ frame['owner'] }}) -->
                             </div>
                         </li>
                         {% end %}
@@ -110,7 +111,7 @@
         <li data-frame-id="<%= frame_id %>">
             <div class="frame-outer-container">
                 <div class="frame"></div>
-                <div class="frame-name"><h6 class="text-center"><%= name %> (<%= owner %>)</h6></div>
+                <div class="frame-name"><h6 class="text-center"><%= name %></h6></div>
             </div>
         </li>
     </script>
