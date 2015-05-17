@@ -17,7 +17,7 @@
             <div class="page-header">
                 <nav>
                     <ul class="nav nav-pills pull-right">
-                        <li role="presentation"><a href="#" id="LogoutButton">logout</a></li>
+                        <li role="presentation"><a href="/splash.html" id="LogoutButton">logout</a></li>
                     </ul>
                 </nav>
                 <h3 class="text-muted"><span class="openframe">openframe/</span><span class="username">{{ user }}</span></h3>
@@ -27,10 +27,12 @@
                     <ul class="frames-list">
                         {% for frame in frames %}
                         <li data-frame-id="{{ frame['_id'] }}">
-                            <div class="frame-outer-container">
+                            <div class="frame-outer-container" onmouseover = "show()" onmouseout = "hide()">
                                 <div class="frame"></div>
-                                <div class="frame-name"><h6 class="text-center">{{ frame['name'] }}</h6></div> 
-                                <!-- ({{ frame['owner'] }}) -->
+                                <div class="frame-name">
+                                    <h6 class="text-center">{{ frame['name'] }}</h6>
+                                    <button type="button" class="btn btn-primary btn-xs btn-settings" style="visibility: hidden" data-toggle="modal" data-target="#myModal">S</button>
+                                </div> 
                             </div>
                         </li>
                         {% end %}
@@ -84,12 +86,75 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h6 class="modal-title" id="myModalLabel">{{ frame['name'] }} ~ Settings</h6>
+          </div>
+          <div class="modal-body">
+            <ul class="settings-list">
+                <li>
+                    <div class="row modal-settings-item">
+                        <div class="col-md-6 modal-setting-title">
+                            <p>Turn ON</p>
+                        </div>
+                        <div class="col-md-6 modal-setting-selection text-right">
+                            <p>6am</p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row modal-settings-item">
+                        <div class="col-md-6 modal-setting-title">
+                            <p>Turn OFF</p>
+                        </div>
+                        <div class="col-md-6 modal-setting-selection text-right">
+                            <p>2am</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="last">
+                    <div class="row modal-settings-item">
+                        <div class="col-md-6 modal-setting-title">
+                            <p>Rotate art</p>
+                        </div>
+                        <div class="col-md-6 modal-setting-selection text-right">
+                            <p>180º</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(myFunction);
+        
+        function show() {
+            var btns = document.getElementsByClassName('btn-settings');
+            for (var i = 0; i < btns.length; i++) {
+                btns[i].style.visibility = 'visible';
+            }
+        }
+
+        function hide() {
+            var btns = document.getElementsByClassName('btn-settings');
+            for (var i = 0; i < btns.length; i++) {
+                btns[i].style.visibility = 'hidden';
+            }
+        }
+    </script>
+
     <script type="text/template" id="ContentItemTemplate">
         <li>
             <div class="row content-item">

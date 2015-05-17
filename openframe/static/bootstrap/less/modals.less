@@ -23,7 +23,7 @@
   left: 0;
   z-index: @zindex-modal;
   -webkit-overflow-scrolling: touch;
-
+  
   // Prevent Chrome on Windows from adding a focus outline. For details, see
   // https://github.com/twbs/bootstrap/pull/10951.
   outline: 0;
@@ -90,6 +90,7 @@
 .modal-title {
   margin: 0;
   line-height: @modal-title-line-height;
+  text-align: center;
 }
 
 // Modal body
@@ -101,7 +102,7 @@
 
 // Footer (for actions)
 .modal-footer {
-  padding: @modal-inner-padding;
+  padding: @modal-title-padding;
   text-align: right; // right align buttons
   border-top: 1px solid @modal-footer-border-color;
   &:extend(.clearfix all); // clear it in case folks use .pull-* classes on buttons

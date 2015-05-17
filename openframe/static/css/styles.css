@@ -1,6 +1,9 @@
 #Login {
   margin-top: 10%;
 }
+#login-button {
+  padding-top: 8px;
+}
 .splash-header {
   border: none;
   height: 100px;
@@ -29,6 +32,7 @@ ul {
   width: 180px;
   margin: 0 auto;
   margin-top: 20px;
+  position: relative;
 }
 .frame {
   outline: 7px solid #3F3E3C;
@@ -41,6 +45,10 @@ ul {
 }
 .frame-name {
   margin: 20px auto;
+}
+.btn-settings {
+  left: 80px;
+  top: -30px;
 }
 .img-container {
   height: 140px;
@@ -95,6 +103,32 @@ ul {
 }
 .col-delete {
   top: 50px;
+}
+.modal-body {
+  padding: 0px 30px 60px 30px;
+}
+.modal-dialog {
+  margin-top: 80px;
+}
+.modal-settings-item {
+  padding-top: 15px;
+  padding-bottom: 6px;
+}
+.modal-setting-title {
+  font-size: 19px;
+  font-weight: 400;
+  color: #3F3E3C;
+}
+.modal-setting-selection {
+  font-size: 19px;
+  font-weight: 300;
+  color: #9B9B9B;
+}
+.settings-list li {
+  border-bottom: 1px solid #E7E7E7;
+}
+.settings-list li.last {
+  border-bottom: none;
 }
 #URL::-webkit-input-placeholder {
   color: #D0D0D0;

@@ -5743,31 +5743,32 @@ button.close {
   bottom: 0;
   left: 0;
   z-index: 1040;
-  background-color: #000000;
+  background-color: #ffffff;
 }
 .modal-backdrop.fade {
   opacity: 0;
   filter: alpha(opacity=0);
 }
 .modal-backdrop.in {
-  opacity: 0.5;
-  filter: alpha(opacity=50);
+  opacity: 0.85;
+  filter: alpha(opacity=85);
 }
 .modal-header {
   padding: 15px;
   border-bottom: 1px solid #e5e5e5;
-  min-height: 16.42857143px;
+  min-height: 16.0989011px;
 }
 .modal-header .close {
   margin-top: -2px;
 }
 .modal-title {
   margin: 0;
-  line-height: 1.42857143;
+  line-height: 1.0989011;
+  text-align: center;
 }
 .modal-body {
   position: relative;
-  padding: 15px;
+  padding: 30px;
 }
 .modal-footer {
   padding: 15px;
@@ -5793,7 +5794,7 @@ button.close {
 }
 @media (min-width: 768px) {
   .modal-dialog {
-    width: 600px;
+    width: 560px;
     margin: 30px auto;
   }
   .modal-content {
