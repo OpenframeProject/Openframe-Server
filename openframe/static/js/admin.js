@@ -14,7 +14,8 @@ OF_Admin = (function(username, socker) {
 
         socker.on('frame:connected', _handleFrameConnected);
         socker.on('frame:disconnected', _handleFrameDisonnected);
-        socker.on('frame:updated_content', _handleFrameContentUpdated);
+        socker.on('frame:content_updated', _handleFrameContentUpdated);
+        socker.on('frame:setup', _handleFrameSetup);
 
         _fetchContent(username);
     }
@@ -142,7 +143,18 @@ OF_Admin = (function(username, socker) {
     }
 
     function _handleFrameContentUpdated(data) {
-        console.log('frame content has been updated');
+        console.log('frame content has been updated', data);
+        var frame = data.frame,
+            content = data.content;
+        var _id = frame._id.$oid || frame._id;
+        var $frame = $('li[data-frame-id="' + _id + '"]');
+        $frame.find('div.frame').css({
+            'background-image': 'url('+content.url+')'
+        });
+    }
+
+    function _handleFrameSetup(frame) {
+        console.log('frame setup', frame);
     }
 
     self.init = _init;

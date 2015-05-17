@@ -40,6 +40,11 @@ An open-source platform for displaying digital artwork.
 		"jonwohl",
 		"ishback"
 	],
+	"settings" : {
+		"width": 1000,
+		"height": 1500,
+		"w_h_ratio": 0.666666
+	},
 	"mirrored_by" : [
 		ObjectId("553e547bf54ddb6517975d3a"),
 		ObjectId("553e547bf54ddb6517975d3b"),

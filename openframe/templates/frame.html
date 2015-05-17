@@ -26,61 +26,15 @@
 </head>
 
 <body>
-    <script type="text/javascript" src="/static/js/libs/jquery-2.1.3.js"></script>
     <script type="text/javascript">
-    var $body = $('body'),
-        user = 'jonwohl',
-        domain = url_domain(window.location),
-        connected = false,
-        frame_id = '{{ frame_id }}';
-
-    function open_ws(domain, frame_id) {
-        var ws = new WebSocket("ws://" + domain + ":8888/ws/" + frame_id);
-        ws.onopen = function() {
-            // ws.send("connecting frame: " + frame_id);
-            connected = true;
-        };
-        ws.onmessage = function(evt) {
-            var message = JSON.parse(evt.data),
-                data,
-                _id;
-            console.log(message);
-            if (message.name == "frame:update_content") {
-                content = message.data;
-                _id = content._id.$oid || content._id;
-                $body.css({
-                    'background-image': 'url("' + content.url + '")'
-                });
-                ws.send(JSON.stringify({
-                    name: 'frame:content_updated',
-                    data: {
-                        frame_id: frame_id,
-                        content_id: _id
-                    }
-                }));
-            }
-        };
-
-        ws.onclose = function(evt) {
-            // attempt to re-open connection
-            connected = false;
-        };
-    }
-
-    function check_connection() {
-        if (!connected) {
-            open_ws(domain, frame_id);
-        }
-    }
-
-    function url_domain(data) {
-        var a = document.createElement('a');
-        a.href = data;
-        return a.hostname;
-    }
-
-    setInterval(check_connection, 20000);
-    check_connection();
+        var OF_FRAME_ID = '{{ frame_id }}';
+    </script>
+    <script type="text/javascript" src="/static/js/libs/jquery-2.1.3.js"></script>
+    <script type="text/javascript" src="/static/components/lodash/lodash.js"></script>
+    <script type="text/javascript" src="/static/js/socker.js"></script>
+    <script type="text/javascript" src="/static/js/frame.js"></script>
+    <script type="text/javascript">
+        OF_Frame.init();
     </script>
 </body>
 

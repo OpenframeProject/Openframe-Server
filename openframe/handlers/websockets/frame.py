@@ -19,6 +19,8 @@ class FrameWebSocketHandler(BaseWebSocketHandler):
 
         self.on('frame:content_updated', self._handleContentUpdated)
 
+        self.on('frame:setup', self._handleSetup)
+
     # when the connection is closed, remove the reference from the connection
     # list
     def on_close(self):
@@ -61,4 +63,19 @@ class FrameWebSocketHandler(BaseWebSocketHandler):
         content = Content.getById(content_id)
         # publish frame:updated event
         self.pubsub.publish(
-            'frame:updated_content', frame=frame, content=content)
+            'frame:content_updated', frame=frame, content=content)
+
+    def _handleSetup(self, data):
+        print('_handleSetup')
+        settings = {
+            'width': data['width'],
+            'height': data['height'],
+            'w_h_ratio': data['width']/data['height']
+        }
+
+        # update frame in db to reflect current content
+        frame = Frames.updateById(
+            self.frame_id, {'settings': settings})
+
+        self.pubsub.publish(
+            'frame:setup', frame=frame)

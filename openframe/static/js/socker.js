@@ -1,19 +1,29 @@
 Socker = (function() {
     var _self = {},
         _eventHandlers = {},
+        _connected = false,
+        _opts = {
+            keepAlive: true,
+            checkInterval: 10000
+        },
+        _url,
         _ws;
 
-    function _connect(url, onOpen, onClose) {
+    function _connect(url, opts) {
+        _url = url;
+        if (opts) _opts = _.extend(opts);
         _ws = new WebSocket(url);
 
         _ws.onopen = function() {
         	console.log('connection opened');
-        	if (onOpen) onOpen();
+            _connected = true;
+        	if (_opts.onOpen) _opts.onOpen();
         };
 
         _ws.onclose = function() {
         	console.log('connection closed');
-            if (onClose) onClose();
+            _connected = false;
+            if (_opts.onClose) _opts.onClose();
         };
 
         _ws.onmessage = function(evt) {
@@ -32,6 +42,10 @@ Socker = (function() {
                 console.log(name + " event not handled.");
             }
         };
+
+        if (_opts.keepAlive) {
+            setInterval(_checkConnection, _opts.checkInterval);
+        }
     }
 
     /**
@@ -72,6 +86,12 @@ Socker = (function() {
         };
 
         _ws.send(JSON.stringify(message));
+    }
+
+    function _checkConnection() {
+        if (!_connected) {
+            _connect(_url, _opts);
+        }
     }
 
     _self.on = _on;
