@@ -16,9 +16,7 @@ OF_Frame = (function(frame_id, socker) {
             }
         });
 
-        socker.on('frame:update_content', _handleUpdateContent, {
-            keepAlive: true
-        });
+        socker.on('frame:update_content', _handleUpdateContent);
     }
 
     function _handleUpdateContent(content) {

@@ -11,7 +11,7 @@ Socker = (function() {
 
     function _connect(url, opts) {
         _url = url;
-        if (opts) _opts = _.extend(opts);
+        if (opts) _.extend(_opts, opts);
         _ws = new WebSocket(url);
 
         _ws.onopen = function() {
