@@ -1,6 +1,10 @@
 #Login {
   margin-top: 10%;
 }
+.splash-header {
+  border: none;
+  height: 100px;
+}
 .content-item {
   /*margin: 10px 0px;*/
   padding: 10px 0px;
