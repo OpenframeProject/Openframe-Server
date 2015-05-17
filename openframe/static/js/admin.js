@@ -27,12 +27,12 @@ OF_Admin = (function(username, socker) {
         });
 
         // Add content
-        $("#AddForm").on('submit', _addContent);
+        $("#add-form").on('submit', _addContent);
 
         // send to frame handler
         $(document).on('click', '.btn-send', function(e) {
             // e.preventDefault();
-            var $el = $(e.target),
+            var $el = $(this),
                 // frame_id = $('#SendToFrame').val(),
                 frame_id = _selected_frame,
                 content_id = $el.attr('rel');
