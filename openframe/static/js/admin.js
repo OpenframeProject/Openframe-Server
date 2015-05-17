@@ -1,6 +1,6 @@
 OF_Admin = (function(username, socker) {
     var self = {},
-        _selectedFrame,
+        _selected_frame = $('ul.frames-list li:last').data('frame-id') + "",
         _connectedFrames = [],
         _ws,
         _domain = _url_domain(window.location),
