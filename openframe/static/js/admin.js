@@ -1,8 +1,10 @@
 OF_Admin = (function(username, socker) {
     var self = {},
-        _selected_frame = $('ul.frames-list li:last').data('frame-id') + "",
-        _connectedFrames = [],
+        _selected_frame,
+        _$current_slide,
         _ws,
+        _swiper,
+        _connectedFrames = [],
         _domain = _url_domain(window.location),
         _content_item_tpl = _.template($("#ContentItemTemplate").html()),
         _frame_tpl = _.template($("#FrameTemplate").html());
@@ -16,6 +18,8 @@ OF_Admin = (function(username, socker) {
         socker.on('frame:disconnected', _handleFrameDisonnected);
         socker.on('frame:content_updated', _handleFrameContentUpdated);
         socker.on('frame:setup', _handleFrameSetup);
+
+        _setupSwiper();
 
         _fetchContent(username);
     }
@@ -49,6 +53,41 @@ OF_Admin = (function(username, socker) {
             _deleteContent(content_id);
             return false;
         });
+
+        $(document).on('mouseover', '.frame-outer-container', function(e) {
+            console.log('hover over');
+            var $el = $(this);
+            $el.find('.btn-settings').removeClass('hide');
+        });
+
+        $(document).on('mouseout', '.frame-outer-container', function(e) {
+            console.log('hover off');
+            var $el = $(this);
+            $el.find('.btn-settings').addClass('hide');
+        });
+
+
+
+    }
+
+    function _setupSwiper() {
+        _swiper = new Swiper('.swiper-container', {
+            pagination: '.swiper-pagination',
+            slidesPerView: 1,
+            paginationClickable: true,
+            spaceBetween: 30,
+            onInit: _setSelectedFrame,
+            keyboardControl: true
+        });
+
+        _swiper.on('slideChangeEnd', _setSelectedFrame);
+    }
+
+    function _setSelectedFrame(swiper) {
+        // this seems to be a hack
+        _$currentSlide = swiper.slides.eq(swiper.activeIndex);
+        _selected_frame = _$currentSlide.data('frame-id');
+        console.log('_setSelectedFrame: ' + _selected_frame);
     }
 
     function _updateFrame(frame_id, content_id) {
@@ -128,7 +167,9 @@ OF_Admin = (function(username, socker) {
 
         var frame_html = _frame_tpl(frame);
 
-        $('ul.frames-list').append(frame_html);
+        _swiper.appendSlide(frame_html);
+
+        _swiper.slideTo(_swiper.slides.length);
     }
 
     function _handleFrameDisonnected(frame) {
@@ -138,8 +179,10 @@ OF_Admin = (function(username, socker) {
         if (index > -1) {
             _connectedFrames.splice(index, 1);
         }
-
-        $('li[data-frame-id="' + _id + '"]').remove();
+        var $frame = $('div.swiper-slide[data-frame-id="' + _id + '"]');
+        var slide_index = $('div.swiper-slide').index($frame);
+        console.log('slide_index: ' + slide_index);
+        _swiper.removeSlide(slide_index);
     }
 
     function _handleFrameContentUpdated(data) {
@@ -147,7 +190,7 @@ OF_Admin = (function(username, socker) {
         var frame = data.frame,
             content = data.content;
         var _id = frame._id.$oid || frame._id;
-        var $frame = $('li[data-frame-id="' + _id + '"]');
+        var $frame = $('.swiper-slide[data-frame-id="' + _id + '"]');
         $frame.find('div.frame').css({
             'background-image': 'url('+content.url+')'
         });

@@ -22,14 +22,33 @@ ul {
   margin: 0px auto;
 }
 #frames-list {
-  height: 270px;
   text-align: center;
 }
-.frames-list li {
-  display: inline-block;
+.swiper-container {
+  width: 100%;
+  height: 100%;
+}
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
 }
 .frame-outer-container {
   width: 180px;
+  height: 260px;
   margin: 0 auto;
   margin-top: 20px;
   position: relative;
@@ -47,8 +66,7 @@ ul {
   margin: 20px auto;
 }
 .btn-settings {
-  left: 80px;
-  top: -30px;
+  position: relative;
 }
 .img-container {
   height: 140px;

@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>OpenFrame</title>
     <link rel="stylesheet" type="text/css" href="/static/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/static/components/swiper/dist/css/swiper.min.css">
     <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
 </head>
 
@@ -24,19 +25,27 @@
             </div>
             <div class="row" id="frames-list">
                 <div class="col-md-12">
-                    <ul class="frames-list">
-                        {% for frame in frames %}
-                        <li data-frame-id="{{ frame['_id'] }}">
-                            <div class="frame-outer-container" onmouseover = "show()" onmouseout = "hide()">
-                                <div class="frame"></div>
-                                <div class="frame-name">
-                                    <h6 class="text-center">{{ frame['name'] }}</h6>
-                                    <button type="button" class="btn btn-primary btn-xs btn-settings" style="visibility: hidden" data-toggle="modal" data-target="#myModal">S</button>
-                                </div> 
+
+                    <!-- Swiper -->
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            {% for frame in frames %}
+                            <div class="swiper-slide" data-frame-id="{{ frame['_id'] }}">
+                                <div class="frame-outer-container">
+                                    <div class="frame"></div>
+                                    <div class="frame-name text-center">
+                                        <h6>{{ frame['name'] }}</h6>
+                                        <button type="button" class="btn btn-primary btn-xs btn-settings" data-toggle="modal" data-target="#myModal">S</button>
+                                    </div>
+                                </div>
                             </div>
-                        </li>
-                        {% end %}
-                    </ul>
+                            {% end %}
+                        </div>
+                        <!-- Add Pagination -->
+                        <div class="swiper-pagination"></div>
+                    </div>
+
+
                 </div>
             </div>
             <!-- collection | people selection -->
@@ -45,23 +54,20 @@
                     
                 </div>
             </div> -->
-
             <div class="row" id="add-content-div">
-                
                 <form class="form-inline" id="add-form">
                     <div class="form-group">
                         <!-- <label for="SendToUser">URL</label> -->
-                        <div class="col-md-10" >
+                        <div class="col-md-10">
                             <input type="text" class="form-control" id="URL" placeholder="enter URL">
                         </div>
-                        <div class="col-md-2" >
+                        <div class="col-md-2">
                             <button class="btn btn-default btn-add-content" href="#add-content" id="add-content-button">Add Content</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-
         <div class="container-collection">
             <div class="row">
                 <div class="col-md-12">
@@ -87,74 +93,54 @@
             </div>
         </div>
     </div>
-
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h6 class="modal-title" id="myModalLabel">{{ frame['name'] }} ~ Settings</h6>
-          </div>
-          <div class="modal-body">
-            <ul class="settings-list">
-                <li>
-                    <div class="row modal-settings-item">
-                        <div class="col-md-6 modal-setting-title">
-                            <p>Turn ON</p>
-                        </div>
-                        <div class="col-md-6 modal-setting-selection text-right">
-                            <p>6am</p>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="row modal-settings-item">
-                        <div class="col-md-6 modal-setting-title">
-                            <p>Turn OFF</p>
-                        </div>
-                        <div class="col-md-6 modal-setting-selection text-right">
-                            <p>2am</p>
-                        </div>
-                    </div>
-                </li>
-                <li class="last">
-                    <div class="row modal-settings-item">
-                        <div class="col-md-6 modal-setting-title">
-                            <p>Rotate art</p>
-                        </div>
-                        <div class="col-md-6 modal-setting-selection text-right">
-                            <p>180º</p>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h6 class="modal-title" id="myModalLabel">{{ frame['name'] }} ~ Settings</h6>
+                </div>
+                <div class="modal-body">
+                    <ul class="settings-list">
+                        <li>
+                            <div class="row modal-settings-item">
+                                <div class="col-xs-6 modal-setting-title">
+                                    <p>Turn ON</p>
+                                </div>
+                                <div class="col-xs-6 modal-setting-selection text-right">
+                                    <p>6am</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="row modal-settings-item">
+                                <div class="col-xs-6 modal-setting-title">
+                                    <p>Turn OFF</p>
+                                </div>
+                                <div class="col-xs-6 modal-setting-selection text-right">
+                                    <p>2am</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="last">
+                            <div class="row modal-settings-item">
+                                <div class="col-xs-6 modal-setting-title">
+                                    <p>Rotate art</p>
+                                </div>
+                                <div class="col-xs-6 modal-setting-selection text-right">
+                                    <p>180&deg;</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-
-    <script type="text/javascript">
-        $(document).ready(myFunction);
-        
-        function show() {
-            var btns = document.getElementsByClassName('btn-settings');
-            for (var i = 0; i < btns.length; i++) {
-                btns[i].style.visibility = 'visible';
-            }
-        }
-
-        function hide() {
-            var btns = document.getElementsByClassName('btn-settings');
-            for (var i = 0; i < btns.length; i++) {
-                btns[i].style.visibility = 'hidden';
-            }
-        }
-    </script>
-
     <script type="text/template" id="ContentItemTemplate">
         <li>
             <div class="row content-item">
@@ -171,22 +157,22 @@
             </div>
         </li>
     </script>
-
     <script type="text/template" id="FrameTemplate">
-        <li data-frame-id="<%= frame_id %>">
+        <div class="swiper-slide" data-frame-id="<%= frame_id %>">
             <div class="frame-outer-container">
                 <div class="frame"></div>
-                <div class="frame-name"><h6 class="text-center"><%= name %></h6></div>
+                <div class="frame-name">
+                    <h6 class="text-center"><%= name %></h6></div>
             </div>
-        </li>
+        </div>
     </script>
-
     <script type="text/javascript">
-        var OF_USERNAME = '{{ user }}';
+    var OF_USERNAME = '{{ user }}';
     </script>
     <script type="text/javascript" src="/static/components/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="/static/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/components/swiper/dist/js/swiper.min.js"></script>
     <script type="text/javascript" src="/static/components/lodash/lodash.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/static/js/socker.js"></script>
     <script type="text/javascript" src="/static/js/admin.js"></script>
     <script type="text/javascript">
