@@ -66,7 +66,9 @@ ul {
   margin: 20px auto;
 }
 .btn-settings {
-  position: relative;
+  position: absolute;
+  bottom: 41px;
+  left: 16px;
 }
 .img-container {
   height: 140px;
