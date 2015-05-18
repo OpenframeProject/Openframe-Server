@@ -35,7 +35,13 @@ An open-source platform for displaying digital artwork.
 	"owner" : "jonwohl",
 	"name" : "Office",
 	"active": false,
-	"current_content_id": ObjectId("553e547bf54ddb6517975d2s"),
+	"current_content" : {
+		"url" : "http://www.skyhdwallpaper.com/wp-content/uploads/2013/09/Nature-Scenes-Wallpaper-10.jpg",
+		"users" : [
+			"jonwohl"
+		],
+		"_id" : ObjectId("5556bca0f54ddb1e7a66c757")
+	},
 	"users" : [
 		"jonwohl",
 		"ishback"
