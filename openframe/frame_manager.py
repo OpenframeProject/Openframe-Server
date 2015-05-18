@@ -33,8 +33,8 @@ class FrameManager():
 
         # If the connected frame has current content set, send it along
         # TODO: eventually the frame will store its own latest content state
-        if 'current_content_id' in frame_ws.frame:
-            content_id = frame_ws.frame['current_content_id']
+        if 'current_content' in frame_ws.frame:
+            content_id = frame_ws.frame['current_content']['_id']
             self.update_frame_content(frame_ws.frame_id, content_id)
 
     def remove_frame_connection(self, frame_ws):

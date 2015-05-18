@@ -56,11 +56,11 @@ class FrameWebSocketHandler(BaseWebSocketHandler):
         content_id = data['content_id']
         frame_id = data['frame_id']
 
-        # update frame in db to reflect current content
-        frame = Frames.updateById(
-            frame_id, {'current_content_id': ObjectId(content_id)})
         # get content
         content = Content.getById(content_id)
+        # update frame in db to reflect current content
+        frame = Frames.updateById(
+            frame_id, {'current_content': content})
         # publish frame:updated event
         self.pubsub.publish(
             'frame:content_updated', frame=frame, content=content)

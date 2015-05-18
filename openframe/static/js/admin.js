@@ -157,6 +157,8 @@ OF_Admin = (function(username, socker) {
 
         frame.frame_id = _id;
 
+        if (!frame.current_content) frame.current_content = null;
+
         // TEMP
         _selected_frame = _id;
 

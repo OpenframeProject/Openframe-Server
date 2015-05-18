@@ -33,7 +33,7 @@
                             <div class="swiper-slide" data-frame-id="{{ frame['_id'] }}">
                                 <div class="frame-outer-container">
                                     <button type="button" class="btn btn-primary btn-xs btn-settings hide" data-toggle="modal" data-target="#myModal">S</button>
-                                    <div class="frame"></div>
+                                    <div class="frame" {% if 'current_content' in frame %} style="background-image: url('{{ frame['current_content']['url'] }}')" {% end %}></div>
                                     <div class="frame-name text-center">
                                         <h6>{{ frame['name'] }}</h6>
                                     </div>
@@ -99,7 +99,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h6 class="modal-title" id="myModalLabel">{{ frame['name'] }} ~ Settings</h6>
+                    <h6 class="modal-title" id="myModalLabel">FrameName ~ Settings</h6>
                 </div>
                 <div class="modal-body">
                     <ul class="settings-list">
@@ -160,7 +160,7 @@
     <script type="text/template" id="FrameTemplate">
         <div class="swiper-slide" data-frame-id="<%= frame_id %>">
             <div class="frame-outer-container">
-                <div class="frame"></div>
+                <div class="frame" <% if (current_content) { %> style="background-image: url('<%= current_content.url %>')" <% } %>></div>
                 <div class="frame-name">
                     <h6 class="text-center"><%= name %></h6></div>
             </div>
