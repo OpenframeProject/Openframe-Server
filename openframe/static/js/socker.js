@@ -11,17 +11,17 @@ Socker = (function() {
 
     function _connect(url, opts) {
         _url = url;
-        if (opts) _.extend(_opts, opts);
+        if (opts) _extend(_opts, opts);
         _ws = new WebSocket(url);
 
         _ws.onopen = function() {
-        	console.log('connection opened');
+            console.log('connection opened');
             _connected = true;
-        	if (_opts.onOpen) _opts.onOpen();
+            if (_opts.onOpen) _opts.onOpen();
         };
 
         _ws.onclose = function() {
-        	console.log('connection closed');
+            console.log('connection closed');
             _connected = false;
             if (_opts.onClose) _opts.onClose();
         };
@@ -93,6 +93,18 @@ Socker = (function() {
             _connect(_url, _opts);
         }
     }
+
+    function _extend(obj) {
+        Array.prototype.slice.call(arguments, 1).forEach(function(source) {
+            if (source) {
+                for (var prop in source) {
+                    obj[prop] = source[prop];
+                }
+            }
+        });
+        return obj;
+    }
+
 
     _self.on = _on;
     _self.off = _off;

@@ -155,11 +155,18 @@ OF_Admin = (function(username, socker) {
     function _handleFrameConnected(frame) {
         var _id = frame._id.$oid || frame._id;
 
+        // check if this frame already is rendered, if so slide to it
+        var $frame = $('.swiper-slide[data-frame-id="' + _id + '"]');
+        if ($frame.length) {
+            var slide_index = $('div.swiper-slide').index($frame);
+            _swiper.slideTo(slide_index);
+            return;
+        }
+
         frame.frame_id = _id;
 
         if (!frame.current_content) frame.current_content = null;
 
-        // TEMP
         _selected_frame = _id;
 
         var index = _connectedFrames.indexOf(_id);
