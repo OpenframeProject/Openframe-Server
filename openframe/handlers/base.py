@@ -39,6 +39,14 @@ class BaseHandler(tornado.web.RequestHandler):
         """Access to the application-wide pubsub system."""
         return self.application.pubsub
 
+    def login(self, username, redirect_url):
+        self.set_secure_cookie("user", username)
+        self.redirect(redirect_url)
+
+    def logout(self):
+        self.clear_cookie("user")
+        self.redirect('/')
+
     def prepare(self):
         """
         This method runs before the HTTP-handling methods. It sets the XSRF

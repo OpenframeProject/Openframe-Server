@@ -1,3 +1,6 @@
+import hashlib
+import uuid
+
 from bson.objectid import ObjectId
 from pymongo.collection import ReturnDocument
 
@@ -29,7 +32,7 @@ class Users():
         Get a user by username
         """
         query = {'username': username}
-        return list(Users.collection.find(query))
+        return Users.collection.find_one(query)
 
     @staticmethod
     def getByFrameId(frame_id):
@@ -38,6 +41,24 @@ class Users():
         """
         frame = Frames.getById(frame_id)
         return frame.users
+
+    @staticmethod
+    def createUser(username, password):
+        """
+        Given a username and password, hash the password and insert it.
+        """
+        if Users._checkExisting(username):
+            return False
+
+        password_bytes = password.encode('utf-8')
+        salt_bytes = uuid.uuid4().bytes
+        hashed_password = hashlib.sha512(password_bytes + salt_bytes).hexdigest()
+        user = {
+            "username": username,
+            "salt": salt_bytes,
+            "password": hashed_password
+        }
+        return Users.insert(user)
 
     @staticmethod
     def insert(doc):
@@ -62,3 +83,14 @@ class Users():
         """
         cid = user_id if not ObjectId.is_valid(user_id) else ObjectId(user_id)
         return Users.collection.delete_one({"_id": cid})
+
+    @staticmethod
+    def _checkExisting(username):
+        """
+        Check if a user exists
+        """
+        user = Users.getByUsername(username)
+        if user:
+            return True
+        else:
+            return False

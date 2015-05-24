@@ -6,7 +6,9 @@ An open-source platform for displaying digital artwork.
 {
 	"_id" : ObjectId("55270f447d5ea945d9841a9d"),
 	"username" : "jonwohl",
-	"email" : "jon@jonwohl.com"
+	"email" : "jon@jonwohl.com",
+	"salt" : "asodif0-29jfa20fjq240fjaq9048uf290384jpfq4oijfpawefa",
+	"password" : "2039jajf0249afje00293ja094j230f94j293gh980adfijaso09202i3jr"
 }
 ```
 

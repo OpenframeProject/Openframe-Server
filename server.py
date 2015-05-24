@@ -1,18 +1,11 @@
 import tornado.escape
 import tornado.ioloop
-from tornado import gen
 import tornado.web
 import tornado.websocket
-import json
-from tornado.escape import to_unicode, json_decode, json_encode
-
-from pymongo import MongoClient
-from bson.objectid import ObjectId
-from bson.json_util import dumps
 
 from openframe import settings
-from openframe.handlers.base import BaseHandler
-from openframe.handlers.pages import SplashHandler, MainHandler, FrameHandler
+from openframe.handlers.pages import SplashHandler, MainHandler, \
+    FrameHandler, CreateAccountHandler, LoginHandler, LogoutHandler
 from openframe.handlers.api.content import ContentHandler, ContentByUserHandler
 from openframe.handlers.api.frames import FramesHandler, \
     FramesByUserHandler, FramesByOwnerHandler, UpdateFrameContentHandler
@@ -20,8 +13,6 @@ from openframe.handlers.api.users import UsersHandler
 from openframe.handlers.websockets.admin import AdminWebSocketHandler
 from openframe.handlers.websockets.frame import FrameWebSocketHandler
 from openframe.db.connection import db
-from openframe.db.frames import Frames
-from openframe.db.content import Content
 from openframe.micropubsub import MicroPubSub
 from openframe.frame_manager import FrameManager
 from openframe.admin_manager import AdminManager
@@ -31,6 +22,10 @@ class Application(tornado.web.Application):
 
     def __init__(self):
         handlers = [
+
+            # Login, Logout
+            (r"/login", LoginHandler),
+            (r"/logout", LogoutHandler),
 
             # RPC calls
             (r"/update/(\w+)/(\w+)", UpdateFrameContentHandler),
@@ -65,13 +60,16 @@ class Application(tornado.web.Application):
             (r"/frame/(\w+)/(\w+)/(\w+)/?", FrameHandler),
             (r"/(\w+)/?", MainHandler),
             (r"/", SplashHandler),
+            (r"/create-account", CreateAccountHandler),
         ]
 
         config = {
             "template_path": settings.TEMPLATE_PATH,
             "static_path": settings.STATIC_PATH,
             "db": db,
-            "debug": True
+            "debug": True,
+            "cookie_secret": settings.COOKIE_SECRET,
+            "login_url": "/login",
         }
 
         self._db = db

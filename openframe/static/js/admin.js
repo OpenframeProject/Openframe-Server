@@ -26,10 +26,10 @@ OF_Admin = (function(username, socker) {
 
     function _setupUserEventHandling() {
         // Logout handler
-        $(document).on('click', '#LogoutButton', function(e) {
-            window.location = "/";
-            return false;
-        });
+        // $(document).on('click', '#LogoutButton', function(e) {
+        //     window.location = "/";
+        //     return false;
+        // });
 
         // Add content
         $("#add-form").on('submit', _addContent);
