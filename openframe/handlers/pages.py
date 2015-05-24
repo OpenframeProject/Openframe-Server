@@ -57,7 +57,10 @@ class CreateAccountHandler(BaseHandler):
         password = self.get_argument('password', '')
         password_confirm = self.get_argument('password_confirm', '')
         if not password == password_confirm:
-            self.write('passwords do not match')
+            print('passwords do not match')
+            self.render('create_account.html',
+                        error="Passwords do not match.")
+            return
         user_id = Users.createUser(username, password)
         if user_id:
             # LOGIN
