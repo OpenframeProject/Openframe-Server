@@ -93,7 +93,7 @@ Socker = (function() {
      * @return {[type]}      [description]
      */
     function _send(name, data) {
-        message = {
+        var message = {
             name: name,
             data: data
         };
