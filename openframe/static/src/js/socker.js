@@ -1,3 +1,4 @@
+
 Socker = (function() {
     var _self = {},
         _eventHandlers = {},
@@ -134,3 +135,6 @@ Socker = (function() {
     _self.connect = _connect;
     return _self;
 })();
+
+// COMMON.JS
+if (typeof module != 'undefined' && module.exports) module.exports = Socker;

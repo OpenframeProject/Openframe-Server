@@ -1,4 +1,9 @@
-OF_Admin = (function(username, socker) {
+var socker = require('./socker.js'),
+    $ = require('jquery'),
+    _ = require('lodash'),
+    Swiper = require('swiper');
+
+module.exports = (function(username) {
     var self = {},
         _selected_frame,
         _$current_slide,
@@ -9,7 +14,9 @@ OF_Admin = (function(username, socker) {
         _content_item_tpl = _.template($("#ContentItemTemplate").html()),
         _frame_tpl = _.template($("#FrameTemplate").html());
 
-    function _init() {
+    function _init(username) {
+        console.log('init', username);
+
         _setupUserEventHandling();
 
         socker.connect("ws://" + _domain + ":8888/admin/ws/" + username);
@@ -80,11 +87,12 @@ OF_Admin = (function(username, socker) {
             keyboardControl: true
         });
 
-        _swiper.on('slideChangeEnd', _setSelectedFrame);
+        console.log(_swiper);
     }
 
     function _setSelectedFrame(swiper) {
         // this seems to be a hack
+        swiper.on('slideChangeEnd', _setSelectedFrame);
         _$currentSlide = swiper.slides.eq(swiper.activeIndex);
         _selected_frame = _$currentSlide.data('frame-id');
         console.log('_setSelectedFrame: ' + _selected_frame);
@@ -212,4 +220,4 @@ OF_Admin = (function(username, socker) {
     self.init = _init;
     return self;
 
-})(OF_USERNAME, Socker);
+})();

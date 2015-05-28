@@ -5,7 +5,8 @@ import tornado.websocket
 
 from openframe import settings
 from openframe.handlers.pages import SplashHandler, MainHandler, \
-    FrameHandler, CreateAccountHandler, LoginHandler, LogoutHandler
+    FrameHandler, CreateAccountHandler, LoginHandler, LogoutHandler, \
+    TestHandler
 from openframe.handlers.api.content import ContentHandler, ContentByUserHandler
 from openframe.handlers.api.frames import FramesHandler, \
     FramesByUserHandler, FramesByOwnerHandler, UpdateFrameContentHandler
@@ -22,6 +23,8 @@ class Application(tornado.web.Application):
 
     def __init__(self):
         handlers = [
+            # Test
+            (r"/test", TestHandler),
 
             # Login, Logout
             (r"/login", LoginHandler),

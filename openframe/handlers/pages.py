@@ -101,3 +101,9 @@ class FrameHandler(BaseHandler):
                 ]
             })
         self.render("frame.html", frame_id=frame_id)
+
+
+class TestHandler(BaseHandler):
+
+    def get(self):
+        self.render("test.html")
