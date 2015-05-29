@@ -4,6 +4,9 @@
 #login-button {
   padding-top: 8px;
 }
+.container-fluid {
+  color: white;
+}
 .splash-header {
   border: none;
   height: 100px;
@@ -86,7 +89,7 @@ ul {
 }
 .page-header {
   padding-bottom: 0px;
-  margin-top: 20px;
+  margin-top: 0px;
 }
 #add-content-div {
   border-top: 1px solid #4B4B4B;
@@ -117,6 +120,11 @@ ul {
 .icon-send {
   background-position: center;
   background-image: url('../img/arrow.svg');
+}
+.btn-send:focus {
+  background-color: #FFFFFF;
+  decoration: none;
+  outline: 0;
 }
 .col-send {
   top: 36px;

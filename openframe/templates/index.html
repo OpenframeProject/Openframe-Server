@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>OpenFrame</title>
     <link rel="stylesheet" type="text/css" href="/static/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="/static/components/swiper/dist/css/swiper.min.css">
@@ -16,12 +17,37 @@
     <div class="container" id="OpenFrame">
         <div class="container-top">
             <div class="page-header">
-                <nav>
-                    <ul class="nav nav-pills pull-right">
-                        <li role="presentation"><a href="/splash.html" id="LogoutButton">logout</a></li>
-                    </ul>
+                <nav class="navbar navbar-default">
+                  <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                      </button>
+                      <!-- <a class="navbar-brand" href="#">Brand</a> -->
+                      <h3 class="text-muted"><span class="openframe">openframe/</span><span class="username">{{ user }}</span></h3>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                      <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Frames <span class="caret"></span></a>
+                          <ul class="dropdown-menu" role="menu">
+                            {% for frame in frames %}
+                                <li><a href="#">{{ frame['name'] }}</a></li>
+                            {% end %}
+                            <li class="divider"></li>
+                            <li><a href="/splash.html">Log out</a></li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </div><!-- /.navbar-collapse -->
+                  </div><!-- /.container-fluid -->
                 </nav>
-                <h3 class="text-muted"><span class="openframe">openframe/</span><span class="username">{{ user }}</span></h3>
             </div>
             <div class="row" id="frames-list">
                 <div class="col-md-12">
