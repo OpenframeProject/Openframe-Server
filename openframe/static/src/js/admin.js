@@ -1,7 +1,8 @@
 var socker = require('./socker.js'),
     $ = require('jquery'),
     _ = require('lodash'),
-    Swiper = require('swiper');
+    Swiper = require('swiper'),
+    ContentItem = require('./ContentItem.js');
 
 module.exports = (function(username) {
     var self = {},
