@@ -11,12 +11,14 @@ from openframe.db.frames import Frames
 class Users():
     collection = db.users
 
+    default_projection = ['_id', 'username']
+
     @staticmethod
     def getAll():
         """
         Get all users
         """
-        return Users.collection.find()
+        return Users.collection.find(projection=Users.default_projection)
 
     @staticmethod
     def getById(user_id):
@@ -24,15 +26,18 @@ class Users():
         Get user by id
         """
         cid = user_id if not ObjectId.is_valid(user_id) else ObjectId(user_id)
-        return Users.collection.find_one({'_id': cid})
+        return Users.collection.find_one({'_id': cid},
+                                         projection=Users.default_projection)
 
     @staticmethod
-    def getByUsername(username):
+    def getByUsername(username, projection=None):
         """
         Get a user by username
         """
         query = {'username': username}
-        return Users.collection.find_one(query)
+        projection = projection if projection else Users.default_projection
+        return Users.collection.find_one(query,
+                                         projection=projection)
 
     @staticmethod
     def getByFrameId(frame_id):
