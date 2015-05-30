@@ -6,8 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>OpenFrame</title>
-    <link rel="stylesheet" type="text/css" href="/static/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/static/dist/css/all-styles.css">
 </head>
 
 <body>
@@ -21,20 +20,6 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="/static/components/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="/static/components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/static/components/lodash/lodash.js"></script>
-    <script type="text/javascript">
-    $(function() {
-        $("form#LoginForm").on('submit', function() {
-            user = $('#AdminUser').val();
-            if (user) {
-                window.location = "/"+user;
-            }
-            return false;
-        });
-    });
-    </script>
 </body>
 
 </html>

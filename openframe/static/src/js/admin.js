@@ -3,8 +3,9 @@ var socker = require('./socker.js'),
     _ = require('lodash'),
     Swiper = require('swiper');
 
-module.exports = (function(username) {
+module.exports = (function() {
     var self = {},
+        _username,
         _selected_frame,
         _$current_slide,
         _ws,
@@ -16,10 +17,12 @@ module.exports = (function(username) {
 
     function _init(username) {
         console.log('init', username);
+        
+        _username = username;
 
         _setupUserEventHandling();
 
-        socker.connect("ws://" + _domain + ":8888/admin/ws/" + username);
+        socker.connect("ws://" + _domain + ":8888/admin/ws/" + _username);
 
         socker.on('frame:connected', _handleFrameConnected);
         socker.on('frame:disconnected', _handleFrameDisonnected);
@@ -28,15 +31,10 @@ module.exports = (function(username) {
 
         _setupSwiper();
 
-        _fetchContent(username);
+        _fetchContent(_username);
     }
 
     function _setupUserEventHandling() {
-        // Logout handler
-        // $(document).on('click', '#LogoutButton', function(e) {
-        //     window.location = "/";
-        //     return false;
-        // });
 
         // Add content
         $("#add-form").on('submit', _addContent);
@@ -113,12 +111,12 @@ module.exports = (function(username) {
             method: 'POST',
             data: JSON.stringify({
                 url: $('#URL').val(),
-                users: [username]
+                users: [_username]
             }),
             dataType: 'json'
         }).done(function(resp) {
             console.log(resp);
-            _fetchContent(username);
+            _fetchContent(_username);
             $('#URL').val('').focus();
         });
         return false;
@@ -131,7 +129,7 @@ module.exports = (function(username) {
             dataType: 'json'
         }).done(function(resp) {
             console.log(resp);
-            _fetchContent(username);
+            _fetchContent(_username);
         });
         return false;
     }
