@@ -1,3 +1,36 @@
+/*
+
+MOBILE FIRST:
+
+Here should go all of the base styles — that is, all styles that are for all screens, including smallest screens.
+
+Styles that need to be overridden or are for larger screens only should be added to the appropriate
+less file. These files are imported at the bottom of this file.
+
+ */
+html,
+body,
+.container {
+  height: 100%;
+}
+.container {
+  position: relative;
+}
+.navbar {
+  margin-bottom: 0;
+  min-height: 40px;
+}
+.navbar h3 {
+  margin: 0;
+  padding: 0;
+}
+.navbar .navbar-toggle {
+  border: 0;
+}
+.navbar .nav > li > a {
+  padding: 0;
+  margin-left: 20px;
+}
 #Login {
   margin-top: 10%;
 }
@@ -20,50 +53,6 @@ ul {
   list-style: none;
   padding: 0px;
   margin: 0px auto;
-}
-#frames-list {
-  text-align: center;
-}
-.swiper-container {
-  width: 100%;
-  height: 100%;
-}
-.swiper-slide {
-  text-align: center;
-  font-size: 18px;
-  background: #fff;
-  /* Center slide text vertically */
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  -webkit-align-items: center;
-  align-items: center;
-}
-.frame-outer-container {
-  width: 180px;
-  height: 260px;
-  margin: 0 auto;
-  margin-top: 20px;
-  position: relative;
-}
-.frame {
-  outline: 7px solid #3F3E3C;
-  width: 135px;
-  height: 190px;
-  margin: 0 auto;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-}
-.frame-name {
-  margin: 20px auto;
 }
 .btn-settings {
   position: absolute;
@@ -107,6 +96,7 @@ ul {
   height: 30px;
   background-repeat: no-repeat;
   background-position: center center;
+  background-size: contain;
 }
 .no-border {
   border: none;
@@ -163,4 +153,74 @@ ul {
 }
 #Art {
   padding: 0px;
+}
+.transfer-buttons {
+  border-top: 1px solid #d0d0d0;
+  position: relative;
+}
+.transfer-buttons .btn-transfer {
+  height: 21px;
+  position: relative;
+  top: -12px;
+  padding: 1px 15px;
+}
+.transfer-buttons .btn-transfer .icon {
+  top: 0px;
+  height: 10px;
+}
+.frames-list {
+  height: 40%;
+  text-align: center;
+  margin-bottom: 50px;
+}
+.frame-outer-container {
+  padding: 10px;
+  height: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+.frame {
+  border: 7px solid #3F3E3C;
+  width: 66%;
+  height: 100%;
+  margin: 0 auto;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.frame-name {
+  margin: 10px auto;
+}
+.swiper-container {
+  width: 100%;
+  height: 30%;
+}
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+.swiper-slide img {
+  max-height: 100%;
+}
+/**
+ * Import styles for larger sreens.
+ */
+@media (min-width: 768px) {
+  .navbar {
+    border-bottom: 1px solid #d0d0d0;
+  }
 }

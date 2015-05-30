@@ -2,26 +2,109 @@
 <html lang="en">
 
 <head>
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>OpenFrame</title>
     <link rel="stylesheet" type="text/css" href="/static/dist/css/all-styles.css">
+    <link rel="stylesheet" type="text/css" href="/static/components/swiper/dist/css/swiper.min.css">
 </head>
 
 <body>
     <div class="container" id="OpenFrame">
-        <div class="row page-header splash-header">
-            <div class="col-md-12">
-                <h3 class="text-muted"><span class="openframe">openframe</span></h3>
-                <a href="/login">Log In</a>
-                &nbsp;&nbsp;|&nbsp;&nbsp;
-                <a href="/create-account">Create an Account</a>
+        
+        <nav class="navbar navbar-default">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed pull-left" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <h3 class="text-muted hidden-xs"><span class="openframe">openframe/</span><span class="username">jonwohl</span></h3>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Home <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Studio</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><span class="glyphicon glyphicon-log-out"></span></a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+
+        <!-- FRAME PREVIEW -->
+        <div class="row frames-list">
+            <div class="col-md-12 frame-outer-container">
+                <button type="button" class="btn btn-primary btn-xs btn-settings hide" data-toggle="modal" data-target="#myModal">S</button>
+                <div class="frame"></div>
+                <div class="frame-name text-center">
+                    <h6>Home</h6>
+                </div>
             </div>
         </div>
+        <!-- END FRAME PREVIEW -->
+
+        <!-- TRANSFER BUTTONS -->
+        <div class="row visible-xs transfer-buttons">
+            <div class="col-xs-12 text-center">
+                <div class="btn-group" role="group" aria-label="...">
+                    <button type="button" class="btn btn-xs btn-default btn-send btn-transfer">
+                        <span class="icon icon-send" aria-hidden="true"></span>
+                    </button>
+                    <!-- <button type="button" class="btn btn-xs btn-default btn-send btn-transfer">
+                        <span class="icon icon-send" aria-hidden="true"></span>
+                    </button> -->
+                </div>
+            </div>
+        </div>
+        <!-- END TRANSFER BUTTONS -->
+
+        <!-- ADD CONTENT -->
+        <div class="row hidden-xs" id="add-content-div">
+            <form class="form-inline" id="add-form">
+                <div class="form-group">
+                    <!-- <label for="SendToUser">URL</label> -->
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="URL" placeholder="enter URL">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-default btn-add-content" href="#add-content" id="add-content-button">Add Content</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- END ADD CONTENT -->
+
+        <!-- CONTENT LIST -->
+        <!-- Swiper -->
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="/static/dist/img/placeholder.jpg">
+                </div>
+                <div class="swiper-slide">
+                    <img src="/static/dist/img/placeholder.jpg">
+                </div>
+                <div class="swiper-slide">
+                    <img src="/static/dist/img/placeholder.jpg">
+                </div>
+            </div>
+        </div>
+        <!-- END CONTENT LIST -->
+
     </div>
     <script type="text/javascript">
-        var OF_USERNAME = 'jonwohl';
+    var OF_USERNAME = 'jonwohl';
     </script>
     <script type="text/javascript" src="/static/dist/js/libs.js"></script>
     <script type="text/javascript" src="/static/dist/js/build.js"></script>
