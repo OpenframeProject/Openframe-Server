@@ -25,6 +25,7 @@
   "homepage": "https://github.com/jmwohl/OpenFrame-Py",
   "dependencies": {},
   "devDependencies": {
+    "babelify": "^6.1.2",
     "browserify": "^10.2.1",
     "browserify-shim": "^3.8.7",
     "gulp": "^3.8.11",

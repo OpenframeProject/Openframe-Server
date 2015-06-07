@@ -2,42 +2,38 @@
 // Admin.init(global.OF_USERNAME);
 // 
 
-var	$ = require('jquery'),
-    _ = require('lodash'),
-    Swiper = require('swiper');
+// var	$ = require('jquery'),
+//     _ = require('lodash'),
+//     Swiper = require('swiper');
 
-var _swiper;
+// var _swiper;
 
-function _setupSwiper() {
-	console.log('setting it up');
-    _swiper = new Swiper('.swiper-container', {
-        slidesPerView: 1,
-        spaceBetween: 30,
-        loop: true,
-        keyboardControl: true
-    });
+// function _setupSwiper() {
+// 	console.log('setting it up');
+//     _swiper = new Swiper('.swiper-container', {
+//         slidesPerView: 1,
+//         spaceBetween: 30,
+//         loop: true,
+//         keyboardControl: true
+//     });
 
-    console.log(_swiper);
-}
+//     console.log(_swiper);
+// }
 
-_setupSwiper();
+// _setupSwiper();
 
-// var React = require('react'),
-// 	ListContainer = require('./components/ListContainer');
+var React = require('react'),
+	Nav = require('./components/Nav');
 
-// var App = React.createClass({
-//   render: function(){
-//     return (
-//       <div className="container">
-//         <div className="row">
-//           <ListContainer />
-//         </div>
-//       </div>
-//     )
-//   }
-// });
+var App = React.createClass({
+  render: function(){
+    return (
+      <Nav />
+    )
+  }
+});
 
-// React.render(
-//   <App />,
-//   document.getElementById('OpenFrame')
-// )
+React.render(
+  <App />,
+  document.getElementById('OpenFrame')
+)

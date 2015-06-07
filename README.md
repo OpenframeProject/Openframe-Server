@@ -1,6 +1,11 @@
 # OpenFrame
 An open-source platform for displaying digital artwork.
 
+## Technologies
+
+
+## Data Model
+
 ### User Document
 ```json
 {

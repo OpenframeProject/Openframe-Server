@@ -10,7 +10,8 @@ less file. These files are imported at the bottom of this file.
  */
 html,
 body,
-.container {
+.container,
+.app {
   height: 100%;
 }
 .container {

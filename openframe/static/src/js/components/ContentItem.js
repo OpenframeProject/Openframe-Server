@@ -1,6 +1,6 @@
 var React = require('react');
 
-module.exports = React.createClass({
+var ContentItem = React.createClass({
 	render: function() {
 		return (
 			<li>
@@ -20,3 +20,5 @@ module.exports = React.createClass({
 		);
 	}
 });
+
+module.exports = ContentItem;
