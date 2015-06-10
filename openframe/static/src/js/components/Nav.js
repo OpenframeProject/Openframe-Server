@@ -1,9 +1,14 @@
 var React = require('react');
 
 var Nav = React.createClass({
+    
+    handleFrameSelection: function(e) {
+        console.log(e.currentTarget);
+    },
+
     render: function() {
         function createFrameLink(frame) {
-            return <li><a href="#">{frame}</a></li>
+            return <li key={frame._id} onClick={this.handleFrameSelection}><a href="#">{frame.name}</a></li>
         }
 
         return <nav className="navbar navbar-default">
@@ -23,8 +28,7 @@ var Nav = React.createClass({
                     <li className="dropdown">
                         <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Frames <span className="caret" /></a>
                         <ul className="dropdown-menu" role="menu">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Studio</a></li>
+                            {this.props.frames.map(createFrameLink.bind(this))}
                         </ul>
                     </li>
                     <li>

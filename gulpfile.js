@@ -135,6 +135,10 @@ gulp.task('watch', function() {
 
     return watcher.on('update', function() {
             watcher.bundle()
+                .on('error', function (err) {
+                    console.log(err.message);
+                    this.emit('end');
+                })
                 .pipe(source(path.JS_BUILD_FILENAME))
                 .pipe(gulp.dest(path.JS_DIST));
             
