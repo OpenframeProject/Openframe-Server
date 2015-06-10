@@ -36,7 +36,8 @@ var path = {
         bower_path + '/bootstrap/dist/js/bootstrap.js',
         bower_path + '/swiper/dist/js/swiper.min.js',
         bower_path + '/lodash/lodash.js',
-        bower_path + '/react/react.js'
+        bower_path + '/react/react.js',
+        bower_path + '/flux/dist/Flux.js'
     ],
     JS_APP_SRC: static_path + '/src/js',
     JS_DIST: static_path + '/dist/js',

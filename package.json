@@ -23,7 +23,9 @@
     "url": "https://github.com/jmwohl/OpenFrame-Py/issues"
   },
   "homepage": "https://github.com/jmwohl/OpenFrame-Py",
-  "dependencies": {},
+  "dependencies": {
+    "keymirror": "^0.1.1"
+  },
   "devDependencies": {
     "babelify": "^6.1.2",
     "browserify": "^10.2.1",
@@ -49,6 +51,7 @@
   "browserify-shim": {
     "jquery": "global:jQuery",
     "react": "global:React",
+    "flux": "global:Flux",
     "lodash": "global:_",
     "swiper": "global:Swiper"
   }

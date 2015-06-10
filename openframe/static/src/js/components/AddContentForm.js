@@ -1,15 +1,27 @@
-var React = require('react');
+var React = require('react'),
+    ContentActions = require('../actions/ContentActions');
 
 var AddContentForm = React.createClass({
+    handleFormSubmit: function(e) {
+        e.preventDefault();
+        var content = {
+            url: React.findDOMNode(this.refs.URL).value,
+            users: [OF_USERNAME]
+        };
+        console.log('submitting content: ', content);
+        ContentActions.addContent(content);
 
+        React.findDOMNode(this.refs.URL).value = '';
+        React.findDOMNode(this.refs.URL).focus();
+    },
 	render: function() {
 		return (
 			<div className="row hidden-xs" id="add-content-div">
-                <form className="form-inline" id="add-form">
+                <form className="form-inline" id="add-form" onSubmit={this.handleFormSubmit}>
                     <div className="form-group">
                         {/* <label for="SendToUser">URL</label> */}
                         <div className="col-md-10">
-                            <input type="text" className="form-control" id="URL" placeholder="enter URL" />
+                            <input type="text" className="form-control" id="URL" placeholder="enter URL" ref="URL" />
                         </div>
                         <div className="col-md-2">
                             <button className="btn btn-default btn-add-content" href="#add-content" id="add-content-button">Add Content</button>

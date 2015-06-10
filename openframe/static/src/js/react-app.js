@@ -3,6 +3,6 @@ var React = require('react'),
     App = require('./components/App.js');
 
 React.render(
-  <App />,
-  document.getElementById('OpenFrame')
+	<App />,
+	document.getElementById('OpenFrame')
 )
