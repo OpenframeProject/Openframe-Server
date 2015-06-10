@@ -3,18 +3,14 @@ var React = require('react'),
 	FrameStore = require('../stores/FrameStore');
 
 var Frame = React.createClass({
-	getDefaultProps: function() {
-		return {
-			frame: {
-				name: ''
-			}
-		};
-	},
 
 	getInitialState: function() {
 		return {
 			frame: {
-				name: ''
+				name: '',
+				current_content: {
+					url: ''
+				}
 			}
 		}
 	},
@@ -25,10 +21,16 @@ var Frame = React.createClass({
 	},
 
 	render: function() {
+		var divStyle = {
+			backgroundImage: 'url(' + this.state.frame.current_content.url + ')',
+			backgroundSize: 'contain',
+			backgroundRepeat: 'no-repeat',
+			backgroundPosition: 'center center'
+		};
 		return (
 			<div className="col-md-12 frame-outer-container">
 				<button type="button" className="btn btn-primary btn-xs btn-settings hide" data-toggle="modal" data-target="#myModal">S</button>
-	            <div className="frame" />
+	            <div className="frame" style={divStyle} />
 	            <div className="frame-name text-center">
 	                <h6>{this.state.frame.name}</h6>
 	            </div>

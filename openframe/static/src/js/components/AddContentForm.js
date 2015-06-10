@@ -4,8 +4,12 @@ var React = require('react'),
 var AddContentForm = React.createClass({
     handleFormSubmit: function(e) {
         e.preventDefault();
+        var url = React.findDOMNode(this.refs.URL).value;
+
+        if (!url) return;
+
         var content = {
-            url: React.findDOMNode(this.refs.URL).value,
+            url: url,
             users: [OF_USERNAME]
         };
         console.log('submitting content: ', content);
