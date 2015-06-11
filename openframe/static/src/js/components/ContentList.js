@@ -26,11 +26,13 @@ var ContentList = React.createClass({
             );
 		}
 		return (
-			<div className="swiper-container">
-                <div className="swiper-wrapper">
-                    
-                </div>
-            </div>
+			<div className="swiper-outer-container">
+				<div className="swiper-container" ref="Swiper">
+	                <div className="swiper-wrapper">
+	                    
+	                </div>
+	            </div>
+	        </div>
 		);
 	},
 
@@ -52,7 +54,7 @@ var ContentList = React.createClass({
   	},
 
   	_initSlider: function() {
-  		var el = React.findDOMNode(this);
+  		var el = React.findDOMNode(this.refs.Swiper);
 		this.swiper = new Swiper(el, {
 	        slidesPerView: 1,
 	        spaceBetween: 30,

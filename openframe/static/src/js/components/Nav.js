@@ -19,7 +19,7 @@ var Nav = React.createClass({
             console.log('frame: ', frame);
             return <NavFrameLink key={frame._id} frame={frame} />
         }
-        
+
         return (
             <nav className="navbar navbar-default">
                 {/* Brand and toggle get grouped for better mobile display */}
@@ -30,7 +30,7 @@ var Nav = React.createClass({
                         <span className="icon-bar" />
                         <span className="icon-bar" />
                     </button>
-                    <h3 className="text-muted hidden-xs"><span className="openframe">openframe/</span><span className="username">jonwohl</span></h3>
+                    <h3 className="text-muted hidden-xs"><span className="openframe">openframe/</span><span className="username">{OF_USERNAME}</span></h3>
                 </div>
                 {/* Collect the nav links, forms, and other content for toggling */}
                 <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -42,7 +42,7 @@ var Nav = React.createClass({
                             </ul>
                         </li>
                         <li>
-                            <a href="#"><span className="glyphicon glyphicon-log-out" /></a>
+                            <a href="/logout"><span className="glyphicon glyphicon-log-out" /></a>
                         </li>
                     </ul>
                 </div>
