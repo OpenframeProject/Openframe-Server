@@ -23,7 +23,7 @@ var Frame = React.createClass({
 	render: function() {
 		var divStyle = {
 			backgroundImage: 'url(' + this.state.frame.current_content.url + ')',
-			backgroundSize: 'contain',
+			backgroundSize: 'cover',
 			backgroundRepeat: 'no-repeat',
 			backgroundPosition: 'center center'
 		};
