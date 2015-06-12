@@ -55,8 +55,8 @@ class AdminManager():
 
     def remove_frame_connection(self, frame_ws):
         print('AdminManager::remove_frame_connection: ' + frame_ws.frame_id)
-        # get frame object from websocket object
-        frame = frame_ws.frame
+        # get frame object from db
+        frame = Frames.getById(frame_ws.frame_id)
         # get users for this frame
         users = frame['users']
         # for each user, if the user is connected, send frame:disconnected to the

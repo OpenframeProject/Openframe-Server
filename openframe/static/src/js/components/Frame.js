@@ -5,14 +5,7 @@ var React = require('react'),
 var Frame = React.createClass({
 
 	getInitialState: function() {
-		return {
-			frame: {
-				name: '',
-				current_content: {
-					url: ''
-				}
-			}
-		}
+		return {}
 	},
 
 	componentDidMount: function() {
@@ -21,26 +14,34 @@ var Frame = React.createClass({
 	},
 
 	render: function() {
-		var w_h_ratio = this.state.frame.settings ? this.state.frame.settings.w_h_ratio : 1;
+		if (!this.state.frame) {
+			return <div>No frames available.</div>
+		}
+		var w_h_ratio = this.state.frame && this.state.frame.settings ? this.state.frame.settings.w_h_ratio : 1;
 
-		console.log('w_h_ratio: ', w_h_ratio);
-
+		var url = this.state.frame && this.state.frame.current_content ? this.state.frame.current_content.url : '';
 		var divStyle = {
-			backgroundImage: 'url(' + this.state.frame.current_content.url + ')',
+			backgroundImage: 'url(' + url + ')',
 		};
+
+		console.log(w_h_ratio);
 
 		var whStyle = {
-			paddingBottom: w_h_ratio * 100 + '%'
+			paddingBottom: (1/w_h_ratio) * 100 + '%'
 		};
+
+		var active = this.state.frame.active ? '*' : '';
 		return (
-			<div className="col-xl-12 frame-outer-container">
-				<button type="button" className="btn btn-primary btn-xs btn-settings hide" data-toggle="modal" data-target="#myModal">S</button>
-				<div className="frame-inner-container" style={whStyle} >
-	            	<div className="frame" style={divStyle} />
-	            </div>
-	            <div className="frame-name text-center">
-	                <h6>{this.state.frame.name}</h6>
-	            </div>
+			<div className="row frames-list">
+				<div className="col-xl-12 frame-outer-container">
+					<button type="button" className="btn btn-primary btn-xs btn-settings hide" data-toggle="modal" data-target="#myModal">S</button>
+					<div className="frame-inner-container" style={whStyle} >
+		            	<div className="frame" style={divStyle} />
+		            </div>
+		            <div className="frame-name text-center">
+		                <h6>{this.state.frame.name} {active}</h6>
+		            </div>
+		        </div>
 	        </div>
 		);
 	},

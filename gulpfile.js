@@ -44,7 +44,7 @@ var path = {
     JS_BUILD_FILENAME: 'build.js',
     JS_MINIFIED_BUILD_FILENAME: 'build.min.js',
     JS_DEST_BUILD: static_path + '/dist/js',
-    JS_ENTRY_POINT: static_path + '/src/js/react-app.js',
+    JS_ENTRY_POINT: static_path + '/src/js/react-main.js',
 
     // IMAGES
     IMG_SRC: static_path + '/src/img/*',

@@ -7,9 +7,10 @@ var NavFrameLink = React.createClass({
 	},
 
 	render: function() {
+		var active = this.props.frame.active ? '*' : '';
 		return (
 			<li onClick={this.handleFrameSelection}>
-				<a href="#">{this.props.frame.name}</a>
+				<a href="#">{this.props.frame.name} {active}</a>
 			</li>
 		);
 	}

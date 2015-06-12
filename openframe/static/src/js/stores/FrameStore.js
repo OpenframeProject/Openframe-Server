@@ -5,26 +5,30 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
 	_ = require('lodash');
 
 
-var _frames = [],
+var _frames = {},
 	_selectedFrame = null;
 
-var addFrame = function(frame){
+var addFrame = function(frame) {
+	removeFrame(frame);
 	_frames[frame._id] = frame;
 };
 
-var removeFrame = function(id){
+var removeFrame = function(frame){
+	console.log('removeFrame', frame);
+	var id = frame._id;
 	if (id in _frames) delete _frames[id];
-}
+	console.log(_frames);
+};
 
 var FrameStore = assign({}, EventEmitter.prototype, {
 
 	init: function(frames) {
-		_frames = frames;
+		_.each(frames, addFrame);
 
 		// see if any a frame is marked as selected from db, 
 		// otherwise select the first frame.
 		var selected = _.find(_frames, {selected: true});
-		_selectedFrame = selected || _frames[0];
+		_selectedFrame = selected || frames[0];
 	},
 
 	emitChange: function() {
@@ -32,11 +36,14 @@ var FrameStore = assign({}, EventEmitter.prototype, {
 	},
 
 	getFrame: function(id) {
-		return _.find(_frames, { _id: id });
+		return _frames[id];
 	},
 
 	getAllFrames: function() {
-		return _frames;
+		console.log('getAllFrames: ', _frames);
+		return _.map(_frames, function(frame) {
+			return frame;
+		});
 	},
 
 	getSelectedFrame: function() {
@@ -48,6 +55,23 @@ var FrameStore = assign({}, EventEmitter.prototype, {
 			frames: _frames,
 			selectedFrame: _selectedFrame
 		};
+	},
+
+	/**
+	 * A frame has connected. Simply updated the frame object in our collection.
+	 */
+	connectFrame: function(frame) {
+		// addFrame will overwrite previous frame
+		addFrame(frame);
+		_selectedFrame = frame;
+	},
+
+	/**
+	 * A frame has disconnected. Simply updated the frame object in our collection.
+	 */
+	disconnectFrame: function(frame) {
+		// addFrame will overwrite previous frame
+		addFrame(frame);
 	},
 
 	addChangeListener: function(cb){
@@ -75,6 +99,16 @@ AppDispatcher.register(function(action) {
 
 		case OFConstants.FRAME_LOAD_FAIL:
 			console.log('frames failed to load: ', action.err);
+			break;
+
+		case OFConstants.FRAME_CONNECTED:
+			FrameStore.connectFrame(action.frame);
+			FrameStore.emitChange();
+			break;
+
+		case OFConstants.FRAME_DISCONNECTED:
+			FrameStore.disconnectFrame(action.frame);
+			FrameStore.emitChange();
 			break;
 
     	case OFConstants.FRAME_SELECT:

@@ -1,28 +1,41 @@
 var React = require('react'),
 	Nav = require('./Nav.js'),
-	FrameContainer = require('./FrameContainer.js'),
+	Frame = require('./Frame.js'),
 	TransferButtons = require('./TransferButtons.js'),
 	AddContentForm = require('./AddContentForm.js'),
 	ContentList = require('./ContentList.js'),
 
 	AppDispatcher = require('../dispatcher/AppDispatcher'),
 	FrameActions = require('../actions/FrameActions'),
-	FrameStore = require('../stores/FrameStore');
+	FrameStore = require('../stores/FrameStore'),
+
+	Socker = require('../api/Socker'),
+
+	conf = require('../config');
 
 /**
  * The App is the root component responsible for:
  * - setting up structure of child components
- * - kickoff server communication (fetching frames and content)
  *
  * Individual components register for Store state change events
  */
 var App = React.createClass({
 	
-	componentDidMount: function() {
+	componentWillMount: function() {
 		if (!global.OF_USERNAME) {
 			console.log('OF_USERNAME not defined.');
 			return;
 		}
+		Socker.connect("ws://" + conf.domain + ":" + conf.port + "/admin/ws/" + OF_USERNAME);
+
+		Socker.on('frame:connected', FrameActions.frameConnected);
+        Socker.on('frame:disconnected', FrameActions.frameDisconnected);
+        Socker.on('frame:content_updated', FrameActions.frameContentUpdated);
+        Socker.on('frame:setup', FrameActions.setup);
+	},
+
+	componentDidMount: function() {
+		
 	},
 
 	componentWillUnmount: function() {
@@ -33,7 +46,7 @@ var App = React.createClass({
 	    return (
 	      <div className='app'>
 		      <Nav />
-		      <FrameContainer />
+		      <Frame />
 		      <TransferButtons />
 		      <AddContentForm />
 		      <ContentList />

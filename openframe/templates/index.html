@@ -14,69 +14,7 @@
 
 <body>
     <div class="container" id="OpenFrame">
-        <div class="container-top">
-            <div class="page-header">
-                <nav>
-                    <ul class="nav nav-pills pull-right">
-                        <li role="presentation"><a href="/logout" id="LogoutButton">logout</a></li>
-                    </ul>
-                </nav>
-                <h3 class="text-muted"><span class="openframe">openframe/</span><span class="username">{{ user }}</span></h3>
-            </div>
-            <div class="row" id="frames-list">
-                <div class="col-md-12">
-
-                    <!-- Swiper -->
-                    <div class="swiper-container">
-                        <div class="swiper-wrapper">
-                            {% for frame in frames %}
-                            <div class="swiper-slide" data-frame-id="{{ frame['_id'] }}">
-                                <div class="frame-outer-container">
-                                    <button type="button" class="btn btn-primary btn-xs btn-settings hide" data-toggle="modal" data-target="#myModal">S</button>
-                                    <div class="frame" {% if 'current_content' in frame %} style="background-image: url('{{ frame['current_content']['url'] }}')" {% end %}></div>
-                                    <div class="frame-name text-center">
-                                        <h6>{{ frame['name'] }}</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            {% end %}
-                        </div>
-                        <!-- Add Pagination -->
-                        <div class="swiper-pagination"></div>
-                    </div>
-
-
-                </div>
-            </div>
-            <!-- collection | people selection -->
-            <!-- <div class="row">
-                <div class="col-md-12">
-                    
-                </div>
-            </div> -->
-            <div class="row" id="add-content-div">
-                <form class="form-inline" id="add-form">
-                    <div class="form-group">
-                        <!-- <label for="SendToUser">URL</label> -->
-                        <div class="col-md-10">
-                            <input type="text" class="form-control" id="URL" placeholder="enter URL">
-                        </div>
-                        <div class="col-md-2">
-                            <button class="btn btn-default btn-add-content" href="#add-content" id="add-content-button">Add Content</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="container-collection">
-            <div class="row">
-                <div class="col-md-12">
-                    <ul class="content-list" id="Art">
-                        
-                    </ul>
-                </div>
-            </div>
-        </div>
+        
     </div>
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

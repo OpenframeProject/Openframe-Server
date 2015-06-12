@@ -58,7 +58,32 @@ var FrameActions = {
 			actionType: OFConstants.FRAME_UPDATE_CONTENT,
 			content: content
 		});
-	}
+	},
+
+	frameConnected: function(frame) {
+		console.log('Frame Connected: ', frame);
+		AppDispatcher.dispatch({
+			actionType: OFConstants.FRAME_CONNECTED,
+			frame: frame
+		});
+	},
+
+	frameDisconnected: function(frame) {
+		console.log('Frame disconnected: ', frame);
+		AppDispatcher.dispatch({
+			actionType: OFConstants.FRAME_DISCONNECTED,
+			frame: frame
+		});
+	},
+
+	frameContentUpdated: function(data) {
+		console.log('Frame Content updated: ', data);
+	},
+
+	setup: function(frame) {
+        console.log('Frame Setup', frame);
+    }
+	
 }
 
 module.exports = FrameActions;
