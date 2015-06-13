@@ -9,10 +9,11 @@ from openframe.db.users import Users
 
 # User REST Api
 class UsersHandler(BaseHandler):
+
     @authenticated
     def get(self, username=None):
         if username:
-            users_resp = Users.getByUsername(username)
+            users_resp = Users.get_by_username(username)
         else:
             users_resp = Users.getAll()
         if users_resp is not None:

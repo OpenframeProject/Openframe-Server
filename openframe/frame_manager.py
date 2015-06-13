@@ -1,7 +1,9 @@
-from openframe.db.frames import Frames
-from openframe.db.content import Content
 from bson.objectid import ObjectId
 from bson.json_util import dumps
+
+from openframe.db.frames import Frames
+from openframe.db.content import Content
+from openframe.handlers.util import _unify_ids
 
 
 class FrameManager():
@@ -43,8 +45,20 @@ class FrameManager():
 
     def update_frame_content(self, frame_id, content_id):
         print(content_id)
-        # print('FrameManager::update_frame_content: ' +
-        #       content_id + " -> " + frame_id)
+
+        # update the current_content on the frame in the db
+
+        # get content
+        content = Content.getById(content_id)
+        _unify_ids(content)
+
+        # update frame in db to reflect current content
+        frame = Frames.updateById(
+            frame_id, {'current_content': content})
+
+        # publish frame:content_updated event
+        self.pubsub.publish(
+            'frame:content_updated', frame=frame, content=content)
 
         # send content to frame if frame connected
         content = Content.getById(content_id)

@@ -30,7 +30,7 @@ class LoginHandler(BaseHandler):
             self.render("login.html", error="Incorrect username or password.")
 
     def _check_password(self, username, password):
-        user = Users.getByUsername(username, ['password', 'salt'])
+        user = Users.get_by_username(username, ['password', 'salt'])
         if not user:
             return False
         stored_pass = user['password']

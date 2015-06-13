@@ -4,6 +4,7 @@ var React = require('react'),
 	TransferButtons = require('./TransferButtons.js'),
 	AddContentForm = require('./AddContentForm.js'),
 	ContentList = require('./ContentList.js'),
+	FooterNav = require('./FooterNav.js'),
 
 	AppDispatcher = require('../dispatcher/AppDispatcher'),
 	FrameActions = require('../actions/FrameActions'),
@@ -26,7 +27,8 @@ var App = React.createClass({
 			console.log('OF_USERNAME not defined.');
 			return;
 		}
-		Socker.connect("ws://" + conf.domain + ":" + conf.port + "/admin/ws/" + OF_USERNAME);
+
+		Socker.connect("ws://" + window.location.host + "/admin/ws/" + OF_USERNAME);
 
 		Socker.on('frame:connected', FrameActions.frameConnected);
         Socker.on('frame:disconnected', FrameActions.frameDisconnected);
@@ -44,13 +46,16 @@ var App = React.createClass({
 
   	render: function(){
 	    return (
-	      <div className='app'>
-		      <Nav />
-		      <Frame />
-		      <TransferButtons />
-		      <AddContentForm />
-		      <ContentList />
-		  </div>
+	    	<div className="container">
+				<div className='app'>
+					<Nav />
+					<Frame />
+					<TransferButtons />
+					<AddContentForm />
+					<ContentList />
+				</div>
+				<FooterNav />
+			</div>
 	    )
   	}
 });

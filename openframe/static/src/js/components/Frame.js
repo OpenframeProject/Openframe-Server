@@ -47,8 +47,10 @@ var Frame = React.createClass({
 	},
 
   	_onChange: function() {
+  		var selectedFrame = FrameStore.getSelectedFrame();
+  		console.log('selectedFrame:', selectedFrame);
   		this.setState({
-  			frame: FrameStore.getSelectedFrame()
+  			frame: selectedFrame
   		});
   	}
 

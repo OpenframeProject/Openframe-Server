@@ -1,7 +1,8 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher'),
 	OFConstants = require('../constants/OFConstants'),
 	$ = require('jquery'),
-	Socker = require('../api/Socker');
+	Socker = require('../api/Socker'),
+	FrameStore = require('../stores/FrameStore');
 
 var endpoints = {
 	all_frames: '/frames/user/' + OF_USERNAME
@@ -54,10 +55,16 @@ var FrameActions = {
 	 * @param  {object} content
 	 */
 	updateContent: function(content) {
-		AppDispatcher.dispatch({
-			actionType: OFConstants.FRAME_UPDATE_CONTENT,
-			content: content
-		});
+		var frame = FrameStore.getSelectedFrame();
+		console.log(frame, content);
+		// var content = ContentStore.getSelectedContent();
+        var data = {
+            frame_id: frame._id,
+            content_id: content._id
+        };
+        Socker.send('frame:update_content', data);
+		
+		// WebSocket event handler for frame:content_updated triggers the dispatch
 	},
 
 	frameConnected: function(frame) {
@@ -78,10 +85,21 @@ var FrameActions = {
 
 	frameContentUpdated: function(data) {
 		console.log('Frame Content updated: ', data);
+		AppDispatcher.dispatch({
+			actionType: OFConstants.FRAME_CONTENT_UPDATED,
+			frame: data
+		});
 	},
 
-	setup: function(frame) {
+	setup: function(data) {
+		var frame = data.frame;
         console.log('Frame Setup', frame);
+        // this is a little weird -- why isn't setup just part of the initial
+        // connected event?
+        AppDispatcher.dispatch({
+			actionType: OFConstants.FRAME_CONNECTED,
+			frame: frame
+		});
     }
 	
 }

@@ -1,4 +1,5 @@
 from openframe.db.frames import Frames
+from openframe.db.users import Users
 
 
 class AdminManager():
@@ -32,55 +33,74 @@ class AdminManager():
         return self.application.pubsub
 
     def add_admin_connection(self, admin_ws):
-        print('AdminManager::add_admin_connection: ' + admin_ws.username)
-        self.admins[admin_ws.username] = admin_ws
+        print('AdminManager::add_admin_connection: ' +
+              str(admin_ws.user['_id']))
+        if admin_ws.user['_id'] in self.admins:
+            print('new user admin connected')
+            self.admins[admin_ws.user['_id']][admin_ws.uuid] = admin_ws
+        else:
+            print('additional user admin connected')
+            self.admins[admin_ws.user['_id']] = {admin_ws.uuid: admin_ws}
 
     def remove_admin_connection(self, admin_ws):
-        print('AdminManager:remove_admin_connection: ' + admin_ws.username)
-        del self.admins[admin_ws.username]
+        print('AdminManager:remove_admin_connection: ' +
+              str(admin_ws.user['_id']))
+        if admin_ws.user['_id'] in self.admins:
+            del self.admins[admin_ws.user['_id']][admin_ws.uuid]
 
     def add_frame_connection(self, frame_ws):
         print('AdminManager::add_frame_connection: ' + frame_ws.frame_id)
         # get frame object from websocket object
         frame = frame_ws.frame
         # get users for this frame
-        users = frame['users']
-        # for each user, if the user is connected, send frame:connected event to
-        # websocket client (i.e. to admin page)
+        users = Users.get_by_frame_id(frame['_id'])
+        # for each user, if the user is connected,
+        # send frame:connected event to each
+        # websocket client they have open (i.e. to admin page)
         for user in users:
-            print('user: ' + user)
-            if user in self.admins:
-                print('logged in user: ' + user)
-                self.admins[user].send('frame:connected', frame)
+            user_id = user['_id']
+            if user_id in self.admins:
+                for ws_uuid in self.admins[user_id]:
+                    self.admins[user_id][ws_uuid].send(
+                        'frame:connected', frame)
 
     def remove_frame_connection(self, frame_ws):
         print('AdminManager::remove_frame_connection: ' + frame_ws.frame_id)
         # get frame object from db
         frame = Frames.getById(frame_ws.frame_id)
         # get users for this frame
-        users = frame['users']
-        # for each user, if the user is connected, send frame:disconnected to the
+        users = Users.get_by_frame_id(frame_ws.frame_id)
+        # for each user, if the user is connected,
+        # send frame:disconnected to the
         # websocket client
         for user in users:
-            if user in self.admins:
-                self.admins[user].send('frame:disconnected', frame)
+            user_id = user['_id']
+            if user_id in self.admins:
+                for ws_uuid in self.admins[user_id]:
+                    self.admins[user_id][ws_uuid].send(
+                        'frame:disconnected', frame)
 
     def update_admin_frame(self, frame, content):
         print('AdminManager::update_admin_frame')
-        users = frame['users']
+        # get users for this frame
+        users = Users.get_by_frame_id(frame['_id'])
         # for each user, if the user is connected, send frame:updated event to
         # websocket client (i.e. to admin page)
         for user in users:
-            if user in self.admins:
-                data = {'frame': frame, 'content': content}
-                self.admins[user].send('frame:content_updated', data)
+            user_id = user['_id']
+            if user_id in self.admins:
+                for ws_uuid in self.admins[user_id]:
+                    self.admins[user_id][ws_uuid].send(
+                        'frame:content_updated', frame)
 
     def setup_frame(self, frame):
         print('AdminManager::setup_frame')
-        users = frame['users']
+        users = Users.get_by_frame_id(frame['_id'])
         # for each user, if the user is connected, send frame:updated event to
         # websocket client (i.e. to admin page)
         for user in users:
-            if user in self.admins:
-                data = {'frame': frame}
-                self.admins[user].send('frame:setup', data)
+            user_id = user['_id']
+            if user_id in self.admins:
+                for ws_uuid in self.admins[user_id]:
+                    data = {'frame': frame}
+                    self.admins[user_id][ws_uuid].send('frame:setup', data)

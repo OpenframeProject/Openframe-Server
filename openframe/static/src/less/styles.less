@@ -13,12 +13,14 @@ less file. These files are imported at the bottom of this file.
 
  */
 
-html, body, .container, .app {
+html, body, #OpenFrame, .app {
     height: 100%;
+    position: relative;
 }
 
 .container {
     position: relative;
+    height: 100%;
 }
 
 .navbar {
@@ -239,7 +241,7 @@ ul {
 .frame-outer-container {
     position: relative;
     padding: 20px;
-    width: 50%;
+    width: 40%;
     margin: 0 auto;
 }
 
@@ -303,7 +305,23 @@ ul {
     }
 }
 
+.nav-footer {
+    position: absolute;
+    bottom: 0;
+    background: @gray-light;
 
+    width: 100%;
+
+    .btn-nav-footer {
+        text-align: center;
+        display: block;
+        padding: 10px 10px;
+
+        &.active {
+            // border-bottom: solid 3px #FFF;
+        }
+    }
+}
 
 
 

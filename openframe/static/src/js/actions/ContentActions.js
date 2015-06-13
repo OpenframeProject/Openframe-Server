@@ -38,17 +38,6 @@ var ContentActions = {
 	},
 
 	/**
-	 * Send content to selected frame.
-	 * @param {object} content
-	 */
-	send: function(content) {
-		AppDispatcher.dispatch({
-			actionType: OFConstants.CONTENT_SEND,
-			content: content
-		});
-	},
-
-	/**
 	 * Add a new content item. Performs server request.
 	 * @param  {object} content
 	 */
@@ -103,6 +92,13 @@ var ContentActions = {
 			});
         });
 	},
+
+	slideChanged: function(content_id) {
+		AppDispatcher.dispatch({
+			actionType: OFConstants.CONTENT_SLIDE_CHANGED,
+			content_id: content_id
+		});
+	}
 
 
 }

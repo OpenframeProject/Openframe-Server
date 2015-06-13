@@ -9,7 +9,7 @@ var _frames = {},
 	_selectedFrame = null;
 
 var addFrame = function(frame) {
-	removeFrame(frame);
+	// removeFrame(frame);
 	_frames[frame._id] = frame;
 };
 
@@ -62,6 +62,7 @@ var FrameStore = assign({}, EventEmitter.prototype, {
 	 */
 	connectFrame: function(frame) {
 		// addFrame will overwrite previous frame
+		console.log('connectFrame: ', frame);
 		addFrame(frame);
 		_selectedFrame = frame;
 	},
@@ -118,6 +119,11 @@ AppDispatcher.register(function(action) {
 
 		case OFConstants.CONTENT_SEND:
     		_selectedFrame.content = action.content;
+			FrameStore.emitChange();
+			break;
+
+		case OFConstants.FRAME_CONTENT_UPDATED:
+    		_selectedFrame = action.frame;
 			FrameStore.emitChange();
 			break;
 	    // case OFConstants.TODO_UPDATE_TEXT:

@@ -59,8 +59,11 @@ var ContentList = React.createClass({
 	        slidesPerView: 1,
 	        spaceBetween: 30,
 	        loop: true,
-	        keyboardControl: true
+	        keyboardControl: true,
+	        onSlideChangeEnd: this._slideChangeEnd
 	    });
+
+
   	},
 
   	_populateSlider: function() {
@@ -69,12 +72,19 @@ var ContentList = React.createClass({
   	},
 
   	_addSlide: function(contentItem) {
-  		var html = '<div class="swiper-slide"><img src=' + contentItem.url + ' /></div>'
+  		var html = '<div class="swiper-slide" data-contentid="' + contentItem._id + '"><img src=' + contentItem.url + ' /></div>'
 		this.swiper.prependSlide(html);
   	},
 
   	_slideTo: function(index) {
   		this.swiper.slideTo(index);
+  	},
+
+  	_slideChangeEnd: function(slider) {
+  		var slide = this.swiper.slides[this.swiper.activeIndex],
+  			content_id = slide.dataset.contentid;
+  		console.log('_slideChangeEnd', content_id);
+  		ContentActions.slideChanged(content_id);
   	}
 
 });

@@ -30,7 +30,7 @@ class Users():
                                          projection=Users.default_projection)
 
     @staticmethod
-    def getByUsername(username, projection=None):
+    def get_by_username(username, projection=None):
         """
         Get a user by username
         """
@@ -40,12 +40,14 @@ class Users():
                                          projection=projection)
 
     @staticmethod
-    def getByFrameId(frame_id):
+    def get_by_frame_id(frame_id):
         """
         Get a list of users which have access this frame
         """
         frame = Frames.getById(frame_id)
-        return frame.users
+        users = Users.collection.find({'username': {'$in': frame['users']}})
+        print(users)
+        return users
 
     @staticmethod
     def createUser(username, password):
@@ -57,7 +59,8 @@ class Users():
 
         password_bytes = password.encode('utf-8')
         salt_bytes = uuid.uuid4().bytes
-        hashed_password = hashlib.sha512(password_bytes + salt_bytes).hexdigest()
+        hashed_password = hashlib.sha512(
+            password_bytes + salt_bytes).hexdigest()
         user = {
             "username": username,
             "salt": salt_bytes,
@@ -94,7 +97,7 @@ class Users():
         """
         Check if a user exists
         """
-        user = Users.getByUsername(username)
+        user = Users.get_by_username(username)
         if user:
             return True
         else:

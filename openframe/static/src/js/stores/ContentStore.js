@@ -6,17 +6,14 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
 
 
 var _content = [],
-	_curIndex = 0;
+	_selected_content_id = 0;
 
-
-var removeContent = function(id){
-	// _.find
-}
 
 var ContentStore = assign({}, EventEmitter.prototype, {
 
 	init: function(content) {
 		_content = content;
+		_selected_content_id = _content[0]._id;
 	},
 
 	addContent: function(content) {
@@ -35,8 +32,9 @@ var ContentStore = assign({}, EventEmitter.prototype, {
 		return _content;
 	},
 
-	getCurrentIndex: function() {
-		return _curIndex;
+	getSelectedContent: function() {
+		// console.log('getSelectedContent:', _content, _selected_content_id);
+		return _.find(_content, {'_id': _selected_content_id});
 	},
 
 	addChangeListener: function(cb){
@@ -65,6 +63,11 @@ AppDispatcher.register(function(action) {
 
 		case OFConstants.CONTENT_LOAD_FAIL:
 			console.log('content failed to load: ', action.err);
+			break;
+
+		case OFConstants.CONTENT_SLIDE_CHANGED:
+			console.log('slide changed...');
+			_selected_content_id = action.content_id;
 			break;
 
 		case OFConstants.CONTENT_ADD:

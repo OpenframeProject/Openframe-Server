@@ -1,10 +1,9 @@
-from tornado.escape import to_unicode, json_decode, json_encode
-import tornado.web
-from bson.objectid import ObjectId
+from tornado.escape import json_decode
 from bson.json_util import dumps
 
 from openframe.handlers.base import BaseHandler
 from openframe.db.frames import Frames
+from openframe.handlers.util import _unify_ids
 
 
 class FramesHandler(BaseHandler):
@@ -20,6 +19,7 @@ class FramesHandler(BaseHandler):
             frame_resp = Frames.getById(frame_id)
         else:
             frame_resp = frames.find()
+        _unify_ids(frame_resp)
         self.write(dumps(frame_resp))
 
     def post(self):
@@ -28,6 +28,7 @@ class FramesHandler(BaseHandler):
         result = Frames.insert(doc)
         if not result:
             print('Problem inserting new frame')
+        _unify_ids(doc)
         self.write(dumps(doc))
 
     def put(self, frame_id):
@@ -36,6 +37,7 @@ class FramesHandler(BaseHandler):
         result = Frames.updateById(frame_id, doc)
         if not result:
             print('Problem updating frame')
+        _unify_ids(result)
         self.write(dumps(result))
 
     def delete(self, frame_id):

@@ -4,6 +4,7 @@ from bson.objectid import ObjectId
 from openframe.handlers.base import BaseWebSocketHandler
 from openframe.db.frames import Frames
 from openframe.db.content import Content
+from openframe.handlers.util import _unify_ids
 
 
 class FrameWebSocketHandler(BaseWebSocketHandler):
@@ -52,25 +53,27 @@ class FrameWebSocketHandler(BaseWebSocketHandler):
         self.pubsub.publish("frame:disconnected", frame_ws=self)
 
     def _handleContentUpdated(self, data):
-        print('_handleContentUpdated')
-        content_id = data['content_id']
-        frame_id = data['frame_id']
+        """
+        Content on the frame is updated with the initial
+        frame:update_content WS event.
 
-        # get content
-        content = Content.getById(content_id)
-        # update frame in db to reflect current content
-        frame = Frames.updateById(
-            frame_id, {'current_content': content})
+        This handles a notification from the frame that its content
+        has been updated.
+        """
+        print('_handleContentUpdated')
+
         # publish frame:updated event
-        self.pubsub.publish(
-            'frame:content_updated', frame=frame, content=content)
+        # self.pubsub.publish(
+        #     'frame:content_updated',
+        #     frame_id=data['frame_id'],
+        #     content_id=data['content_id'])
 
     def _handleSetup(self, data):
         print('_handleSetup')
         settings = {
             'width': data['width'],
             'height': data['height'],
-            'w_h_ratio': data['width']/data['height']
+            'w_h_ratio': data['width'] / data['height']
         }
 
         # update frame in db to reflect current content

@@ -10,12 +10,14 @@ less file. These files are imported at the bottom of this file.
  */
 html,
 body,
-.container,
+#OpenFrame,
 .app {
   height: 100%;
+  position: relative;
 }
 .container {
   position: relative;
+  height: 100%;
 }
 .navbar {
   margin-bottom: 0;
@@ -180,7 +182,7 @@ ul {
 .frame-outer-container {
   position: relative;
   padding: 20px;
-  width: 50%;
+  width: 40%;
   margin: 0 auto;
 }
 .frame-inner-container {
@@ -233,6 +235,17 @@ ul {
 }
 .swiper-slide img {
   max-height: 100%;
+}
+.nav-footer {
+  position: absolute;
+  bottom: 0;
+  background: #d0d0d0;
+  width: 100%;
+}
+.nav-footer .btn-nav-footer {
+  text-align: center;
+  display: block;
+  padding: 10px 10px;
 }
 /**
  * Import styles for larger sreens.
