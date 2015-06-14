@@ -174,15 +174,14 @@ ul {
   border-top: 1px solid #d0d0d0;
 }
 .transfer-buttons .btn-transfer {
-  height: 21px;
   position: relative;
-  top: -12px;
-  padding: 1px 15px;
+  top: -14px;
+  padding: 3px 20px;
 }
 .transfer-buttons .btn-transfer:focus,
 .transfer-buttons .btn-transfer:hover {
-  background: #fff;
   outline: none;
+  background: #fff;
 }
 .transfer-buttons .btn-transfer .icon {
   top: 0px;
