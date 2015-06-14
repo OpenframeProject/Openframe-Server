@@ -38,7 +38,7 @@ var Frame = React.createClass({
 					<div className="frame-inner-container" style={whStyle} >
 		            	<div className="frame" style={divStyle} />
 		            </div>
-		            <div className="frame-name text-center">
+		            <div className="hidden-xs frame-name text-center">
 		                <h6>{this.state.frame.name} {active}</h6>
 		            </div>
 		        </div>
