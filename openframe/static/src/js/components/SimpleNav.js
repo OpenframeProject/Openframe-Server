@@ -11,11 +11,17 @@ var SimpleNav = React.createClass({
 
     getInitialState: function() {
         return {
-            frames: []
+            frames: [],
+            selectedFrame: {
+                name: 'HOME'
+            } 
         }
     },
 
     render: function() {
+        var frameName = this.state.selectedFrame.name;
+        frameName = this.state.selectedFrame.active ? frameName + " *" : frameName; 
+
         return (
             <div className="of-nav-fixed of-nav-top">
                 <button type="button" className="btn-simple-nav btn-menu visible-xs pull-left" onClick={this._handleOpenMenuClick}>
@@ -26,6 +32,7 @@ var SimpleNav = React.createClass({
                 </button>
                 <h3 className="text-muted hidden-xs pull-left"><span className="openframe">openframe/</span><span className="username">{OF_USERNAME}</span></h3>
 
+                <div className="frame-name visible-xs text-center">{frameName}</div>
 
                 <ul className="nav navbar-nav navbar-right hidden-xs">
                     <li className="dropdown">
@@ -52,7 +59,8 @@ var SimpleNav = React.createClass({
 
     _onChange: function() {
         this.setState({
-            frames: FrameStore.getAllFrames()
+            frames: FrameStore.getAllFrames(),
+            selectedFrame: FrameStore.getSelectedFrame()
         });
     }
 

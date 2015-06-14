@@ -31,9 +31,6 @@ var FrameStore = assign({}, EventEmitter.prototype, {
 		_selectedFrame = selected || frames[0];
 	},
 
-	emitChange: function() {
-		this.emit(OFConstants.CHANGE_EVENT);
-	},
 
 	getFrame: function(id) {
 		return _frames[id];
@@ -57,6 +54,10 @@ var FrameStore = assign({}, EventEmitter.prototype, {
 		};
 	},
 
+	emitChange: function() {
+		this.emit(OFConstants.CHANGE_EVENT);
+	},
+	
 	/**
 	 * A frame has connected. Simply updated the frame object in our collection.
 	 */
