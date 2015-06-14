@@ -46,14 +46,12 @@ var App = React.createClass({
 
   	render: function(){
 	    return (
-	    	<div className="container">
-				<div className='app'>
-					<Nav />
-					<Frame />
-					<TransferButtons />
-					<AddContentForm />
-					<ContentList />
-				</div>
+			<div className='container app'>
+				<Nav />
+				<Frame />
+				<TransferButtons />
+				<AddContentForm />
+				<ContentList />
 				<FooterNav />
 			</div>
 	    )

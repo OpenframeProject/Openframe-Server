@@ -6568,10 +6568,6 @@ body,
   height: 100%;
   position: relative;
 }
-.container {
-  position: relative;
-  height: 100%;
-}
 .navbar {
   margin-bottom: 0;
   min-height: 45px;
