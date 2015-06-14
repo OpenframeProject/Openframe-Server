@@ -14,11 +14,17 @@ body,
 .app {
   height: 100%;
   position: relative;
+  overflow: hidden;
+}
+.container {
+  position: relative;
+  height: 100%;
 }
 .navbar {
   margin-bottom: 0;
-  min-height: 45px;
+  height: 40px;
   padding-top: 5px;
+  z-index: 2000;
 }
 .navbar h3 {
   margin: 0;
@@ -81,6 +87,8 @@ ul {
   margin-top: 20px;
 }
 #add-content-div {
+  position: relative;
+  z-index: 2020;
   border-top: 1px solid #4B4B4B;
   border-bottom: 1px solid #4B4B4B;
   padding: 6px 0px 5px 0px;
@@ -158,8 +166,11 @@ ul {
   padding: 0px;
 }
 .transfer-buttons {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  z-index: 1000;
   border-top: 1px solid #d0d0d0;
-  position: relative;
 }
 .transfer-buttons .btn-transfer {
   height: 21px;
@@ -167,11 +178,22 @@ ul {
   top: -12px;
   padding: 1px 15px;
 }
+.transfer-buttons .btn-transfer:focus,
+.transfer-buttons .btn-transfer:hover {
+  background: #fff;
+  outline: none;
+}
 .transfer-buttons .btn-transfer .icon {
   top: 0px;
   height: 10px;
 }
 .frames-list {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 50%;
+  z-index: 900;
+  overflow-y: hidden;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -184,8 +206,7 @@ ul {
 .frame-inner-container {
   position: relative;
   height: 0;
-  margin: 0 auto;
-  padding-bottom: 150%;
+  margin-top: 50%;
   border: 7px solid #3F3E3C;
 }
 .frame {
@@ -202,46 +223,135 @@ ul {
   margin: 10px auto;
 }
 .swiper-outer-container {
-  margin-top: 20px;
+  position: absolute;
+  bottom: 0;
   width: 100%;
-  height: 30%;
+  height: 50%;
+  z-index: 910;
+  overflow-y: hidden;
 }
 .swiper-container {
-  width: 100%;
+  position: relative;
+  left: -20%;
+  width: 140%;
   height: 100%;
-  margin-top: 20px;
 }
 .swiper-slide {
   text-align: center;
   font-size: 18px;
   background: #fff;
-  /* Center slide text vertically */
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  -webkit-align-items: center;
-  align-items: center;
+  height: 100%;
+  position: relative;
 }
 .swiper-slide img {
-  max-height: 100%;
+  position: relative;
+  top: 25%;
+  width: 100%;
+  margin: 0 auto;
+  max-width: 300px;
 }
-.nav-footer {
+.swiper-slide:nth-child(2n) {
+  width: 30%;
+}
+.swiper-slide:nth-child(3n) {
+  width: 10%;
+}
+.of-nav-fixed {
   position: absolute;
+  top: 0;
+  width: 100%;
+  height: 40px;
+  z-index: 2010;
+}
+.of-nav-fixed .btn-simple-nav {
+  font-size: 1.2em;
+  border: none;
+  background: none;
+  padding: 10px;
+}
+.of-nav-fixed .btn-simple-nav:focus {
+  outline: none;
+}
+.of-nav-fixed .navbar-nav > li > a {
+  padding: 10px;
+}
+.of-nav-fixed h3 {
+  padding: 5px 0px;
+  margin: 0px;
+}
+.of-nav-footer {
+  top: auto;
   bottom: 0;
-  background: #d0d0d0;
+  background: #dddddd;
   width: 100%;
 }
-.nav-footer .btn-nav-footer {
+.of-nav-footer .btn-nav-footer {
   text-align: center;
   display: block;
   padding: 10px 10px;
+  height: 40px;
+}
+.menu-drawer {
+  position: absolute;
+  z-index: 2030;
+  top: 0px;
+  width: 90%;
+  height: 100%;
+  background-color: #777777;
+}
+.menu-drawer .of-nav-fixed {
+  z-index: 2040;
+  color: #d0d0d0;
+}
+.menu-drawer .username {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  color: #d0d0d0;
+}
+.menu-drawer .nav-frame-list {
+  margin-top: 40px;
+  width: 100%;
+  text-transform: uppercase;
+}
+.menu-drawer .nav-frame-list li {
+  border-top: 1px solid #555555;
+}
+.menu-drawer .nav-frame-list li a {
+  display: block;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0px;
+  font-weight: 700;
+}
+.menu-drawer .nav-frame-list li a.btn-logout {
+  color: #444444;
+  text-transform: none;
+}
+.menu-drawer-left.menu-drawer-open {
+  transition-property: left;
+  transition-duration: 0.25s;
+  transition-timing-function: ease-out;
+  left: 0px;
+}
+.menu-drawer-left.menu-drawer-closed {
+  transition-property: left;
+  transition-duration: 0.25s;
+  transition-timing-function: ease-out;
+  left: -90%;
+}
+.menu-drawer-right.menu-drawer-open {
+  transition-property: right;
+  transition-duration: 0.25s;
+  transition-timing-function: ease-out;
+  right: 0%;
+}
+.menu-drawer-right.menu-drawer-closed {
+  transition-property: right;
+  transition-duration: 0.25s;
+  transition-timing-function: ease-out;
+  right: -90%;
 }
 /**
  * Import styles for larger sreens.

@@ -13,7 +13,7 @@ var ContentList = React.createClass({
 	componentDidMount: function() {
 		ContentActions.loadContent();
 		ContentStore.addChangeListener(this._onChange);
-		this._initSlider();
+		// this._initSlider();
 	},
 
 	render: function() {
@@ -49,16 +49,18 @@ var ContentList = React.createClass({
 
   		this._populateSlider()
   		
-		var slide_index = $('div.swiper-slide').length;
-        this.swiper.slideTo(slide_index);
+		// var slide_index = $('div.swiper-slide').length;
+        this.swiper.slideTo(0);
   	},
 
   	_initSlider: function() {
   		var el = React.findDOMNode(this.refs.Swiper);
 		this.swiper = new Swiper(el, {
-	        slidesPerView: 1,
-	        spaceBetween: 30,
-	        loop: true,
+	        slidesPerView: 3,
+	        spaceBetween: 50,
+	        centeredSlides: true,
+	        // loop: true,
+	        // loopedSlides: 5,
 	        keyboardControl: true,
 	        onSlideChangeEnd: this._slideChangeEnd
 	    });

@@ -20,7 +20,7 @@ var AddContentForm = React.createClass({
     },
 	render: function() {
 		return (
-			<div className="row hidden-xs" id="add-content-div">
+			<div className="row hidden-xs hide" id="add-content-div">
                 <form className="form-inline" id="add-form" onSubmit={this.handleFormSubmit}>
                     <div className="form-group">
                         {/* <label for="SendToUser">URL</label> */}

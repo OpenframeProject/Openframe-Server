@@ -4,12 +4,15 @@ var React = require('react'),
 var NavFrameLink = React.createClass({
 	handleFrameSelection: function(e) {
 		FrameActions.select(this.props.frame);
+		if (this.props.linkClickHandler) {
+			this.props.linkClickHandler();
+		}
 	},
 
 	render: function() {
 		var active = this.props.frame.active ? '*' : '';
 		return (
-			<li onClick={this.handleFrameSelection}>
+			<li onTouchEnd={this.handleFrameSelection} onClick={this.handleFrameSelection}>
 				<a href="#">{this.props.frame.name} {active}</a>
 			</li>
 		);

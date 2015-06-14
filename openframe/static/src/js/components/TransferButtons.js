@@ -6,7 +6,7 @@ var TransferButtons = React.createClass({
 
 	render: function() {
 		return (
-			<div className="row visible-xs transfer-buttons">
+			<div className="row transfer-buttons">
                 <div className="col-xs-12 text-center">
                     <div className="btn-group" role="group" aria-label="...">
                         <button type="button" className="btn btn-xs btn-default btn-send btn-transfer" onClick={this.sendClicked}>

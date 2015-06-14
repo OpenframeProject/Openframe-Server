@@ -53,6 +53,7 @@
     "react": "global:React",
     "flux": "global:Flux",
     "lodash": "global:_",
-    "swiper": "global:Swiper"
+    "swiper": "global:Swiper",
+    "ssm": "global:ssm"
   }
 }

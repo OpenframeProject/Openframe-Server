@@ -25,6 +25,8 @@ module.exports = keymirror({
 	CONTENT_REMOVE_DONE: null,
 	CONTENT_REMOVE_FAIL: null,
 
+	MENU_TOGGLE: null,
+	SETTINGS_TOGGLE: null,
 
 	// emitted by stores
 	CHANGE_EVENT: null

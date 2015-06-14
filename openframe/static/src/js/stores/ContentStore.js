@@ -6,7 +6,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
 
 
 var _content = [],
-	_selected_content_id = 0;
+	_selected_content_id = null;
 
 
 var ContentStore = assign({}, EventEmitter.prototype, {
@@ -14,10 +14,12 @@ var ContentStore = assign({}, EventEmitter.prototype, {
 	init: function(content) {
 		_content = content;
 		_selected_content_id = _content[0]._id;
+		console.log('init', _selected_content_id);
 	},
 
 	addContent: function(content) {
 		_content.push(content);
+		_selected_content_id = content._id;
 	},
 
 	removeContent: function(content) {

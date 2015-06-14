@@ -37,7 +37,8 @@ var path = {
         bower_path + '/swiper/dist/js/swiper.min.js',
         bower_path + '/lodash/lodash.js',
         bower_path + '/react/react.js',
-        bower_path + '/flux/dist/Flux.js'
+        bower_path + '/flux/dist/Flux.js',
+        bower_path + '/SimpleStateManager/dist/ssm.min.js'
     ],
     JS_APP_SRC: static_path + '/src/js',
     JS_DIST: static_path + '/dist/js',
@@ -166,4 +167,4 @@ gulp.task('build', function() {
         .pipe(gulp.dest(path.JS_DEST_BUILD));
 });
 
-gulp.task('default', ['watch']);
+gulp.task('default', ['watch', 'libs']);

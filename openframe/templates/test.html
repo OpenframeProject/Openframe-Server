@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>OpenFrame</title>
     <link rel="stylesheet" type="text/css" href="/static/dist/css/all-styles.css">
     <link rel="stylesheet" type="text/css" href="/static/components/swiper/dist/css/swiper.min.css">
@@ -58,7 +59,7 @@
         <!-- END FRAME PREVIEW -->
 
         <!-- TRANSFER BUTTONS -->
-        <div class="row visible-xs transfer-buttons">
+        <div class="row transfer-buttons">
             <div class="col-xs-12 text-center">
                 <div class="btn-group" role="group" aria-label="...">
                     <button type="button" class="btn btn-xs btn-default btn-send btn-transfer">
@@ -73,7 +74,7 @@
         <!-- END TRANSFER BUTTONS -->
 
         <!-- ADD CONTENT FORM -->
-        <div class="row hidden-xs" id="add-content-div">
+        <div class="row hide" id="add-content-div">
             <form class="form-inline" id="add-form">
                 <div class="form-group">
                     <!-- <label for="SendToUser">URL</label> -->
@@ -90,27 +91,52 @@
 
         <!-- CONTENT LIST -->
         <!-- Swiper -->
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <img src="/static/dist/img/placeholder.jpg">
-                </div>
-                <div class="swiper-slide">
-                    <img src="/static/dist/img/placeholder.jpg">
-                </div>
-                <div class="swiper-slide">
-                    <img src="/static/dist/img/placeholder.jpg">
+        <div class="swiper-outer-container">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="/static/dist/img/placeholder.jpg">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="/static/dist/img/placeholder.jpg">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="/static/dist/img/placeholder.jpg">
+                    </div>
                 </div>
             </div>
         </div>
         <!-- END CONTENT LIST -->
+
+        <!-- FOOTER NAV -->
+        <div class="row nav-footer">
+            <div class="col-xs-4">
+                <a class="btn-nav-footer active" href="#"><span class="glyphicon glyphicon-stop" /></a>
+            </div>
+            <div class="col-xs-4">
+                <a class="btn-nav-footer" href="#"><span class="glyphicon glyphicon-stop" /></a>
+            </div>
+            <div class="col-xs-4">
+                <a class="btn-nav-footer" href="#"><span class="glyphicon glyphicon-stop" /></a>
+            </div>
+        </div>
+        <!-- END FOOTER NAV -->
 
     </div>
     <script type="text/javascript">
     var OF_USERNAME = 'jonwohl';
     </script>
     <script type="text/javascript" src="/static/dist/js/libs.js"></script>
-    <script type="text/javascript" src="/static/dist/js/build.js"></script>
+    <script type="text/javascript">
+        $('.splash').on('scroll')
+        var swiper = new Swiper($('.swiper-container')[0], {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            keyboardControl: true
+        });
+    </script>
+    <!-- <script type="text/javascript" src="/static/dist/js/build.js"></script> -->
 </body>
 
 </html>
