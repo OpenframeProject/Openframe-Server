@@ -255,29 +255,25 @@ ul {
     z-index: 900;
     overflow-y: hidden;
     text-align: center;
-    margin-bottom: 20px;
 }
 
 .frame-outer-container {
     position: relative;
-    padding: 20px;
-    width: 40%;
     margin: 0 auto;
+    text-align: center;
 }
 
 .frame-inner-container {
     position: relative;
-    height: 0;
-    margin-top: 50%;
-    border: 7px solid #3F3E3C;
+    margin: 0 auto;
+    text-align: center;
+    // border: 7px solid #3F3E3C;
 }
 
 .frame {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    position: relative;
+    display: inline-block;
+    border: 7px solid #3F3E3C;
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -338,6 +334,7 @@ ul {
     // background-color: @gray-lighter;
 
     .btn-simple-nav {
+        position: relative;
         font-size: 1.2em;
         border: none;
         background: none;
@@ -427,31 +424,29 @@ ul {
 
 
 .menu-drawer-left {
+    -webkit-transform: translateZ(0);
     &.menu-drawer-open {
         transition-property: left;
-        transition-duration: 0.25s;
-        transition-timing-function: ease-out;
+        transition-duration: 0.5s;
         left: 0px;
     }
     &.menu-drawer-closed {
         transition-property: left;
-        transition-duration: 0.25s;
-        transition-timing-function: ease-out;
+        transition-duration: 0.5s;
         left: -90%;
     }
 }
 
 .menu-drawer-right {
+    -webkit-transform: translateZ(0);
     &.menu-drawer-open {
         transition-property: right;
-        transition-duration: 0.25s;
-        transition-timing-function: ease-out;
+        transition-duration: 0.5s;
         right: 0%;
     }
     &.menu-drawer-closed {
         transition-property: right;
-        transition-duration: 0.25s;
-        transition-timing-function: ease-out;
+        transition-duration: 0.5s;
         right: -90%;
     }
 }

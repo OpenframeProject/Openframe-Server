@@ -54,6 +54,7 @@
     "flux": "global:Flux",
     "lodash": "global:_",
     "swiper": "global:Swiper",
-    "ssm": "global:ssm"
+    "ssm": "global:ssm",
+    "fastclick": "global:FastClick"
   }
 }

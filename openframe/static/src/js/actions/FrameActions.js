@@ -100,6 +100,22 @@ var FrameActions = {
 			actionType: OFConstants.FRAME_CONNECTED,
 			frame: frame
 		});
+    },
+
+    /**
+     * Really? Does the view dimension need to be part of the state?
+     * Probable not. Not used presently.
+     * 
+     * @param  {[type]} w [description]
+     * @param  {[type]} h [description]
+     * @return {[type]}   [description]
+     */
+    setupFrameView: function(w, h) {
+    	AppDispatcher.dispatch({
+			actionType: OFConstants.FRAME_SETUP_VIEW,
+			w: w,
+			h: h
+		});
     }
 	
 }

@@ -38,7 +38,8 @@ var path = {
         bower_path + '/lodash/lodash.js',
         bower_path + '/react/react.js',
         bower_path + '/flux/dist/Flux.js',
-        bower_path + '/SimpleStateManager/dist/ssm.min.js'
+        bower_path + '/SimpleStateManager/dist/ssm.min.js',
+        bower_path + '/fastclick/lib/fastclick.js'
     ],
     JS_APP_SRC: static_path + '/src/js',
     JS_DIST: static_path + '/dist/js',
