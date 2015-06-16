@@ -40,6 +40,9 @@ var SimpleNav = React.createClass({
                         <NavFrameList extraClasses="dropdown-menu" includeLogout={false}/>
                     </li>
                     <li>
+                        <a href="#settings" onClick={this._handleOpenSettings}>Settings</a>
+                    </li>
+                    <li>
                         <a href="/logout">Log Out</a>
                     </li>
                 </ul>

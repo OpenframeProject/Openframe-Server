@@ -6640,8 +6640,10 @@ ul {
   padding-bottom: 0px;
   margin-top: 20px;
 }
-#add-content-div {
-  position: relative;
+.add-content {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
   z-index: 2020;
   border-top: 1px solid #4B4B4B;
   border-bottom: 1px solid #4B4B4B;
@@ -6727,15 +6729,14 @@ ul {
   border-top: 1px solid #d0d0d0;
 }
 .transfer-buttons .btn-transfer {
-  height: 21px;
   position: relative;
-  top: -12px;
-  padding: 1px 15px;
+  top: -14px;
+  padding: 3px 20px;
 }
 .transfer-buttons .btn-transfer:focus,
 .transfer-buttons .btn-transfer:hover {
-  background: #fff;
   outline: none;
+  background: #fff;
 }
 .transfer-buttons .btn-transfer .icon {
   top: 0px;
@@ -6860,8 +6861,6 @@ ul {
   color: #d0d0d0;
 }
 .menu-drawer .nav-frame-list {
-  margin-top: 40px;
-  width: 100%;
   text-transform: uppercase;
 }
 .menu-drawer .nav-frame-list li {
@@ -6877,6 +6876,11 @@ ul {
 .menu-drawer .nav-frame-list li a.btn-logout {
   color: #444444;
   text-transform: none;
+}
+.menu-drawer .drawer-content {
+  margin-top: 40px;
+  width: 100%;
+  color: #fff;
 }
 .menu-drawer-left {
   -webkit-transform: translateZ(0);
@@ -6903,6 +6907,13 @@ ul {
   transition-property: right;
   transition-duration: 0.5s;
   right: -90%;
+}
+.row-settings {
+  padding: 10px;
+  border-top: 1px solid #444444;
+}
+.row-settings .users-input {
+  width: 100%;
 }
 /**
  * Import styles for larger sreens.

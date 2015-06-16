@@ -11,6 +11,7 @@ function _initBrowserStateManagement() {
 	    maxWidth: 767,
 	    onEnter: function(){
 	        console.log('enter xs');
+	        conf.screen_size = 'xs';
 	    }
 	});
 
@@ -19,6 +20,7 @@ function _initBrowserStateManagement() {
 	    minWidth: 768,
 	    onEnter: function(){
 	        console.log('enter sm');
+	        conf.screen_size = 'sm';
 	    }
 	});
 
@@ -27,6 +29,7 @@ function _initBrowserStateManagement() {
 	    minWidth: 992,
 	    onEnter: function(){
 	        console.log('enter md');
+	        conf.screen_size = 'md';
 	    }
 	});
 
@@ -35,6 +38,7 @@ function _initBrowserStateManagement() {
 	    minWidth: 1200,
 	    onEnter: function(){
 	        console.log('enter lg');
+	        conf.screen_size = 'lg';
 	    }
 	});	
 

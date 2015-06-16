@@ -21,15 +21,24 @@ OF_Frame = (function(frame_id, socker) {
 
     function _handleUpdateContent(content) {
         _id = content._id.$oid || content._id;
-        _$body.css({
-            'background-image': 'url("' + content.url + '")'
-        });
+        
+        _$body.animate({
+                'opacity': 0
+            }, 1000, function() {
+                _$body.css({
+                    'background-image': 'url("' + content.url + '")'
+                });
+                _$body.animate({
+                    'opacity': 1
+                }, 1000);
+            });
+
         var data = {
-            frame_id: frame_id,
+            frame_id: _frame_id,
             content_id: _id
         };
 
-        socker.send('frame:content_updated', data);
+        Socker.send('frame:content_updated', data);
     }
 
     function _url_domain(data) {

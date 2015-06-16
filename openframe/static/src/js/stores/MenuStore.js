@@ -31,6 +31,12 @@ var MenuStore = assign({}, EventEmitter.prototype, {
 		};
 	},
 
+	getFooterNavState: function() {
+		return {
+
+		};
+	}
+
 	emitChange: function() {
 		this.emit(OFConstants.CHANGE_EVENT);
 	},
