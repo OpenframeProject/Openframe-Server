@@ -29,7 +29,7 @@ var NavFrameList = React.createClass({
             return <NavFrameLink key={frame._id} frame={frame} linkClickHandler={this.props.linkClickHandler} />
         }
 
-		var classes = this.props.extraClasses + ' nav-frame-list';
+		var classes = this.props.extraClasses + ' nav-frame-list drawer-content';
 
 		var logout = '';
 		if (this.props.includeLogout) {

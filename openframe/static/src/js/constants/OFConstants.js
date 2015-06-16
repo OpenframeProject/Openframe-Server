@@ -8,6 +8,7 @@ module.exports = keymirror({
 	FRAME_LOAD_FAIL: null,
 	FRAME_SELECT: null,
 	FRAME_UPDATE_CONTENT: null,
+	FRAME_SETTINGS_CONTENT: null,
 	FRAME_CONTENT_UPDATED: null,
 	FRAME_CONNECT: null,
 	FRAME_DISCONNECT: null,

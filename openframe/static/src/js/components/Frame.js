@@ -65,20 +65,19 @@ var Frame = React.createClass({
   			frame = React.findDOMNode(this.refs.frame),
 			w = container.offsetWidth,
 			h = container.offsetHeight,
-			padding = 40,
+			padding = 50,
 			maxW = w - 2*padding,
 			maxH = h - 2*padding,
 			frameW, frameH;
 		
-		if (this.w_h_ratio > 1) {
-			// width > height
+		if ((this.w_h_ratio > 1 || maxH * this.w_h_ratio > maxW) && maxW / this.w_h_ratio < maxH) {
+			// width > height or using full height would extend beyond maxW
 			frameW = maxW;
 			frameH = (maxW / this.w_h_ratio);
 		} else {
 			// width < height
 			frameH = maxH;
 			frameW = (maxH * this.w_h_ratio);
-
 		}
 		
 		frame.style.width = frameW + 'px';

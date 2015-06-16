@@ -23,7 +23,8 @@ An open-source platform for displaying digital artwork.
 	"_id" : ObjectId("553e547bf54ddb6517975d3c"),
 	"users" : ["jonwohl"],
 	"type" : "image",
-	"url" : "http://localhost:8888/static/content/Fields.jpg"
+	"url" : "http://localhost:8888/static/content/Fields.jpg",
+	"tags" : ["japan", "80s"]
 }
 
 
@@ -31,7 +32,8 @@ An open-source platform for displaying digital artwork.
 	"_id" : ObjectId("553e547bf54ddb6517975d3c"),
 	"users" : ["jonwohl"],
 	"type" : "video",
-	"url" : "http://localhost:8888/static/content/Fields.jpg"
+	"url" : "http://localhost:8888/static/content/Fields.jpg",
+	"tags" : ["maps", "history"]
 }
 ```
 
@@ -56,7 +58,11 @@ An open-source platform for displaying digital artwork.
 	"settings" : {
 		"width": 1000,
 		"height": 1500,
-		"w_h_ratio": 0.666666
+		"w_h_ratio": 0.666666,
+		"on_time": "06:30:00",
+		"off_time": "17:30:00",
+		"rotation": 180,
+		"visibility": "public"
 	},
 	"mirrored_by" : [
 		ObjectId("553e547bf54ddb6517975d3a"),

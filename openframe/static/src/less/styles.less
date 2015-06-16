@@ -110,8 +110,10 @@ ul {
     margin-top: 20px;
 }
 
-#add-content-div {
-    position: relative;
+.add-content {
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
     z-index: 2020;
     border-top: 1px solid #4B4B4B;
     border-bottom: 1px solid #4B4B4B;
@@ -402,8 +404,6 @@ ul {
     }
 
     .nav-frame-list {
-        margin-top: 40px;
-        width: 100%;
         text-transform: uppercase;
 
         li {
@@ -421,6 +421,12 @@ ul {
                 }
             }
         }
+    }
+
+    .drawer-content {
+        margin-top: 40px;
+        width: 100%;
+        color: #fff;
     }
 }
 
@@ -453,7 +459,13 @@ ul {
     }
 }
 
-
+.row-settings {
+    padding: 10px;
+    border-top: 1px solid @gray-darker;
+    .users-input {
+        width: 100%;
+    }
+}
 
 
 

@@ -1,7 +1,7 @@
 var React = require('react'),
-	NavFrameList = require('./NavFrameList'),
 	MenuActions = require('../actions/MenuActions'),
-	MenuStore = require('../stores/MenuStore');
+	MenuStore = require('../stores/MenuStore'),
+	SettingsForm = require('./SettingsForm');
 
 var SettingsDrawer = React.createClass({
 	getInitialState: function() {
@@ -34,6 +34,9 @@ var SettingsDrawer = React.createClass({
 					<button type="button" className="btn-simple-nav visible-xs pull-right" onClick={this._handleCloseMenuClick} >
 	                    <span className="glyphicon glyphicon-menu-right" />
 	                </button>
+				</div>
+				<div className="drawer-content">
+					<SettingsForm />
 				</div>
 			</div>
 		);
