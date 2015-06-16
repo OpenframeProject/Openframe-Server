@@ -17,22 +17,23 @@ var FrameActions = {
 	loadFrames: function() {
 		console.log('FrameActions.loadFrames()');
 		// dispatch an action indicating that we're loading the frames
-		AppDispatcher.dispatch({
+		AppDispatcher.handleViewAction({
 			actionType: OFConstants.FRAME_LOAD
 		});
 
 		// fetch the frames
 		$.getJSON(endpoints.all_frames)
 			.done(function(frames) {
+				console.log('frames: ', frames);
 				// load success, fire corresponding action
-				AppDispatcher.dispatch({
+				AppDispatcher.handleViewAction({
 					actionType: OFConstants.FRAME_LOAD_DONE,
 					frames: frames
 				});
 			})
 			.fail(function(err) {
 				// load failure, fire corresponding action
-				AppDispatcher.dispatch({
+				AppDispatcher.handleViewAction({
 					actionType: OFConstants.FRAME_LOAD_FAIL,
 					err: err
 				});
@@ -44,7 +45,7 @@ var FrameActions = {
 	 * @param  {object} frame
 	 */
 	select: function(frame) {
-		AppDispatcher.dispatch({
+		AppDispatcher.handleViewAction({
 			actionType: OFConstants.FRAME_SELECT,
 			frame: frame
 		});
@@ -69,7 +70,7 @@ var FrameActions = {
 
 	frameConnected: function(frame) {
 		console.log('Frame Connected: ', frame);
-		AppDispatcher.dispatch({
+		AppDispatcher.handleViewAction({
 			actionType: OFConstants.FRAME_CONNECTED,
 			frame: frame
 		});
@@ -77,7 +78,7 @@ var FrameActions = {
 
 	frameDisconnected: function(frame) {
 		console.log('Frame disconnected: ', frame);
-		AppDispatcher.dispatch({
+		AppDispatcher.handleViewAction({
 			actionType: OFConstants.FRAME_DISCONNECTED,
 			frame: frame
 		});
@@ -85,17 +86,9 @@ var FrameActions = {
 
 	frameContentUpdated: function(data) {
 		console.log('Frame Content updated: ', data);
-		AppDispatcher.dispatch({
+		AppDispatcher.handleViewAction({
 			actionType: OFConstants.FRAME_CONTENT_UPDATED,
 			frame: data
-		});
-	},
-
-	frameSettingsUpdated: function(settings) {
-		console.log('frameSettingsUpdated', settings);
-		AppDispatcher.dispatch({
-			actionType: OFConstants.FRAME_SETTINGS_UPDATED,
-			settings: settings
 		});
 	},
 
@@ -104,9 +97,25 @@ var FrameActions = {
         console.log('Frame Setup', frame);
         // this is a little weird -- why isn't setup just part of the initial
         // connected event?
-        AppDispatcher.dispatch({
+        AppDispatcher.handleViewAction({
 			actionType: OFConstants.FRAME_CONNECTED,
 			frame: frame
+		});
+    },
+
+    /**
+     * Really? Does the view dimension need to be part of the state?
+     * Probable not. Not used presently.
+     * 
+     * @param  {[type]} w [description]
+     * @param  {[type]} h [description]
+     * @return {[type]}   [description]
+     */
+    setupFrameView: function(w, h) {
+    	AppDispatcher.handleViewAction({
+			actionType: OFConstants.FRAME_SETUP_VIEW,
+			w: w,
+			h: h
 		});
     }
 	

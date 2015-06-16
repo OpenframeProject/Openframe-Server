@@ -5,13 +5,13 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
 var MenuActions = {
 
 	toggleMenu: function() {
-		AppDispatcher.dispatch({
+		AppDispatcher.handleViewAction({
 			actionType: OFConstants.MENU_TOGGLE
 		});
 	},
 
 	toggleSettings: function() {
-		AppDispatcher.dispatch({
+		AppDispatcher.handleViewAction({
 			actionType: OFConstants.SETTINGS_TOGGLE
 		});
 	}

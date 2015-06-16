@@ -53,7 +53,10 @@ var path = {
     IMG_DIST: static_path + '/dist/img',
 
     // FONTS
-    FONT_SRC: static_path + '/src/bootstrap/fonts/*',
+    FONT_SRC: [
+        static_path + '/src/bootstrap/fonts/*',
+        static_path + '/src/fonts/*'
+    ],
     FONT_DIST: static_path + '/dist/fonts'
 };
 

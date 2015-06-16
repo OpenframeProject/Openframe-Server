@@ -29,13 +29,15 @@ var Drawer = React.createClass({
 
 		return (
 			<div className={fullClass}>
-				<div className="of-nav-fixed of-nav-drawer">
-					<div className="username text-center">{OF_USERNAME}</div>
-					<button type="button" className="btn-simple-nav visible-xs pull-left" onClick={this._handleCloseMenuClick} >
-	                    <span className="glyphicon glyphicon-menu-left" />
-	                </button>
+				<div className="menu-drawer-inner">
+					<div className="of-nav-fixed of-nav-drawer">
+						<div className="username text-center">{OF_USERNAME}</div>
+						<button type="button" className="btn-simple-nav visible-xs pull-right" onClick={this._handleCloseMenuClick} >
+		                    <span className="icon-close" />
+		                </button>
+					</div>
+					<NavFrameList linkClickHandler={this._handleCloseMenuClick} />
 				</div>
-				<NavFrameList linkClickHandler={this._handleCloseMenuClick} />
 			</div>
 		);
 	},

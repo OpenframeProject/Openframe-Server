@@ -35,7 +35,7 @@ var MenuStore = assign({}, EventEmitter.prototype, {
 		return {
 
 		};
-	}
+	},
 
 	emitChange: function() {
 		this.emit(OFConstants.CHANGE_EVENT);

@@ -29,14 +29,16 @@ var SettingsDrawer = React.createClass({
 
 		return (
 			<div className={fullClass}>
-				<div className="of-nav-fixed of-nav-drawer">
-					<div className="username text-center">{OF_USERNAME}</div>
-					<button type="button" className="btn-simple-nav visible-xs pull-right" onClick={this._handleCloseMenuClick} >
-	                    <span className="glyphicon glyphicon-menu-right" />
-	                </button>
-				</div>
-				<div className="drawer-content">
-					<SettingsForm />
+				<div className="menu-drawer-inner">
+					<div className="of-nav-fixed of-nav-drawer">
+						<div className="username text-center">{OF_USERNAME}</div>
+						<button type="button" className="btn-simple-nav visible-xs pull-right" onClick={this._handleCloseMenuClick} >
+		                    <span className="glyphicon glyphicon-menu-right" />
+		                </button>
+					</div>
+					<div className="drawer-content">
+						<SettingsForm />
+					</div>
 				</div>
 			</div>
 		);

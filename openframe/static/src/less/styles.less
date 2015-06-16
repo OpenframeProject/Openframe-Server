@@ -1,7 +1,9 @@
 // bootstrap variables for use here:
 @import "../bootstrap/less/variables.less";
 @import "../bootstrap/less/mixins.less";
+@import "icons.less";
 
+@import "variables.less";
 /*
 
 MOBILE FIRST:
@@ -142,15 +144,6 @@ ul {
     border: none;
 }
 
-.icon-delete {
-    background-image: url('../img/delete.svg');
-}
-
-.icon-send {
-    background-position: center;
-    background-image: url('../img/arrow.svg');
-}
-
 .col-send {
     top: 36px;
 }
@@ -230,7 +223,7 @@ ul {
     .btn-transfer {
         position: relative;
         top: -14px;
-        padding: 3px 20px;
+        padding: 3px 30px;
 
         &:focus, &:hover {
             outline: none;
@@ -285,6 +278,16 @@ ul {
 
 .frame-name {
     margin: 10px auto;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 1.2em;
+    padding-top: 3px;
+}
+
+.connected {
+    position: relative;
+    top: -1px;
+    color: @connected;
 }
 
 // Content slider
@@ -358,11 +361,6 @@ ul {
     }
 }
 
-.frame-name {
-    text-transform: uppercase;
-    font-weight: 700;
-}
-
 .of-nav-footer {
     top: auto;
     bottom: 0;
@@ -386,9 +384,18 @@ ul {
     position: absolute;
     z-index: 2030;
     top: 0px;
-    width: 90%;
+    width: 100%;
     height: 100%;
-    background-color: @gray;
+    background-color: rgba(255, 255, 255, 0.6);
+    
+    .menu-drawer-inner {
+        position: absolute;
+        top: 0px;
+        width: 95%;
+        height: 100%;
+        background-color: @gray-dark;
+        box-shadow: 0px 0px 5px black;
+    }
 
     .of-nav-fixed {
         z-index: 2040;
@@ -400,24 +407,39 @@ ul {
         width: 100%;
         text-align: center;
         padding: 10px;
-        color: @gray-light;
+        color: #FFF;
+        font-weight: 300;
+    }
+
+    .icon-close {
+        color: @gray;
     }
 
     .nav-frame-list {
         text-transform: uppercase;
 
         li {
-            border-top: 1px solid @gray-dark;
+            margin: 0px 10px;
+            border-top: 1px solid #000;
             a {
                 display: block;
                 color: #fff;
-                text-align: center;
-                padding: 20px 0px;
                 font-weight: 700;
+                padding: 20px 10px;
+                height: 60px;
+
+                .status {
+                    position: relative;
+                    top: -2px;
+                    text-transform: lowercase;
+                    font-weight: 300;
+                }
 
                 &.btn-logout {
-                    color: @gray-darker;
+                    color: @gray;
                     text-transform: none;
+                    font-weight: 300;
+                    text-align: center;
                 }
             }
         }
@@ -441,7 +463,7 @@ ul {
     &.menu-drawer-closed {
         transition-property: left;
         transition-duration: 0.5s;
-        left: -90%;
+        left: -100%;
     }
 }
 
@@ -455,7 +477,7 @@ ul {
     &.menu-drawer-closed {
         transition-property: right;
         transition-duration: 0.5s;
-        right: -90%;
+        right: -100%;
     }
 }
 

@@ -20,19 +20,26 @@ var SimpleNav = React.createClass({
 
     render: function() {
         var frameName = this.state.selectedFrame.name;
-        frameName = this.state.selectedFrame.active ? frameName + " *" : frameName; 
+
+        function connected(active) {
+            var connected = '';
+            if (active) {
+                connected = '&bull; ';
+            }
+            return {__html: connected};
+        }
 
         return (
             <div className="of-nav-fixed of-nav-top">
                 <button type="button" className="btn-simple-nav btn-menu visible-xs pull-left" onClick={this._handleOpenMenuClick}>
-                    <span className="glyphicon glyphicon-menu-hamburger" />
+                    <span className="icon-hamburger" />
                 </button>
                 <button type="button" className="btn-simple-nav btn-setting visible-xs pull-right" onClick={this._handleOpenSettings}>
-                    <span className="glyphicon glyphicon-cog" />
+                    <span className="icon-cog" />
                 </button>
                 <h3 className="text-muted hidden-xs pull-left"><span className="openframe">openframe/</span><span className="username">{OF_USERNAME}</span></h3>
 
-                <div className="frame-name visible-xs text-center">{frameName}</div>
+                <h6 className="frame-name visible-xs text-center"><span className="connected" dangerouslySetInnerHTML={connected(this.state.selectedFrame.active)} />{frameName}</h6>
 
                 <ul className="nav navbar-nav navbar-right hidden-xs">
                     <li className="dropdown">

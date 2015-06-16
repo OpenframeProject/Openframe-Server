@@ -10,10 +10,21 @@ var NavFrameLink = React.createClass({
 	},
 
 	render: function() {
-		var active = this.props.frame.active ? '*' : '';
+		var activeClass = 'not-connected',
+			activeText = 'not connected';
+		if (this.props.frame.active) {
+			activeClass = activeText = 'connected';
+		}
+
+		var classes = 'pull-right status ' + activeClass;
 		return (
 			<li onClick={this.handleFrameSelection}>
-				<a href="#">{this.props.frame.name} {active}</a>
+				<a href="#">
+					<div>
+						<span className="pull-left">{this.props.frame.name}</span> 
+						<span className={classes}>{activeText}</span>
+					</div>
+				</a>
 			</li>
 		);
 	}

@@ -15,7 +15,7 @@ var ContentActions = {
 	loadContent: function() {
 		console.log('ContentActions.loadContents()');
 		// dispatch an action indicating that we're loading the content
-		AppDispatcher.dispatch({
+		AppDispatcher.handleViewAction({
 			actionType: OFConstants.CONTENT_LOAD
 		});
 
@@ -23,14 +23,14 @@ var ContentActions = {
 		$.getJSON(endpoints.all_content)
 			.done(function(content) {
 				// load success, fire corresponding action
-				AppDispatcher.dispatch({
+				AppDispatcher.handleViewAction({
 					actionType: OFConstants.CONTENT_LOAD_DONE,
 					content: content
 				});
 			})
 			.fail(function(err) {
 				// load failure, fire corresponding action
-				AppDispatcher.dispatch({
+				AppDispatcher.handleViewAction({
 					actionType: OFConstants.CONTENT_LOAD_FAIL,
 					err: err
 				});
@@ -42,7 +42,7 @@ var ContentActions = {
 	 * @param  {object} content
 	 */
 	addContent: function(content) {
-		AppDispatcher.dispatch({
+		AppDispatcher.handleViewAction({
 			actionType: OFConstants.CONTENT_ADD,
 			content: content
 		});
@@ -53,13 +53,13 @@ var ContentActions = {
             dataType: 'json'
         }).done(function(resp) {
             console.log(resp);
-            AppDispatcher.dispatch({
+            AppDispatcher.handleViewAction({
 				actionType: OFConstants.CONTENT_ADD_DONE,
 				content: resp
 			});
         }).fail(function(err) {
         	console.log(err);
-            AppDispatcher.dispatch({
+            AppDispatcher.handleViewAction({
 				actionType: OFConstants.CONTENT_ADD_FAIL,
 				content: content
 			});
@@ -71,7 +71,7 @@ var ContentActions = {
 	 * @param  {object} content
 	 */
 	removeContent: function(content) {
-		AppDispatcher.dispatch({
+		AppDispatcher.handleViewAction({
 			actionType: OFConstants.CONTENT_REMOVE,
 			content: content
 		});
@@ -81,12 +81,12 @@ var ContentActions = {
             dataType: 'json'
         }).done(function(resp) {
             console.log(resp);
-            AppDispatcher.dispatch({
+            AppDispatcher.handleViewAction({
 				actionType: OFConstants.CONTENT_REMOVE_DONE
 			});
         }).fail(function(err) {
         	console.log(err);
-            AppDispatcher.dispatch({
+            AppDispatcher.handleViewAction({
 				actionType: OFConstants.CONTENT_REMOVE_FAIL,
 				content: content
 			});
@@ -94,7 +94,7 @@ var ContentActions = {
 	},
 
 	slideChanged: function(content_id) {
-		AppDispatcher.dispatch({
+		AppDispatcher.handleViewAction({
 			actionType: OFConstants.CONTENT_SLIDE_CHANGED,
 			content_id: content_id
 		});

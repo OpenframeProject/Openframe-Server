@@ -10,7 +10,7 @@ var TransferButtons = React.createClass({
                 <div className="col-xs-12 text-center">
                     <div className="btn-group" role="group" aria-label="...">
                         <button type="button" className="btn btn-xs btn-default btn-send btn-transfer" onClick={this.sendClicked}>
-                            <span className="icon icon-send" aria-hidden="true" />
+                            <span className="icon-up icon-send" aria-hidden="true" />
                         </button>
                         {/* <button type="button" class="btn btn-xs btn-default btn-send btn-transfer">
                                                 <span class="icon icon-send" aria-hidden="true"></span>
