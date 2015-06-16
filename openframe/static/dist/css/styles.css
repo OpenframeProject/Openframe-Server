@@ -45,6 +45,9 @@
 .icon-up:before {
   content: "\e607";
 }
+.space {
+  padding-right: 1em;
+}
 /*
 
 MOBILE FIRST:

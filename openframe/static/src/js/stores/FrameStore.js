@@ -29,6 +29,7 @@ var FrameStore = assign({}, EventEmitter.prototype, {
 		// otherwise select the first frame.
 		var selected = _.find(_frames, {selected: true});
 		_selectedFrame = selected || frames[0];
+		_selectedFrame.selected = true;
 	},
 
 
@@ -65,7 +66,13 @@ var FrameStore = assign({}, EventEmitter.prototype, {
 		// addFrame will overwrite previous frame
 		console.log('connectFrame: ', frame);
 		addFrame(frame);
+		this.selectFrame(frame);
+	},
+
+	selectFrame: function(frame) {
+		_selectedFrame.selected = false;
 		_selectedFrame = frame;
+		_selectedFrame.selected = true;
 	},
 
 	/**
@@ -114,7 +121,7 @@ AppDispatcher.register(function(action) {
 			break;
 
     	case OFConstants.FRAME_SELECT:
-			_selectedFrame = action.frame;
+    		FrameStore.selectFrame(action.frame);
 			FrameStore.emitChange();
 			break;
 

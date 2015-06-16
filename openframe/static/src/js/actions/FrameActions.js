@@ -45,6 +45,7 @@ var FrameActions = {
 	 * @param  {object} frame
 	 */
 	select: function(frame) {
+		console.log('select', frame);
 		AppDispatcher.handleViewAction({
 			actionType: OFConstants.FRAME_SELECT,
 			frame: frame
