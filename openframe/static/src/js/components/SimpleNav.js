@@ -68,6 +68,7 @@ var SimpleNav = React.createClass({
     },
 
     _onChange: function() {
+        console.log('++++++ get selected frame', FrameStore.getSelectedFrame());
         this.setState({
             frames: FrameStore.getAllFrames(),
             selectedFrame: FrameStore.getSelectedFrame()

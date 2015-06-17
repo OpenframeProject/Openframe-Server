@@ -5,13 +5,12 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
 	_ = require('lodash');
 
 
-var _frames = {},
-	_selectedFrame = null;
+var _frames = {};
 
-var addFrame = function(frame) {
-	// removeFrame(frame);
+var addFrame = function(frame, select) {
 	_frames[frame._id] = frame;
-};
+	if (select !== false) selectFrame(frame);
+}
 
 var removeFrame = function(frame){
 	console.log('removeFrame', frame);
@@ -20,16 +19,30 @@ var removeFrame = function(frame){
 	console.log(_frames);
 };
 
+var selectFrame = function(frame) {
+	console.log('selectFrame: ', frame);
+
+	// unselect currently selected
+	var selectedFrame = FrameStore.getSelectedFrame();
+	if (selectedFrame) {
+		selectedFrame.selected = false;
+	}
+
+	// now set the new selected frame 
+	var _selectedFrame = _.find(_frames, {_id: frame._id});
+	_selectedFrame.selected = true;
+}
+
 var FrameStore = assign({}, EventEmitter.prototype, {
 
 	init: function(frames) {
 		_.each(frames, addFrame);
 
-		// see if any a frame is marked as selected from db, 
+		// see if any frame is marked as selected from db, 
 		// otherwise select the first frame.
-		var selected = _.find(_frames, {selected: true});
-		_selectedFrame = selected || frames[0];
-		_selectedFrame.selected = true;
+		if (!_.find(_frames, {selected: true})) {
+			_.sample(_frames).selected = true;
+		}
 	},
 
 
@@ -45,13 +58,13 @@ var FrameStore = assign({}, EventEmitter.prototype, {
 	},
 
 	getSelectedFrame: function() {
-		return _selectedFrame;
+		return _.find(_frames, {selected: true});
 	},
 
 	getState: function() {
 		return {
 			frames: _frames,
-			selectedFrame: _selectedFrame
+			selectedFrame: this.getSelectedFrame()
 		};
 	},
 
@@ -66,13 +79,6 @@ var FrameStore = assign({}, EventEmitter.prototype, {
 		// addFrame will overwrite previous frame
 		console.log('connectFrame: ', frame);
 		addFrame(frame);
-		this.selectFrame(frame);
-	},
-
-	selectFrame: function(frame) {
-		_selectedFrame.selected = false;
-		_selectedFrame = frame;
-		_selectedFrame.selected = true;
 	},
 
 	/**
@@ -80,7 +86,7 @@ var FrameStore = assign({}, EventEmitter.prototype, {
 	 */
 	disconnectFrame: function(frame) {
 		// addFrame will overwrite previous frame
-		addFrame(frame);
+		addFrame(frame, false);
 	},
 
 	addChangeListener: function(cb){
@@ -121,17 +127,18 @@ AppDispatcher.register(function(action) {
 			break;
 
     	case OFConstants.FRAME_SELECT:
-    		FrameStore.selectFrame(action.frame);
+    		selectFrame(action.frame);
 			FrameStore.emitChange();
 			break;
 
 		case OFConstants.CONTENT_SEND:
-    		_selectedFrame.content = action.content;
+    		FrameStore.getSelectedFrame().content = action.content;
 			FrameStore.emitChange();
 			break;
 
 		case OFConstants.FRAME_CONTENT_UPDATED:
-    		_selectedFrame = action.frame;
+			// adding the frame since it will replace current instance
+			addFrame(action.frame);
 			FrameStore.emitChange();
 			break;
 	    // case OFConstants.TODO_UPDATE_TEXT:

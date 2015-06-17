@@ -26,14 +26,14 @@ var FrameActions = {
 			.done(function(frames) {
 				console.log('frames: ', frames);
 				// load success, fire corresponding action
-				AppDispatcher.handleViewAction({
+				AppDispatcher.handleServerAction({
 					actionType: OFConstants.FRAME_LOAD_DONE,
 					frames: frames
 				});
 			})
 			.fail(function(err) {
 				// load failure, fire corresponding action
-				AppDispatcher.handleViewAction({
+				AppDispatcher.handleServerAction({
 					actionType: OFConstants.FRAME_LOAD_FAIL,
 					err: err
 				});
@@ -71,7 +71,7 @@ var FrameActions = {
 
 	frameConnected: function(frame) {
 		console.log('Frame Connected: ', frame);
-		AppDispatcher.handleViewAction({
+		AppDispatcher.handleServerAction({
 			actionType: OFConstants.FRAME_CONNECTED,
 			frame: frame
 		});
@@ -85,11 +85,11 @@ var FrameActions = {
 		});
 	},
 
-	frameContentUpdated: function(data) {
-		console.log('Frame Content updated: ', data);
-		AppDispatcher.handleViewAction({
+	frameContentUpdated: function(frame) {
+		console.log('Frame Content updated: ', frame);
+		AppDispatcher.handleServerAction({
 			actionType: OFConstants.FRAME_CONTENT_UPDATED,
-			frame: data
+			frame: frame
 		});
 	},
 
