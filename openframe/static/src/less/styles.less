@@ -3,6 +3,17 @@
 @import "../bootstrap/less/mixins.less";
 @import "icons.less";
 
+/**
+@zindex-navbar:            1000;
+@zindex-dropdown:          1000;
+@zindex-popover:           1060;
+@zindex-tooltip:           1070;
+@zindex-navbar-fixed:      1030;
+@zindex-modal-background:  1040;
+@zindex-modal:             1050;
+ */
+
+
 @import "variables.less";
 /*
 
@@ -20,36 +31,13 @@ html, body, #OpenFrame, .app {
     position: relative;
     overflow: hidden;
     letter-spacing: 1.4px;
+    font-weight: 400;
 }
 
 .container {
     position: relative;
     height: 100%;
 
-}   
-
-.navbar {
-    margin-bottom: 0;
-    height: 40px;
-    padding-top: 5px;
-    z-index: 2000;
-    h3 {
-        margin: 0;
-        padding: 0;
-    }
-
-    .navbar-toggle {
-        border: 0;
-    }
-
-    .navbar-right {
-        padding-top: 6px;
-    }
-
-    .nav > li > a {
-        padding: 0;
-        margin-left: 20px;
-    }
 }
 
 #Login {
@@ -66,8 +54,6 @@ html, body, #OpenFrame, .app {
 }
 
 .content-item {
-    /*margin: 10px 0px;*/
-    
     padding: 10px 0px;
     border-bottom: 1px solid #aaa;
 }
@@ -123,9 +109,6 @@ ul {
 }
 
 .btn-add-content {
-    color: white;
-    background: #3A3A3A;
-    border: none;
     width: 100%;
 }
 
@@ -154,58 +137,6 @@ ul {
 
 #add-form {}
 
-.modal-body {
-    padding: 0px 30px 60px 30px;
-}
-
-.modal-dialog {
-    margin-top: 80px;
-}
-
-.modal-settings-item {
-    padding-top: 15px;
-    padding-bottom: 6px;
-}
-
-.modal-setting-title {
-    font-size: 19px;
-    font-weight: 400;
-    color: #3F3E3C;
-}
-
-.modal-setting-selection {
-    font-size: 19px;
-    font-weight: 300;
-    color: #9B9B9B;
-}
-
-.settings-list li {
-    border-bottom: 1px solid #E7E7E7;
-}
-
-.settings-list li.last {
-    border-bottom: none;
-}
-
-// .modal-header {
-// 	text-align: center;
-// }
-// .modal-footer {
-// 	padding: 15px;
-// }
-#URL::-webkit-input-placeholder {
-    color: #D0D0D0;
-}
-
-#URL {
-    border: none;
-    width: 100%;
-    padding: 5px 10px 7px 0px;
-}
-
-.form-group {
-    width: 100%;
-}
 
 #Art {
     padding: 0px;
@@ -217,7 +148,7 @@ ul {
     position: absolute;
     top: 50%;
     width: 100%;
-    z-index: 1000;
+    z-index: @zindex-transfer-btns;
     border-top: 1px solid @gray-light;
 
     .btn-transfer {
@@ -249,7 +180,7 @@ ul {
     top: 0;
     width: 100%;
     height: 50%;
-    z-index: 900;
+    z-index: @zindex-panels;
     overflow-y: hidden;
     text-align: center;
 }
@@ -296,7 +227,7 @@ ul {
     bottom: 0;
     width: 100%;
     height: 50%;
-    z-index: 910;
+    z-index: @zindex-panels;
     overflow: hidden;
 }
 
@@ -337,7 +268,7 @@ ul {
     top: 0;
     width: 100%;
     height: 40px;
-    z-index: 2010;
+    z-index: @zindex-fixed-nav;
     // background-color: @gray-lighter;
 
     .btn-simple-nav {
@@ -364,25 +295,55 @@ ul {
 .of-nav-footer {
     top: auto;
     bottom: 0;
-    background: @gray-lighter;
+    background: @gray-darker;
 
     width: 100%;
 
     .btn-nav-footer {
-        text-align: center;
+        // text-align: center;
         display: block;
         padding: 10px 10px;
         height: 40px;
-
+        color: @gray;
+        text-transform: uppercase;
+        text-decoration: none;
+        
         &.active {
             // border-bottom: solid 3px #FFF;
+            color: #FFF;
         }
+
+        &.btn-nav-footer-collection {
+            padding-left: 60px;
+        }
+        &.btn-nav-footer-frames {
+            padding-right: 60px;
+            text-align: right;
+        }
+
+        // .collection {
+        // }
+        // .frames {
+        //     padding-right: 80px;
+        //     text-align: right;
+        // }
+    }
+
+    .btn-nav-footer-add {
+        position: absolute;
+        top: 5px;
+        height: 30px;
+        width: 40px;
+        display: block;
+        color: #FFF;
+        padding: 5px 15px;
+        border-right: solid 1px @gray;
     }
 }
 
 .menu-drawer {
     position: absolute;
-    z-index: 2030;
+    z-index: @zindex-drawer;
     top: 0px;
     width: 100%;
     height: 100%;
@@ -398,7 +359,7 @@ ul {
     }
 
     .of-nav-fixed {
-        z-index: 2040;
+        z-index: @zindex-drawer + 10;
         color: @gray-light;
     }
 
@@ -491,6 +452,106 @@ ul {
 
 
 
+/**
+ * MODALS
+ */
+
+.modal-header {
+    border: none;
+    button.close {
+        position: relative;
+        top: -10px;
+        right: -10px;
+        font-size: 1.2em;
+        padding: 10px;
+    }
+}
+.modal-footer {
+    border: none;
+    padding: 10px;
+    .btn {
+        padding: 10px;
+    }
+}
+
+.modal-body {
+    padding: 0px 10px 60px 10px;
+
+    .form-label {
+        font-size: 1.2em;
+        font-weight: 300;
+        color: #000;
+        margin-top: 20px;
+    }
+
+    .form-input {
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid @gray;
+            border-radius: none;
+        }
+    }
+}
+
+.modal-title {
+    font-weight: 400;
+    font-size: 1.2em;
+}
+
+
+.modal-dialog {
+    margin-top: 80px;
+}
+
+.modal-settings-item {
+    padding-top: 15px;
+    padding-bottom: 6px;
+}
+
+.modal-setting-title {
+    font-size: 19px;
+    font-weight: 400;
+    color: #3F3E3C;
+}
+
+.modal-setting-selection {
+    font-size: 19px;
+    font-weight: 300;
+    color: #9B9B9B;
+}
+
+.settings-list li {
+    border-bottom: 1px solid #E7E7E7;
+}
+
+.settings-list li.last {
+    border-bottom: none;
+}
+
+#URL::-webkit-input-placeholder {
+    color: #D0D0D0;
+}
+
+#URL {
+    border: none;
+    width: 100%;
+    padding: 5px 10px 7px 0px;
+}
+
+.form-group {
+    width: 100%;
+}
+
+
+/**
+ * iOS stuff
+ */
+input {
+    -webkit-appearance: none;
+    border-radius: 0;
+}
 
 /**
  * Import styles for larger sreens.

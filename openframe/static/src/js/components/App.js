@@ -10,6 +10,7 @@ var React = require('react'),
 	FooterNav = require('./FooterNav.js'),
 	Drawer = require('./Drawer.js'),
 	SettingsDrawer = require('./SettingsDrawer.js'),
+	AddContentModal = require('./AddContentModal.js'),
 
 	AppDispatcher = require('../dispatcher/AppDispatcher'),
 	FrameActions = require('../actions/FrameActions'),
@@ -63,7 +64,7 @@ var App = React.createClass({
 				<ContentList />
 				<FooterNav ref="navFooter"/>
 				<Drawer />
-				<SettingsDrawer sideClass="menu-drawer-right" />
+				<AddContentModal />
 			</div>
 	    )
   	}
