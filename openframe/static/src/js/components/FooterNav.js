@@ -23,12 +23,6 @@ var FooterNav = React.createClass({
 		UIActions.toggleMenu(false);
 	},
 
-	_onChange: function() {
-		console.log('updating footer nav', this.state);
-        this.setState(UIStore.getSelectionPanelState());
-        console.log('updated state', this.state);
-    },
-
 	_handleCollectionClick: function() {
 		console.log(UIActions);
 		UIActions.setSelectionPanel("collection");
@@ -38,10 +32,17 @@ var FooterNav = React.createClass({
 		UIActions.setSelectionPanel("frames");
 	},
 
-	_handleAddClick: function() {
-		// $('.modal-add-content').modal();
+	_handleAddClick: function(e) {
+		console.log('_handleAddClick');
+		e.stopPropagation();
 		UIActions.openAddContentModal();
 	},
+
+	_onChange: function() {
+		console.log('updating footer nav', this.state);
+        this.setState(UIStore.getSelectionPanelState());
+        console.log('updated state', this.state);
+    },
 
 	/**
 	 * TODO: figure out state management. Store?

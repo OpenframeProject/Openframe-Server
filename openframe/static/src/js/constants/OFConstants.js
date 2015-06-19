@@ -31,6 +31,7 @@ module.exports = keymirror({
 	UI_SETTINGS_TOGGLE: null,
 	UI_SET_SELECTION_PANEL: null,
 	UI_OPEN_ADD_CONTENT: null,
+	UI_CLOSE_ADD_CONTENT: null,
 
 	// emitted by stores
 	CHANGE_EVENT: null

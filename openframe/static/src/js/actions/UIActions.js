@@ -27,7 +27,17 @@ var UIActions = {
     },
 
     openAddContentModal: function() {
+        console.log('openAddContentModal');
+        AppDispatcher.handleViewAction({
+            actionType: OFConstants.UI_OPEN_ADD_CONTENT
+        });
+    },
 
+    addContentModalClosed: function() {
+        console.log('addContentModalClosed');
+        AppDispatcher.handleViewAction({
+            actionType: OFConstants.UI_CLOSE_ADD_CONTENT
+        });
     }
 
 }

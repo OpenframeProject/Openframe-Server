@@ -23,14 +23,14 @@ var ContentActions = {
 		$.getJSON(endpoints.all_content)
 			.done(function(content) {
 				// load success, fire corresponding action
-				AppDispatcher.handleViewAction({
+				AppDispatcher.handleServerAction({
 					actionType: OFConstants.CONTENT_LOAD_DONE,
 					content: content
 				});
 			})
 			.fail(function(err) {
 				// load failure, fire corresponding action
-				AppDispatcher.handleViewAction({
+				AppDispatcher.handleServerAction({
 					actionType: OFConstants.CONTENT_LOAD_FAIL,
 					err: err
 				});
@@ -53,13 +53,13 @@ var ContentActions = {
             dataType: 'json'
         }).done(function(resp) {
             console.log(resp);
-            AppDispatcher.handleViewAction({
+            AppDispatcher.handleServerAction({
 				actionType: OFConstants.CONTENT_ADD_DONE,
 				content: resp
 			});
         }).fail(function(err) {
         	console.log(err);
-            AppDispatcher.handleViewAction({
+            AppDispatcher.handleServerAction({
 				actionType: OFConstants.CONTENT_ADD_FAIL,
 				content: content
 			});

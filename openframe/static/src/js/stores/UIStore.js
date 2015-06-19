@@ -30,9 +30,14 @@ var UIStore = assign({}, EventEmitter.prototype, {
     },
 
     getSelectionPanelState: function() {
-        console.log('sending _selectionPanel', _selectionPanel);
         return {
             selectionPanel: _selectionPanel
+        };
+    },
+
+    getAddModalState: function() {
+        return {
+            addOpen: _addOpen
         };
     },
 
@@ -66,13 +71,21 @@ AppDispatcher.register(function(action) {
 
         case OFConstants.UI_SET_SELECTION_PANEL:
             _selectionPanel = action.panel;
-            console.log(_selectionPanel);
             UIStore.emitChange();
             break;
 
-        case OFConstants.UI_SET_SELECTION_PANEL:
-            _selectionPanel = action.panel;
-            console.log(_selectionPanel);
+        case OFConstants.UI_OPEN_ADD_CONTENT:
+            _addOpen = true;
+            UIStore.emitChange();
+            break;
+
+        case OFConstants.UI_CLOSE_ADD_CONTENT:
+            // modal already closing, no change emmission needed
+            _addOpen = false;
+            break;
+
+        case OFConstants.CONTENT_ADD_DONE:
+            _addOpen = false;
             UIStore.emitChange();
             break;
 
