@@ -8,6 +8,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
 var _menuOpen = false,
     _settingsOpen = false,
     _addOpen = false,
+    _settingsOpen = false,
     _selectionPanel = "collection";
 
 var _toggleMenu = function(open) {
@@ -38,6 +39,13 @@ var UIStore = assign({}, EventEmitter.prototype, {
     getAddModalState: function() {
         return {
             addOpen: _addOpen
+        };
+    },
+
+    getSettingsModalState: function() {
+        console.log('========', _settingsOpen);
+        return {
+            settingsOpen: _settingsOpen
         };
     },
 
@@ -84,8 +92,23 @@ AppDispatcher.register(function(action) {
             _addOpen = false;
             break;
 
+        case OFConstants.UI_OPEN_SETTINGS:
+            _settingsOpen = true;
+            UIStore.emitChange();
+            break;
+
+        case OFConstants.UI_CLOSE_SETTINGS:
+            // modal already closing, no change emmission needed
+            _settingsOpen = false;
+            break;
+
         case OFConstants.CONTENT_ADD_DONE:
             _addOpen = false;
+            UIStore.emitChange();
+            break;
+
+        case OFConstants.FRAME_SAVE:
+            _settingsOpen = false;
             UIStore.emitChange();
             break;
 

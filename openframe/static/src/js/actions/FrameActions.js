@@ -65,8 +65,33 @@ var FrameActions = {
             content_id: content._id
         };
         Socker.send('frame:update_content', data);
-		
+
 		// WebSocket event handler for frame:content_updated triggers the dispatch
+	},
+
+	saveFrame: function(frame) {
+		AppDispatcher.handleViewAction({
+			actionType: OFConstants.FRAME_SAVE,
+			frame: frame
+		});
+		$.ajax({
+            url: '/frames/'+frame._id,
+            method: 'PUT',
+            data: JSON.stringify(frame),
+            dataType: 'json'
+        }).done(function(resp) {
+            console.log(resp);
+            AppDispatcher.handleServerAction({
+				actionType: OFConstants.FRAME_SAVE_DONE,
+				frame: frame
+			});
+        }).fail(function(err) {
+        	console.log(err);
+            AppDispatcher.handleServerAction({
+				actionType: OFConstants.FRAME_SAVE_FAIL,
+				frame: frame
+			});
+        });
 	},
 
 	frameConnected: function(frame) {
@@ -107,7 +132,7 @@ var FrameActions = {
     /**
      * Really? Does the view dimension need to be part of the state?
      * Probable not. Not used presently.
-     * 
+     *
      * @param  {[type]} w [description]
      * @param  {[type]} h [description]
      * @return {[type]}   [description]
@@ -119,7 +144,7 @@ var FrameActions = {
 			h: h
 		});
     }
-	
+
 }
 
 module.exports = FrameActions;

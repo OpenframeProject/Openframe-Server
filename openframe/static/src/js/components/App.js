@@ -11,6 +11,7 @@ var React = require('react'),
 	Drawer = require('./Drawer.js'),
 	SettingsDrawer = require('./SettingsDrawer.js'),
 	AddContentModal = require('./AddContentModal.js'),
+	SettingsModal = require('./SettingsModal.js'),
 
 	AppDispatcher = require('../dispatcher/AppDispatcher'),
 	FrameActions = require('../actions/FrameActions'),
@@ -33,7 +34,7 @@ var App = React.createClass({
 			selectionPanel: "collection"
 		};
 	},
-	
+
 	componentWillMount: function() {
 		if (!global.OF_USERNAME) {
 			console.log('OF_USERNAME not defined.');
@@ -50,7 +51,7 @@ var App = React.createClass({
 	},
 
 	componentDidMount: function() {
-		
+
 		// console.log('componentDidMount', $('.nav-footer').height());
 		// console.log('componentDidMount', React.findDOMNode(this.refs.navFooter).offsetHeight);
 		UIStore.addChangeListener(this._onChange);
@@ -78,6 +79,7 @@ var App = React.createClass({
 				<div>{selectionPanel}</div>
 				<FooterNav ref="navFooter"/>
 				<Drawer />
+				<SettingsModal />
 				<AddContentModal />
 			</div>
 	    )

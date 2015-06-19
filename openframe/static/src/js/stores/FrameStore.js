@@ -28,7 +28,7 @@ var selectFrame = function(frame) {
 		selectedFrame.selected = false;
 	}
 
-	// now set the new selected frame 
+	// now set the new selected frame
 	var _selectedFrame = _.find(_frames, {_id: frame._id});
 	_selectedFrame.selected = true;
 }
@@ -38,7 +38,7 @@ var FrameStore = assign({}, EventEmitter.prototype, {
 	init: function(frames) {
 		_.each(frames, addFrame);
 
-		// see if any frame is marked as selected from db, 
+		// see if any frame is marked as selected from db,
 		// otherwise select the first frame.
 		if (!_.find(_frames, {selected: true})) {
 			_.sample(_frames).selected = true;
@@ -71,7 +71,7 @@ var FrameStore = assign({}, EventEmitter.prototype, {
 	emitChange: function() {
 		this.emit(OFConstants.CHANGE_EVENT);
 	},
-	
+
 	/**
 	 * A frame has connected. Simply updated the frame object in our collection.
 	 */
@@ -92,7 +92,7 @@ var FrameStore = assign({}, EventEmitter.prototype, {
 	addChangeListener: function(cb){
     	this.on(OFConstants.CHANGE_EVENT, cb);
   	},
-  	
+
   	removeChangeListener: function(cb){
     	this.removeListener(OFConstants.CHANGE_EVENT, cb);
 	}
@@ -137,27 +137,27 @@ AppDispatcher.register(function(action) {
 			break;
 
 		case OFConstants.FRAME_CONTENT_UPDATED:
-			// adding the frame since it will replace current instance
+			// adding the updated frame since it will replace current instance
 			addFrame(action.frame);
 			FrameStore.emitChange();
 			break;
-	    // case OFConstants.TODO_UPDATE_TEXT:
-	    //   text = action.text.trim();
-	    //   if (text !== '') {
-	    //     update(action.id, {text: text});
-	    //     FrameStore.emitChange();
-	    //   }
-	    //   break;
 
-	    // case OFConstants.TODO_DESTROY:
-	    //   destroy(action.id);
-	    //   FrameStore.emitChange();
-	    //   break;
+		case OFConstants.FRAME_SAVE:
+			// adding the saved frame since it will replace current instance
+			addFrame(action.frame);
+			FrameStore.emitChange();
+			break;
 
-	    // case OFConstants.TODO_DESTROY_COMPLETED:
-	    //   destroyCompleted();
-	    //   FrameStore.emitChange();
-	    //   break;
+		case OFConstants.FRAME_SAVE_DONE:
+			// adding the frame since it will replace current instance
+			// noop (optimistic ui update already happened on FRAME_SAVE)
+			break;
+
+		case OFConstants.FRAME_SAVE_FAIL:
+			// adding the failed frame since it will replace current instance
+			// TODO: handle this by reverting (immutable.js would help)
+			console.log('failed to save frame', action.frame);
+			break;
 
 	    default:
     		// no op

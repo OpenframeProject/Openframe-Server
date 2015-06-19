@@ -38,6 +38,20 @@ var UIActions = {
         AppDispatcher.handleViewAction({
             actionType: OFConstants.UI_CLOSE_ADD_CONTENT
         });
+    },
+
+    openSettingsModal: function() {
+        console.log('openSettingsModal');
+        AppDispatcher.handleViewAction({
+            actionType: OFConstants.UI_OPEN_SETTINGS
+        });
+    },
+
+    settingsModalClosed: function() {
+        console.log('settingsModalClosed');
+        AppDispatcher.handleViewAction({
+            actionType: OFConstants.UI_CLOSE_SETTINGS
+        });
     }
 
 }

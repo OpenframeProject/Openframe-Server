@@ -22,6 +22,25 @@ var AddContentModal = React.createClass({
         	that._resetForm();
         	UIActions.addContentModalClosed();
         });
+
+        // Vertically center modals
+		/* center modal */
+		function centerModals(){
+		    $('.modal').each(function(i){
+		        var $clone = $(this).clone().css('display', 'block').appendTo('body');
+		        var top = Math.round(($clone.height() - $clone.find('.modal-content').height()) / 2);
+		        top = top > 0 ? top : 0;
+		        $clone.remove();
+		        $(this).find('.modal-content').css("margin-top", top);
+		    });
+		}
+		$(this.refs.modal.getDOMNode()).on('show.bs.modal', centerModals);
+		// $(window).on('resize', centerModals);
+    },
+
+    componentWillUnount: function() {
+        UIStore.removeChangeListener(this._onChange);
+        $(this.refs.modal.getDOMNode()).off('hidden.bs.modal');
     },
 
 	_handleAddContent: function() {
@@ -71,10 +90,17 @@ var AddContentModal = React.createClass({
 		if (val[val.length-1] === ' ') {
 			el.value += '#'
 		}
+		// hack because I can't seem to get the autocapitalize="off" to work
+		// for the tags field ??
+		el.value = el.value.toLowerCase();
 	},
 
 	_handleKeyDown: function(e) {
 		var val = e.currentTarget.value;
+		if (val[0] != '#') {
+			e.currentTarget.value = val = '#' + val;
+
+		}
 		if (e.key === 'Backspace' && val !== '#') {
 			if (val[val.length - 1] === '#') {
 				e.currentTarget.value = val.substring(0, val.length - 1);
@@ -109,19 +135,28 @@ var AddContentModal = React.createClass({
 					    	<h4 className="modal-title">Add Content</h4>
 					  	</div>
 						<div className="modal-body">
-				    		<div className="form-label">Enter URL</div>
-				    		<div className="form-input">
-				    			<input ref="url" type="text" placeholder="http://..." />
-				    		</div>
+							<div className="row row-form-field">
+				    			<div className="col-xs-12">
+						    		<div className="form-label">Enter URL</div>
+						    		<div className="form-input">
+						    			<input ref="url" type="url" autocapitalize="off" placeholder="http://..." />
+						    		</div>
+						    	</div>
+					    	</div>
 
-				    		<div className="form-label">Enter description with tags</div>
-				    		<div className="form-input">
-				    			<input ref="tags" type="text" 
-				    					placeholder="#photo #Rodchenko #1941" 
-				    					onFocus={this._handleOnFocus}
-				    					onChange={this._handleTagsChange}
-				    					onKeyDown={this._handleKeyDown}/>
-				    		</div>
+					    	<div className="row row-form-field">
+				    			<div className="col-xs-12">
+						    		<div className="form-label">Enter description with tags</div>
+						    		<div className="form-input">
+						    			<input ref="tags" type="text"
+						    					autocapitalize="off"
+						    					placeholder="#photo #Rodchenko #1941"
+						    					onFocus={this._handleOnFocus}
+						    					onChange={this._handleTagsChange}
+						    					onKeyDown={this._handleKeyDown} />
+				    				</div>
+				    			</div>
+			    			</div>
 				  		</div>
 				  		<div className="modal-footer">
 				    		<button onClick={this._handleAddContent} type="button" className="btn btn-primary btn-add-content">

@@ -13,7 +13,7 @@ var SimpleNav = React.createClass({
         return {
             frames: [],
             selectedFrame: {
-                name: 'HOME'
+                name: ''
             }
         }
     },
@@ -32,7 +32,7 @@ var SimpleNav = React.createClass({
         return (
             <div className="of-nav-fixed of-nav-top">
                 <h6 className="frame-name text-center"><span className="connected" dangerouslySetInnerHTML={connected(this.state.selectedFrame.active)} />{frameName}</h6>
-                
+
                 <button type="button" className="btn-simple-nav btn-menu visible-xs pull-left" onClick={this._handleOpenMenuClick}>
                     <span className="icon-hamburger" />
                 </button>
@@ -65,7 +65,7 @@ var SimpleNav = React.createClass({
 
     _handleOpenSettings: function(e) {
         console.log('_handleOpenSettings');
-        UIActions.toggleSettings(true);
+        UIActions.openSettingsModal();
     },
 
     _onChange: function() {

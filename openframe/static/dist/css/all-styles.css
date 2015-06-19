@@ -6981,13 +6981,25 @@ ul.dropdown-menu {
   padding: 10px;
 }
 .modal-body {
-  padding: 0px 10px 60px 10px;
+  padding: 0px 10px 40px 10px;
+}
+.modal-body .row-form-field {
+  margin-top: 20px;
 }
 .modal-body .form-label {
   font-size: 1.2em;
   font-weight: 300;
   color: #000;
-  margin-top: 20px;
+}
+.modal-body .row-form-field-rotation {
+  margin-top: 30px;
+}
+.modal-body .row-form-field-rotation .form-label {
+  margin-top: 8px;
+}
+.modal-body .form-label-subtext {
+  font-size: .8em;
+  letter-spacing: 1px;
 }
 .modal-body .form-input input {
   width: 100%;
@@ -7000,46 +7012,39 @@ ul.dropdown-menu {
   font-weight: 400;
   font-size: 1.2em;
 }
-.modal-dialog {
-  margin-top: 80px;
-}
-.modal-settings-item {
-  padding-top: 15px;
-  padding-bottom: 6px;
-}
-.modal-setting-title {
-  font-size: 19px;
-  font-weight: 400;
-  color: #3F3E3C;
-}
-.modal-setting-selection {
-  font-size: 19px;
-  font-weight: 300;
-  color: #9B9B9B;
-}
-.settings-list li {
-  border-bottom: 1px solid #E7E7E7;
-}
-.settings-list li.last {
-  border-bottom: none;
-}
-#URL::-webkit-input-placeholder {
-  color: #D0D0D0;
-}
-#URL {
-  border: none;
-  width: 100%;
-  padding: 5px 10px 7px 0px;
-}
-.form-group {
-  width: 100%;
-}
 /**
  * iOS stuff
  */
-input {
+input,
+select {
   -webkit-appearance: none;
+  -webkit-border-radius: 0;
   border-radius: 0;
+}
+select {
+  background: transparent;
+  background-image: url('../img/down caret.svg');
+  background-repeat: no-repeat;
+  background-position: center right 10px;
+  border: 1px solid #686866;
+  height: 40px;
+  padding: 6px 10px;
+  padding-right: 30px;
+  font-size: 1.2em;
+}
+input[type="checkbox"] {
+  border: 1px solid #686866;
+  width: 30px;
+  height: 30px;
+}
+input[type="checkbox"]:checked {
+  border: 1px solid #686866;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  background-image: url('../img/check.svg');
+  background-repeat: no-repeat;
+  background-position: center;
 }
 /**
  * Import styles for larger sreens.

@@ -12,6 +12,9 @@ module.exports = keymirror({
 	FRAME_CONTENT_UPDATED: null,
 	FRAME_CONNECT: null,
 	FRAME_DISCONNECT: null,
+	FRAME_SAVE: null,
+	FRAME_SAVE_DONE: null,
+	FRAME_SAVE_FAIL: null,
 
 	// content action types
 	CONTENT_LOAD: null,
@@ -28,10 +31,11 @@ module.exports = keymirror({
 
 	// UI action types
 	UI_MENU_TOGGLE: null,
-	UI_SETTINGS_TOGGLE: null,
 	UI_SET_SELECTION_PANEL: null,
 	UI_OPEN_ADD_CONTENT: null,
 	UI_CLOSE_ADD_CONTENT: null,
+	UI_OPEN_SETTINGS: null,
+	UI_CLOSE_SETTINGS: null,
 
 	// emitted by stores
 	CHANGE_EVENT: null
