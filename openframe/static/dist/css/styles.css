@@ -209,6 +209,8 @@ ul {
   background-size: cover;
 }
 .frame-name {
+  position: absolute;
+  width: 100%;
   margin: 10px auto;
   text-transform: uppercase;
   font-weight: 700;
@@ -248,6 +250,9 @@ ul {
   width: 100%;
   margin: 0 auto;
   max-width: 300px;
+}
+ul.dropdown-menu {
+  min-width: 300px;
 }
 .of-nav-fixed {
   position: absolute;

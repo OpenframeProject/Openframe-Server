@@ -13,7 +13,11 @@ var ContentList = React.createClass({
 	componentDidMount: function() {
 		ContentActions.loadContent();
 		ContentStore.addChangeListener(this._onChange);
-		// this._initSlider();
+	},
+
+	componentWillUnmount: function() {
+		console.log('componentDidUnmount');
+		ContentStore.removeChangeListener(this._onChange);
 	},
 
 	render: function() {

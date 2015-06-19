@@ -15,6 +15,7 @@ var React = require('react'),
 	AppDispatcher = require('../dispatcher/AppDispatcher'),
 	FrameActions = require('../actions/FrameActions'),
 	FrameStore = require('../stores/FrameStore'),
+	UIStore = require('../stores/UIStore'),
 
 	Socker = require('../api/Socker'),
 
@@ -27,6 +28,11 @@ var React = require('react'),
  * Individual components register for Store state change events
  */
 var App = React.createClass({
+	getInitialState: function() {
+		return {
+			selectionPanel: "collection"
+		};
+	},
 	
 	componentWillMount: function() {
 		if (!global.OF_USERNAME) {
@@ -46,22 +52,30 @@ var App = React.createClass({
 	componentDidMount: function() {
 		
 		// console.log('componentDidMount', $('.nav-footer').height());
-		console.log('componentDidMount', React.findDOMNode(this.refs.navFooter).offsetHeight);
+		// console.log('componentDidMount', React.findDOMNode(this.refs.navFooter).offsetHeight);
+		UIStore.addChangeListener(this._onChange);
 
 	},
 
 	componentWillUnmount: function() {
-		FrameStore.removeChangeListener(this._onChange);
+		UIStore.addChangeListener(this._onChange);
+	},
+
+	_onChange: function() {
+		var panel = UIStore.getSelectionPanelState();
+		this.setState(panel);
 	},
 
   	render: function(){
+  		var contentList = <ContentList />,
+  			frameList = '';
+  		var selectionPanel = this.state.selectionPanel === 'collection' ? contentList : frameList;
 	    return (
 			<div className='container app'>
 				<SimpleNav />
 				<Frame />
 				<TransferButtons />
-				<AddContentForm />
-				<ContentList />
+				<div>{selectionPanel}</div>
 				<FooterNav ref="navFooter"/>
 				<Drawer />
 				<AddContentModal />

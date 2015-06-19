@@ -31,6 +31,8 @@ var SimpleNav = React.createClass({
 
         return (
             <div className="of-nav-fixed of-nav-top">
+                <h6 className="frame-name text-center"><span className="connected" dangerouslySetInnerHTML={connected(this.state.selectedFrame.active)} />{frameName}</h6>
+                
                 <button type="button" className="btn-simple-nav btn-menu visible-xs pull-left" onClick={this._handleOpenMenuClick}>
                     <span className="icon-hamburger" />
                 </button>
@@ -39,7 +41,6 @@ var SimpleNav = React.createClass({
                 </button>
                 <h3 className="text-muted hidden-xs pull-left"><span className="openframe">openframe/</span><span className="username">{OF_USERNAME}</span></h3>
 
-                <h6 className="frame-name visible-xs text-center"><span className="connected" dangerouslySetInnerHTML={connected(this.state.selectedFrame.active)} />{frameName}</h6>
 
                 <ul className="nav navbar-nav navbar-right hidden-xs">
                     <li className="dropdown">

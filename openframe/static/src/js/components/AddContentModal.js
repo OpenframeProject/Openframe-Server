@@ -7,12 +7,11 @@ var React = require('react'),
 var AddContentModal = React.createClass({
 	getInitialState: function() {
 		return {
-			selectionPanel: "collection"
-		};
+			addOpen: false
+		}
 	},
 
 	getDefaultProps: function() {
-		return {}
 	},
 
 	componentDidMount: function() {
