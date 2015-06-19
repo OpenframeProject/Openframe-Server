@@ -26,8 +26,11 @@ module.exports = keymirror({
 	CONTENT_REMOVE_DONE: null,
 	CONTENT_REMOVE_FAIL: null,
 
-	MENU_TOGGLE: null,
-	SETTINGS_TOGGLE: null,
+	// UI action types
+	UI_MENU_TOGGLE: null,
+	UI_SETTINGS_TOGGLE: null,
+	UI_SET_SELECTION_PANEL: null,
+	UI_OPEN_ADD_CONTENT: null,
 
 	// emitted by stores
 	CHANGE_EVENT: null

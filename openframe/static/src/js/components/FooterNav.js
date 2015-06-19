@@ -1,23 +1,46 @@
 var React = require('react'),
-	$ = require('jquery');
+	$ = require('jquery'),
+	UIActions = require('../actions/UIActions'),
+	UIStore = require('../stores/UIStore');
 
 var FooterNav = React.createClass({
 	getInitialState: function() {
 		return {
-			collection: true
-		}
+			selectionPanel: "collection"
+		};
 	},
 
-	_handleCollectionClick: function() {
+	getDefaultProps: function() {
+		return {}
+	},
 
+	componentDidMount: function() {
+        UIStore.addChangeListener(this._onChange);
+    },
+
+    _handleCloseMenuClick: function() {
+		console.log('_handleCloseMenuClick');
+		UIActions.toggleMenu(false);
+	},
+
+	_onChange: function() {
+		console.log('updating footer nav', this.state);
+        this.setState(UIStore.getSelectionPanelState());
+        console.log('updated state', this.state);
+    },
+
+	_handleCollectionClick: function() {
+		console.log(UIActions);
+		UIActions.setSelectionPanel("collection");
 	},
 
 	_handleFramesClick: function() {
-
+		UIActions.setSelectionPanel("frames");
 	},
 
 	_handleAddClick: function() {
-		$('.modal-add-content').modal();
+		// $('.modal-add-content').modal();
+		UIActions.openAddContentModal();
 	},
 
 	/**
@@ -55,7 +78,9 @@ var FooterNav = React.createClass({
 				</div>
 			</div>
 		);
-		return collection;
+		var panel = this.state.selectionPanel;
+		console.log('PANEL: ', this.state, panel);
+		return panel === 'collection' ? collection : frames;
 	}
 
 });

@@ -19,7 +19,7 @@ var Frame = React.createClass({
 
 	render: function() {
 		if (!this.state.frame) {
-			return <div>No frames available.</div>
+			return <div className="row frames-list"></div>
 		}
 		this.w_h_ratio = this.state.frame && this.state.frame.settings ? this.state.frame.settings.w_h_ratio : 1;
 
@@ -69,7 +69,7 @@ var Frame = React.createClass({
 			maxW = w - 2*padding,
 			maxH = h - 2*padding,
 			frameW, frameH;
-		
+
 		if ((this.w_h_ratio > 1 || maxH * this.w_h_ratio > maxW) && maxW / this.w_h_ratio < maxH) {
 			// width > height or using full height would extend beyond maxW
 			frameW = maxW;
@@ -79,7 +79,7 @@ var Frame = React.createClass({
 			frameH = maxH;
 			frameW = (maxH * this.w_h_ratio);
 		}
-		
+
 		frame.style.width = frameW + 'px';
 		frame.style.height = frameH + 'px';
 

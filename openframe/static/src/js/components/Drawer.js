@@ -1,7 +1,7 @@
 var React = require('react'),
 	NavFrameList = require('./NavFrameList'),
-	MenuActions = require('../actions/MenuActions'),
-	MenuStore = require('../stores/MenuStore');
+	UIActions = require('../actions/UIActions'),
+	UIStore = require('../stores/UIStore');
 
 var Drawer = React.createClass({
 	getInitialState: function() {
@@ -15,9 +15,18 @@ var Drawer = React.createClass({
 			sideClass: 'menu-drawer-left'
 		}
 	},
-	
+
 	componentDidMount: function() {
-        MenuStore.addChangeListener(this._onChange);
+        UIStore.addChangeListener(this._onChange);
+    },
+
+    _handleCloseMenuClick: function() {
+		console.log('_handleCloseMenuClick');
+		UIActions.toggleMenu(false);
+	},
+
+	_onChange: function() {
+        this.setState(UIStore.getMenuState());
     },
 
 	render: function() {
@@ -40,16 +49,7 @@ var Drawer = React.createClass({
 				</div>
 			</div>
 		);
-	},
-
-	_handleCloseMenuClick: function() {
-		console.log('_handleCloseMenuClick');
-		MenuActions.toggleMenu();
-	},
-
-	_onChange: function() {
-        this.setState(MenuStore.getMenuState());
-    }
+	}
 
 });
 

@@ -1,6 +1,6 @@
 var React = require('react'),
     NavFrameList = require('./NavFrameList'),
-    MenuActions = require('../actions/MenuActions'),
+    UIActions = require('../actions/UIActions'),
     FrameStore = require('../stores/FrameStore');
 
 
@@ -14,7 +14,7 @@ var SimpleNav = React.createClass({
             frames: [],
             selectedFrame: {
                 name: 'HOME'
-            } 
+            }
         }
     },
 
@@ -59,12 +59,12 @@ var SimpleNav = React.createClass({
 
     _handleOpenMenuClick: function(e) {
         console.log('_handleOpenMenuClick');
-        MenuActions.toggleMenu();
+        UIActions.toggleMenu(true);
     },
 
     _handleOpenSettings: function(e) {
         console.log('_handleOpenSettings');
-        MenuActions.toggleSettings();
+        UIActions.toggleSettings(true);
     },
 
     _onChange: function() {
