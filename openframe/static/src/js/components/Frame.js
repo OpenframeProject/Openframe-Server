@@ -42,9 +42,6 @@ var Frame = React.createClass({
 					<div className="frame-inner-container" ref="frameInnerContainer">
 		            	<div className="frame" style={divStyle} ref="frame"/>
 		            </div>
-		            <div className="hidden-xs frame-name text-center">
-		                <h6>{this.state.frame.name} {active}</h6>
-		            </div>
 		        </div>
 	        </div>
 		);
