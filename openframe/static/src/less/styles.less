@@ -30,7 +30,7 @@ html, body, #OpenFrame, .app {
     height: 100%;
     position: relative;
     overflow: hidden;
-    letter-spacing: 1.4px;
+    letter-spacing: 1.2px;
     font-weight: 400;
 }
 
@@ -201,7 +201,7 @@ ul {
 .frame {
     position: relative;
     display: inline-block;
-    border: 7px solid #3F3E3C;
+    border: 7px solid @gray-dark;
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -226,7 +226,7 @@ ul {
 // Content slider
 .swiper-outer-container {
     position: absolute;
-    bottom: 0;
+    top: 50%;
     width: 100%;
     height: 50%;
     z-index: @zindex-panels;
@@ -250,20 +250,47 @@ ul {
 
     img {
         position: relative;
-        top: 25%;
         width: 100%;
         margin: 0 auto;
-        max-width: 300px;
+        max-width: 400px;
+        top: 50%;
+        transform: translateY(-50%);
     }
 }
 
-// .swiper-slide:nth-child(2n) {
-//     width: 30%;
-// }
+.frame-slide img {
+    border: 7px solid @gray-light;
+}
 
-// .swiper-slide:nth-child(3n) {
-//     width: 10%;
-// }
+.frame-slide-content {
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+    text-align: center;
+}
+
+.visible-frame-details {
+    .visible-frame-name {
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    .visible-frame-user {
+        margin-left: 10px;
+        color: @gray-light;
+        letter-spacing: normal;
+    }
+
+    .visible-frame-stats {
+        position: relative;
+        // top: -2px;
+        margin-top: 5px;
+        padding-bottom: 15px;
+        font-size: .8em;
+    }
+}
+
+
 
 ul.dropdown-menu {
     min-width: 300px;
@@ -522,22 +549,6 @@ ul.dropdown-menu {
 }
 
 
-// .modal {
-//   text-align: center;
-// }
-
-// .modal:before {
-//   display: inline-block;
-//   vertical-align: middle;
-//   content: " ";
-//   height: 100%;
-// }
-
-// .modal-dialog {
-//   display: inline-block;
-//   text-align: left;
-//   vertical-align: middle;
-// }
 
 /**
  * iOS stuff

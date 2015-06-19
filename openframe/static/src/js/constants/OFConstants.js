@@ -6,6 +6,9 @@ module.exports = keymirror({
 	FRAME_LOAD: null,
 	FRAME_LOAD_DONE: null,
 	FRAME_LOAD_FAIL: null,
+	FRAME_LOAD_VISIBLE: null,
+	FRAME_LOAD_VISIBLE_DONE: null,
+	FRAME_LOAD_VISIBLE_FAIL: null,
 	FRAME_SELECT: null,
 	FRAME_UPDATE_CONTENT: null,
 	FRAME_SETTINGS_CONTENT: null,
@@ -15,6 +18,7 @@ module.exports = keymirror({
 	FRAME_SAVE: null,
 	FRAME_SAVE_DONE: null,
 	FRAME_SAVE_FAIL: null,
+	FRAME_SLIDE_CHANGED: null,
 
 	// content action types
 	CONTENT_LOAD: null,

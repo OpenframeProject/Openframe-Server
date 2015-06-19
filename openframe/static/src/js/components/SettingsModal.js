@@ -14,7 +14,7 @@ var SettingsModal = React.createClass({
 				description: '',
 				settings: {
 					visible: true,
-					rotation: 90
+					rotation: 0
 				}
 			}
 		}

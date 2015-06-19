@@ -85,6 +85,19 @@ class FramesByOwnerHandler(BaseHandler):
         self.write(dumps(resp))
 
 
+class VisibleFramesHandler(BaseHandler):
+
+    """
+    endpoints for visible frames
+    """
+
+    def get(self):
+        frames = Frames.getVisible()
+        print(frames)
+        _unify_ids(frames)
+        self.write(dumps(frames))
+
+
 class UpdateFrameContentHandler(BaseHandler):
 
     """

@@ -9,7 +9,8 @@ from openframe.handlers.pages import SplashHandler, MainHandler, \
     TestHandler
 from openframe.handlers.api.content import ContentHandler, ContentByUserHandler
 from openframe.handlers.api.frames import FramesHandler, \
-    FramesByUserHandler, FramesByOwnerHandler, UpdateFrameContentHandler
+    FramesByUserHandler, FramesByOwnerHandler, UpdateFrameContentHandler, \
+    VisibleFramesHandler
 from openframe.handlers.api.users import UsersHandler
 from openframe.handlers.websockets.admin import AdminWebSocketHandler
 from openframe.handlers.websockets.frame import FrameWebSocketHandler
@@ -43,6 +44,7 @@ class Application(tornado.web.Application):
             (r"/users", UsersHandler),
 
             (r"/frames/?", FramesHandler),
+            (r"/frames/visible/?", VisibleFramesHandler),
             (r"/frames/(\w+)/?", FramesHandler),
             (r"/frames/user/(\w+)/?", FramesByUserHandler),
             (r"/frames/owner/(\w+)/?", FramesByOwnerHandler),

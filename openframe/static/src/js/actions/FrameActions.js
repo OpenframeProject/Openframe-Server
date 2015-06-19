@@ -5,7 +5,8 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
 	FrameStore = require('../stores/FrameStore');
 
 var endpoints = {
-	all_frames: '/frames/user/' + OF_USERNAME
+	users_frames: '/frames/user/' + OF_USERNAME,
+	visible_frames: '/frames/visible'
 }
 
 var FrameActions = {
@@ -22,7 +23,7 @@ var FrameActions = {
 		});
 
 		// fetch the frames
-		$.getJSON(endpoints.all_frames)
+		$.getJSON(endpoints.users_frames)
 			.done(function(frames) {
 				console.log('frames: ', frames);
 				// load success, fire corresponding action
@@ -35,6 +36,35 @@ var FrameActions = {
 				// load failure, fire corresponding action
 				AppDispatcher.handleServerAction({
 					actionType: OFConstants.FRAME_LOAD_FAIL,
+					err: err
+				});
+			});
+	},
+
+	/**
+	 * Fetch all frames marked 'visible'
+	 * @return {[type]} [description]
+	 */
+	loadVisibleFrames: function() {
+		// dispatch an action indicating that we're loading the visible frames
+		AppDispatcher.handleViewAction({
+			actionType: OFConstants.FRAME_LOAD_VISIBLE
+		});
+
+		// fetch the visible frames
+		$.getJSON(endpoints.visible_frames)
+			.done(function(frames) {
+				console.log('frames: ', frames);
+				// load success, fire corresponding action
+				AppDispatcher.handleServerAction({
+					actionType: OFConstants.FRAME_LOAD_VISIBLE_DONE,
+					frames: frames
+				});
+			})
+			.fail(function(err) {
+				// load failure, fire corresponding action
+				AppDispatcher.handleServerAction({
+					actionType: OFConstants.FRAME_LOAD_VISIBLE_FAIL,
 					err: err
 				});
 			});
@@ -143,7 +173,14 @@ var FrameActions = {
 			w: w,
 			h: h
 		});
-    }
+    },
+
+    slideChanged: function(frame_id) {
+		AppDispatcher.handleViewAction({
+			actionType: OFConstants.FRAME_SLIDE_CHANGED,
+			frame_id: frame_id
+		});
+	}
 
 }
 

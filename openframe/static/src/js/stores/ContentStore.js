@@ -42,7 +42,7 @@ var ContentStore = assign({}, EventEmitter.prototype, {
 	addChangeListener: function(cb){
     	this.on(OFConstants.CHANGE_EVENT, cb);
   	},
-  	
+
   	removeChangeListener: function(cb){
     	this.removeListener(OFConstants.CHANGE_EVENT, cb);
 	}
@@ -87,7 +87,7 @@ AppDispatcher.register(function(action) {
 			break;
 
     	case OFConstants.CONTENT_SEND:
-    		
+
 			// ContentStore.emitChange();
 			break;
 

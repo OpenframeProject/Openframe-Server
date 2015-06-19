@@ -9,10 +9,12 @@ var ContentList = React.createClass({
 			content: []
 		}
 	},
-	
+
 	componentDidMount: function() {
 		ContentActions.loadContent();
 		ContentStore.addChangeListener(this._onChange);
+
+
 	},
 
 	componentWillUnmount: function() {
@@ -20,39 +22,23 @@ var ContentList = React.createClass({
 		ContentStore.removeChangeListener(this._onChange);
 	},
 
-	render: function() {
-		function createContentSlide(contentItem) {
-			console.log('creating slide: ', contentItem);
-			return (
-				<div key={contentItem._id.$oid} className="swiper-slide" onClick={null}>
-                    <img src={contentItem.url} />
-                </div>
-            );
-		}
-		return (
-			<div className="swiper-outer-container">
-				<div className="swiper-container" ref="Swiper">
-	                <div className="swiper-wrapper">
-	                    
-	                </div>
-	            </div>
-	        </div>
-		);
-	},
+    componentDidUpdate: function() {
+        this._updateContainerDimensions();
+    },
 
   	_onChange: function() {
   		this.setState({
   			content: ContentStore.getContent()
   		});
-  		
+
   		// TODO: better React integration for the swiper
-  		
+
   		if (!this.swiper) {
   			this._initSlider();
   		}
 
   		this._populateSlider()
-  		
+
 		// var slide_index = $('div.swiper-slide').length;
         this.swiper.slideTo(0);
   	},
@@ -72,8 +58,6 @@ var ContentList = React.createClass({
 	        keyboardControl: true,
 	        onSlideChangeEnd: this._slideChangeEnd
 	    });
-
-
   	},
 
   	_populateSlider: function() {
@@ -82,7 +66,7 @@ var ContentList = React.createClass({
   	},
 
   	_addSlide: function(contentItem) {
-  		var html = '<div class="swiper-slide" data-contentid="' + contentItem._id + '"><img src=' + contentItem.url + ' /></div>'
+  		var html = '<div class="swiper-slide content-slide" data-contentid="' + contentItem._id + '"><img src=' + contentItem.url + ' /></div>'
 		this.swiper.prependSlide(html);
   	},
 
@@ -95,7 +79,37 @@ var ContentList = React.createClass({
   			content_id = slide.dataset.contentid;
   		console.log('_slideChangeEnd', content_id);
   		ContentActions.slideChanged(content_id);
-  	}
+  	},
+
+    _updateContainerDimensions: function() {
+        var container = React.findDOMNode(this)
+            h = container.offsetHeight,
+            padding = 40,
+            newH = h - padding;
+
+        container.style.height = newH+'px';
+        // container.style.top = '0px';
+    },
+
+    render: function() {
+        function createContentSlide(contentItem) {
+            console.log('creating slide: ', contentItem);
+            return (
+                <div key={contentItem._id.$oid} className="swiper-slide">
+                    <img src={contentItem.url} />
+                </div>
+            );
+        }
+        return (
+            <div className="swiper-outer-container">
+                <div className="swiper-container" ref="Swiper">
+                    <div className="swiper-wrapper">
+
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
 });
 

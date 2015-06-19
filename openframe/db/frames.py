@@ -42,6 +42,16 @@ class Frames():
 		return list(Frames.collection.find(query))
 
 	@staticmethod
+	def getVisible(active=None):
+		"""
+		Get a list of frames which user owns
+		"""
+		query = {'settings.visible': True}
+		if active != None:
+			query['active'] = active
+		return list(Frames.collection.find(query))
+
+	@staticmethod
 	def insert(doc):
 		"""
 		Insert a doc into the frames collection
