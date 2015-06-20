@@ -56,6 +56,10 @@ class FrameManager():
         frame = Frames.updateById(
             frame_id, {'current_content': content})
 
+        if 'mirrored_by' in frame:
+            mirror_frames = frame['mirrored_by']
+            print('mirrored_by:' + mirrored_by)
+
         # publish frame:content_updated event
         self.pubsub.publish(
             'frame:content_updated', frame=frame, content=content)

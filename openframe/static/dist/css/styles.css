@@ -258,7 +258,7 @@ ul {
   position: relative;
   width: 100%;
   margin: 0 auto;
-  max-width: 400px;
+  max-width: 240px;
   top: 50%;
   transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
@@ -281,7 +281,8 @@ ul {
 }
 .visible-frame-details .visible-frame-user {
   margin-left: 10px;
-  color: #d0d0d0;
+  color: #686866;
+  font-weight: 300;
   letter-spacing: normal;
 }
 .visible-frame-details .visible-frame-stats {

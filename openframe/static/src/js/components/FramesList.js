@@ -88,6 +88,7 @@ var FramesList = React.createClass({
   		});
 
   		// TODO: better React integration for the swiper
+        // Maybe a slide component?
 
   		if (!this.swiper) {
   			this._initSlider();
