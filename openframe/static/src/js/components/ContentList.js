@@ -22,7 +22,7 @@ var ContentList = React.createClass({
 	},
 
     componentDidUpdate: function() {
-        
+
     },
 
   	_onChange: function() {
@@ -48,10 +48,10 @@ var ContentList = React.createClass({
 	        slidesPerView: 3,
 	        spaceBetween: 50,
 	        centeredSlides: true,
-	        freeMode: true,
-	        freeModeMomentum: true,
-	        freeModeMomentumRatio: .25,
-	        freeModeSticky:true,
+	        // freeMode: true,
+	        // freeModeMomentum: true,
+	        // freeModeMomentumRatio: 0.5,
+	        // freeModeSticky:true,
 	        // loop: true,
 	        // loopedSlides: 5,
 	        keyboardControl: true,

@@ -21,6 +21,7 @@ class AdminManager():
             'admin:disconnected', self.remove_admin_connection)
 
         self.pubsub.subscribe('frame:content_updated', self.update_admin_frame)
+        self.pubsub.subscribe('frame:frame_mirrored', self.update_admin_frame)
 
         self.pubsub.subscribe('frame:setup', self.setup_frame)
 
@@ -80,7 +81,7 @@ class AdminManager():
                     self.admins[user_id][ws_uuid].send(
                         'frame:disconnected', frame)
 
-    def update_admin_frame(self, frame, content):
+    def update_admin_frame(self, frame):
         print('AdminManager::update_admin_frame')
         # get users for this frame
         users = Users.get_by_frame_id(frame['_id'])

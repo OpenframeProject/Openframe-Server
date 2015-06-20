@@ -2,11 +2,12 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
 	OFConstants = require('../constants/OFConstants'),
 	$ = require('jquery'),
 	Socker = require('../api/Socker'),
-	FrameStore = require('../stores/FrameStore');
+	FrameStore = require('../stores/FrameStore'),
+    _ = require('lodash');
 
 var endpoints = {
 	users_frames: '/frames/user/' + OF_USERNAME,
-	visible_frames: '/frames/visible'
+	visible_frames: '/frames/visible?v=1'
 }
 
 var FrameActions = {
@@ -99,8 +100,18 @@ var FrameActions = {
 		// WebSocket event handler for frame:content_updated triggers the dispatch
 	},
 
-    mirrorFrame: function(frame) {
-        console.log('mirror: ', frame);
+    mirrorFrame: function(mirrored_frame) {
+        var frame = FrameStore.getSelectedFrame();
+
+        if (_.isArray(mirrored_frame.mirrored_by)) {
+            mirrored_frame.mirrored_by.push(frame._id)
+        }
+
+        var data = {
+            frame_id: frame._id,
+            mirrored_frame_id: mirrored_frame._id
+        };
+        Socker.send('frame:mirror_frame', data)
     },
 
 	saveFrame: function(frame) {
@@ -108,6 +119,9 @@ var FrameActions = {
 			actionType: OFConstants.FRAME_SAVE,
 			frame: frame
 		});
+
+        // hack so that selected doesn't get persisted
+        frame.selected = false;
 		$.ajax({
             url: '/frames/'+frame._id,
             method: 'PUT',
@@ -125,6 +139,8 @@ var FrameActions = {
 				actionType: OFConstants.FRAME_SAVE_FAIL,
 				frame: frame
 			});
+        }).always(function() {
+            frame.selected = true;
         });
 	},
 
@@ -151,6 +167,14 @@ var FrameActions = {
 			frame: frame
 		});
 	},
+
+    frameMirrored: function(frame) {
+        console.log('Frame mirrored: ', frame);
+        AppDispatcher.handleServerAction({
+            actionType: OFConstants.FRAME_MIRRORED,
+            frame: frame
+        });
+    },
 
 	setup: function(data) {
 		var frame = data.frame;

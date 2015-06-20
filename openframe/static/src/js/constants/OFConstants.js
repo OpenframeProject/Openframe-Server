@@ -19,6 +19,7 @@ module.exports = keymirror({
 	FRAME_SAVE_DONE: null,
 	FRAME_SAVE_FAIL: null,
 	FRAME_SLIDE_CHANGED: null,
+	FRAME_MIRRORED: null,
 
 	// content action types
 	CONTENT_LOAD: null,

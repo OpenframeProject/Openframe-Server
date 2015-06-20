@@ -64,11 +64,6 @@ An open-source platform for displaying digital artwork.
 		"rotation": 180,
 		"visibility": "public"
 	},
-	"mirrored_by" : [
-		ObjectId("553e547bf54ddb6517975d3a"),
-		ObjectId("553e547bf54ddb6517975d3b"),
-		ObjectId("553e547bf54ddb6517975d3c"),
-		ObjectId("553e547bf54ddb6517975d3d")
-	]
+	"mirroring" : ObjectId("553e547bf54ddb6517975d3c")
 }
 ```

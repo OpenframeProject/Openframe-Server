@@ -98,7 +98,10 @@ class FrameHandler(BaseHandler):
                 "name": framename,
                 "users": [
                     username
-                ]
+                ],
+                "settings": {
+                    "visible": True
+                }
             })
         self.render("frame.html", frame_id=frame_id)
 

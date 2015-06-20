@@ -13,12 +13,11 @@ class FramesHandler(BaseHandler):
     """
 
     def get(self, frame_id=None):
-        frames = self.db.frames
         if frame_id:
             print('get frame: ' + frame_id)
             frame_resp = Frames.getById(frame_id)
         else:
-            frame_resp = frames.find()
+            frame_resp = Frames.getAll()
         _unify_ids(frame_resp)
         self.write(dumps(frame_resp))
 
@@ -53,15 +52,12 @@ class FramesByUserHandler(BaseHandler):
 
     def get(self, username):
         active = self.get_argument('active', None)
-        query = {'users': username}
-        if active:
-            query['active'] = True if active == "true" else False
-        frames = self.db.frames
-        if not username:
+        if username:
+            resp = Frames.getByUser(username, active)
+        else:
             print('username missing')
             resp = {'error': 'username required'}
-        else:
-            resp = frames.find(query)
+        _unify_ids(resp)
         self.write(dumps(resp))
 
 
@@ -72,16 +68,13 @@ class FramesByOwnerHandler(BaseHandler):
     """
 
     def get(self, username):
-        frames = self.db.frames
         active = self.get_argument('active', None)
-        query = {'owner': username}
-        if active:
-            query['active'] = True if active == "true" else False
-        if not username:
+        if username:
+            resp = Frames.getByOwner(username, active)
+        else:
             print('username missing')
             resp = {'error': 'username required'}
-        else:
-            resp = frames.find(query)
+        _unify_ids(resp)
         self.write(dumps(resp))
 
 

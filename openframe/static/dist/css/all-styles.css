@@ -1239,7 +1239,6 @@ h6,
   margin-top: 10px;
   margin-bottom: 10px;
   text-transform: uppercase;
-  letter-spacing: 1.4px;
   font-weight: 700;
   color: #222222;
 }
@@ -6637,7 +6636,7 @@ body,
   height: 100%;
   position: relative;
   overflow: hidden;
-  letter-spacing: 1.2px;
+  letter-spacing: 1.1px;
   font-weight: 400;
 }
 .container {
@@ -6870,10 +6869,23 @@ ul.dropdown-menu {
   padding: 5px 0px;
   margin: 0px;
 }
+.of-nav-fixed .mirroring-content {
+  position: relative;
+  top: -2px;
+  text-transform: lowercase;
+  color: #686866;
+  font-size: 0.8em;
+  font-weight: 300;
+  letter-spacing: normal;
+  margin-left: 10px;
+}
+.of-nav-fixed .mirroring-content .mirroring-meta {
+  padding-left: 10px;
+}
 .of-nav-footer {
   top: auto;
   bottom: 0;
-  background: #444444;
+  background: #131313;
   width: 100%;
 }
 .of-nav-footer .btn-nav-footer {
@@ -6994,7 +7006,7 @@ ul.dropdown-menu {
 }
 .row-settings {
   padding: 10px;
-  border-top: 1px solid #444444;
+  border-top: 1px solid #131313;
 }
 .row-settings .users-input {
   width: 100%;

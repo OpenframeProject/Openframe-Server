@@ -25,7 +25,6 @@ var NavFrameList = React.createClass({
 
 	render: function() {
 		function createFrameLink(frame) {
-            console.log('frame: ', frame);
             return <NavFrameLink key={frame._id} frame={frame} linkClickHandler={this.props.linkClickHandler} />
         }
 
@@ -38,7 +37,7 @@ var NavFrameList = React.createClass({
 				<li>
 					<a onClick={this.props.linkClickHandler} className="btn-logout" href="/logout">log out</a>
 				</li>
-			);	
+			);
 		}
 
 		return (

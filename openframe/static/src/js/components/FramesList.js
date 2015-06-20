@@ -52,12 +52,15 @@ var FramesList = React.createClass({
     },
 
     _addSlide: function(frame) {
-        var html = '' +
-            '<div class="swiper-slide frame-slide" data-frameid="' + frame._id + '">' +
-                '<img src=' + frame.current_content.url + ' />' +
-            '</div>';
+        // If there is current content set on the frame.
+        if (frame.current_content && frame.current_content.url) {
+            var html = '' +
+                '<div class="swiper-slide frame-slide" data-frameid="' + frame._id + '">' +
+                    '<img src=' + frame.current_content.url + ' />' +
+                '</div>';
 
-        this.swiper.appendSlide(html);
+            this.swiper.appendSlide(html);
+        }
     },
 
     _slideTo: function(index) {

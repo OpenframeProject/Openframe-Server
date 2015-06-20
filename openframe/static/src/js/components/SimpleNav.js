@@ -13,13 +13,22 @@ var SimpleNav = React.createClass({
         return {
             frames: [],
             selectedFrame: {
-                name: ''
+                name: '',
+                mirroring: null,
+                mirror_meta: {
+                    name: '',
+                    owner: ''
+                }
             }
         }
     },
 
     render: function() {
-        var frameName = this.state.selectedFrame.name;
+        var frameName = this.state.selectedFrame.name,
+            mirroring = this.state.selectedFrame.mirroring,
+            mirror_meta = this.state.selectedFrame.mirror_meta,
+            mirroring_icon = '',
+            mirroring_content = '';
 
         function connected(active) {
             var connected = '';
@@ -29,9 +38,26 @@ var SimpleNav = React.createClass({
             return {__html: connected};
         }
 
+        if (mirroring) {
+            mirroring_icon = (
+                <span className="of-icon-mirror"></span>
+            );
+            mirroring_content = (
+                <span className="mirroring-meta">@{mirror_meta.owner} : {mirror_meta.name}</span>
+            );
+        }
+
+
         return (
             <div className="of-nav-fixed of-nav-top">
-                <h6 className="frame-name text-center"><span className="connected" dangerouslySetInnerHTML={connected(this.state.selectedFrame.active)} />{frameName}</h6>
+                <h6 className="frame-name text-center">
+                    <span className="connected" dangerouslySetInnerHTML={connected(this.state.selectedFrame.active)} />
+                    {frameName}
+                    <span className="mirroring-content">
+                        {mirroring_icon}
+                        {mirroring_content}
+                    </span>
+                </h6>
 
                 <button type="button" className="btn-simple-nav btn-menu visible-xs pull-left" onClick={this._handleOpenMenuClick}>
                     <span className="icon-hamburger" />
