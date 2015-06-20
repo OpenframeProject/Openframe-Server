@@ -71,14 +71,14 @@ class FrameWebSocketHandler(BaseWebSocketHandler):
     def _handleSetup(self, data):
         print('_handleSetup')
         settings = {
-            'width': data['width'],
-            'height': data['height'],
-            'w_h_ratio': data['width'] / data['height']
+            'settings.width': data['width'],
+            'settings.height': data['height'],
+            'settings.w_h_ratio': data['width'] / data['height']
         }
 
         # update frame in db to reflect current content
         frame = Frames.updateById(
-            self.frame_id, {'settings': settings})
+            self.frame_id, settings)
 
         self.pubsub.publish(
             'frame:setup', frame=frame)

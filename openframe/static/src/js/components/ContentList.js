@@ -13,8 +13,7 @@ var ContentList = React.createClass({
 	componentDidMount: function() {
 		ContentActions.loadContent();
 		ContentStore.addChangeListener(this._onChange);
-
-
+		this._updateContainerDimensions();
 	},
 
 	componentWillUnmount: function() {
@@ -23,7 +22,7 @@ var ContentList = React.createClass({
 	},
 
     componentDidUpdate: function() {
-        this._updateContainerDimensions();
+        
     },
 
   	_onChange: function() {
@@ -82,6 +81,7 @@ var ContentList = React.createClass({
   	},
 
     _updateContainerDimensions: function() {
+    	console.log('_updateContainerDimensions');
         var container = React.findDOMNode(this)
             h = container.offsetHeight,
             padding = 40,

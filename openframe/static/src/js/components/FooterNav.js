@@ -19,12 +19,10 @@ var FooterNav = React.createClass({
     },
 
     _handleCloseMenuClick: function() {
-		console.log('_handleCloseMenuClick');
 		UIActions.toggleMenu(false);
 	},
 
 	_handleCollectionClick: function() {
-		console.log(UIActions);
 		UIActions.setSelectionPanel("collection");
 	},
 
@@ -33,15 +31,12 @@ var FooterNav = React.createClass({
 	},
 
 	_handleAddClick: function(e) {
-		console.log('_handleAddClick');
 		e.stopPropagation();
 		UIActions.openAddContentModal();
 	},
 
 	_onChange: function() {
-		console.log('updating footer nav', this.state);
         this.setState(UIStore.getSelectionPanelState());
-        console.log('updated state', this.state);
     },
 
 	/**

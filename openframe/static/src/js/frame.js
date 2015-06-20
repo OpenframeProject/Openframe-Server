@@ -6,7 +6,7 @@ OF_Frame = (function(frame_id, socker) {
         _width = window.innerWidth,
         _height = window.innerHeight;
 
-    
+
     function _init() {
         console.log('_init');
 
@@ -21,7 +21,7 @@ OF_Frame = (function(frame_id, socker) {
 
     function _handleUpdateContent(content) {
         _id = content._id.$oid || content._id;
-        
+
         _$body.animate({
                 'opacity': 0
             }, 1000, function() {
@@ -34,7 +34,7 @@ OF_Frame = (function(frame_id, socker) {
             });
 
         var data = {
-            frame_id: _frame_id,
+            frame_id: frame_id,
             content_id: _id
         };
 

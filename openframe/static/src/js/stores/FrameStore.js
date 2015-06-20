@@ -172,8 +172,9 @@ AppDispatcher.register(function(action) {
 			break;
 
 		case OFConstants.FRAME_SLIDE_CHANGED:
-			console.log('slide changed...');
+			console.log('slide changed...', action);
 			_selected_visible_frame_id = action.frame_id;
+			FrameStore.emitChange();
 			break;
 
 		case OFConstants.CONTENT_SEND:

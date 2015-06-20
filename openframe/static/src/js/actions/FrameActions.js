@@ -99,6 +99,10 @@ var FrameActions = {
 		// WebSocket event handler for frame:content_updated triggers the dispatch
 	},
 
+    mirrorFrame: function(frame) {
+        console.log('mirror: ', frame);
+    },
+
 	saveFrame: function(frame) {
 		AppDispatcher.handleViewAction({
 			actionType: OFConstants.FRAME_SAVE,

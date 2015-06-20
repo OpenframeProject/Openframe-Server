@@ -6814,6 +6814,7 @@ ul {
   max-width: 400px;
   top: 50%;
   transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
 }
 .frame-slide img {
   border: 7px solid #d0d0d0;
@@ -6823,6 +6824,9 @@ ul {
   bottom: 40px;
   width: 100%;
   text-align: center;
+}
+.visible-frame-details {
+  padding-bottom: 10px;
 }
 .visible-frame-details .visible-frame-name {
   text-transform: uppercase;
@@ -6836,7 +6840,6 @@ ul {
 .visible-frame-details .visible-frame-stats {
   position: relative;
   margin-top: 5px;
-  padding-bottom: 15px;
   font-size: .8em;
 }
 ul.dropdown-menu {
