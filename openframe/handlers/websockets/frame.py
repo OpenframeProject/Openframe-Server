@@ -26,7 +26,7 @@ class FrameWebSocketHandler(BaseWebSocketHandler):
         # set this frame to active in the db
         self._handle_frame_connected()
 
-        self.on('frame:frame_updated', self._handle_frame_updated)
+        # self.on('frame:frame_updated', self._handle_frame_updated)
 
         self.on('frame:setup', self._handle_setup)
 

@@ -80,9 +80,11 @@ class AdminManager():
                     self.admins[user_id][ws_uuid].send(
                         'frame:disconnected', frame)
 
-    def update_admin_frame(self, frame):
+    def update_admin_frame(self, frame=None, frame_id=None):
         print('AdminManager::update_admin_frame')
         print(frame)
+        if frame_id is not None:
+            frame = Frames.get_by_id(frame_id)
         # get users for this frame
         users = Users.get_by_frame_id(frame['_id'])
         # for each user, if the user is connected, send frame:updated event to

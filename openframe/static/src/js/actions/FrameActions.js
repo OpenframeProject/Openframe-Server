@@ -168,6 +168,14 @@ var FrameActions = {
 		});
 	},
 
+    frameUpdated: function(frame) {
+        console.log('Frame Updated: ', frame);
+        AppDispatcher.handleServerAction({
+            actionType: OFConstants.FRAME_UPDATED,
+            frame: frame
+        });
+    },
+
     frameMirrored: function(frame) {
         console.log('Frame mirrored: ', frame);
         AppDispatcher.handleServerAction({
