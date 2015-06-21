@@ -6871,7 +6871,7 @@ ul.dropdown-menu {
 }
 .of-nav-fixed .mirroring-content {
   position: relative;
-  top: -2px;
+  top: -1px;
   text-transform: lowercase;
   color: #686866;
   font-size: 0.8em;

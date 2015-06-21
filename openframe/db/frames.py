@@ -137,3 +137,22 @@ class Frames():
         query = {'mirroring': frame_id}
         resp = list(Frames.collection.find(query))
         return _unify_ids(resp)
+
+    @staticmethod
+    def get_mirroring_count(frame_id):
+        """
+        Get a count of all the frames that are mirroring frame_id
+        """
+        query = {'mirroring': frame_id}
+        return Frames.collection.count(query)
+
+    @staticmethod
+    def update_mirroring_count(frame_id):
+        """
+        Update the count of all the frames that are mirroring frame_id
+        """
+        count = Frames.get_mirroring_count(frame_id)
+        doc = {
+            'mirroring_count': count
+        }
+        return Frames.update_by_id(frame_id, doc)

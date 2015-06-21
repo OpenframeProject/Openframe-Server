@@ -10,7 +10,6 @@ var React = require('react'),
 	FramesList = require('./FramesList.js'),
 	FooterNav = require('./FooterNav.js'),
 	Drawer = require('./Drawer.js'),
-	SettingsDrawer = require('./SettingsDrawer.js'),
 	AddContentModal = require('./AddContentModal.js'),
 	SettingsModal = require('./SettingsModal.js'),
 
