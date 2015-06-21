@@ -32,9 +32,9 @@ var SimpleNav = React.createClass({
             mirroring_content = '',
             mirroring_count = this.state.selectedFrame.mirroring_count;
 
-        function connected(active) {
+        function connected(connected) {
             var connected = '';
-            if (active) {
+            if (connected) {
                 connected = '&bull; ';
             }
             return {__html: connected};
@@ -65,7 +65,7 @@ var SimpleNav = React.createClass({
         return (
             <div className="of-nav-fixed of-nav-top">
                 <h6 className="frame-name text-center">
-                    <span className="connected" dangerouslySetInnerHTML={connected(this.state.selectedFrame.active)} />
+                    <span className="connected" dangerouslySetInnerHTML={connected(this.state.selectedFrame.connected)} />
                     {frameName}
                     <span className="mirroring-content">
                         {mirroring_icon}
