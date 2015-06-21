@@ -61,7 +61,7 @@ class CreateAccountHandler(BaseHandler):
             self.render('create_account.html',
                         error="Passwords do not match.")
             return
-        user_id = Users.createUser(username, password)
+        user_id = Users.create_user(username, password)
         if user_id:
             # LOGIN
             self.login(username, '/' + username)
@@ -79,8 +79,8 @@ class MainHandler(BaseHandler):
         frames = []
         content = []
         if username:
-            frames = Frames.getByUser(username, active=True)
-            content = Content.getByUser(username)
+            frames = Frames.get_by_username(username, active=True)
+            content = Content.get_by_username(username)
         self.render(
             "index.html", user=username, frames=frames, content=content)
 
@@ -88,7 +88,7 @@ class MainHandler(BaseHandler):
 class FrameHandler(BaseHandler):
 
     def get(self, frame_id, username, framename):
-        frame = Frames.getById(frame_id)
+        frame = Frames.get_by_id(frame_id)
         print(frame)
         if not frame:
             print("No frame, create it.")

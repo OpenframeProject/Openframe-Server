@@ -8,51 +8,55 @@ from openframe.handlers.util import _unify_ids
 
 
 class FrameWebSocketHandler(BaseWebSocketHandler):
-    # Connect a client via websockets
-    # when the connection is opened, add the reference to the connection list
+    """
+    Connect a client via websockets
+    when the connection is opened, add the reference to the connection list
+    """
+
+    def check_origin(self, origin):
+        """
+        Allow connection from any origin.
+        """
+        return True
 
     def open(self, frame_id):
         print("Frame connected: " + frame_id)
         # store the frame_id on this connection instance
         self.frame_id = frame_id
         # set this frame to active in the db
-        self._activateFrame()
+        self._handle_frame_connected()
 
-        self.on('frame:content_updated', self._handleContentUpdated)
+        self.on('frame:content_updated', self._handle_content_updated)
 
-        self.on('frame:setup', self._handleSetup)
+        self.on('frame:setup', self._handle_setup)
 
-    # when the connection is closed, remove the reference from the connection
-    # list
     def on_close(self):
+        """
+        when the connection is closed, remove the reference from the connection
+        list
+        """
         print("WebSocket closed")
         # deactivate frame in database
-        self._deactivateFrame()
+        self._handle_frame_disconnected()
 
-    def check_origin(self, origin):
-        return True
-
-    def _activateFrame(self):
+    def _handle_frame_connected(self):
         """
         Update this frame object in the db, then publish event to the system
         """
-        frame = Frames.updateById(self.frame_id, {"active": True})
-        self.frame = frame
         # publish this event, handled in frame and admin managers
         self.pubsub.publish("frame:connected", frame_ws=self)
 
         # self._updateUsers(frame, event="frame:connected")
 
-    def _deactivateFrame(self):
+    def _handle_frame_disconnected(self):
         """
         Update this frame object in the db, then publish event to the system
         """
-        print('_deactivateFrame')
-        frame = Frames.updateById(self.frame_id, {"active": False})
+        print('_handle_frame_disconnected')
         # publish the disconnection event, handled in frame and admin managers
         self.pubsub.publish("frame:disconnected", frame_ws=self)
 
-    def _handleContentUpdated(self, data):
+    def _handle_content_updated(self, data):
         """
         Content on the frame is updated with the initial
         frame:update_content WS event.
@@ -60,7 +64,7 @@ class FrameWebSocketHandler(BaseWebSocketHandler):
         This handles a notification from the frame that its content
         has been updated.
         """
-        print('_handleContentUpdated')
+        print('_handle_content_updated')
 
         # publish frame:updated event
         # self.pubsub.publish(
@@ -68,8 +72,8 @@ class FrameWebSocketHandler(BaseWebSocketHandler):
         #     frame_id=data['frame_id'],
         #     content_id=data['content_id'])
 
-    def _handleSetup(self, data):
-        print('_handleSetup')
+    def _handle_setup(self, data):
+        print('_handle_setup')
         settings = {
             'settings.width': data['width'],
             'settings.height': data['height'],
@@ -77,8 +81,9 @@ class FrameWebSocketHandler(BaseWebSocketHandler):
         }
 
         # update frame in db to reflect current content
-        frame = Frames.updateById(
+        frame = Frames.update_by_id(
             self.frame_id, settings)
 
+        # notify
         self.pubsub.publish(
             'frame:setup', frame=frame)

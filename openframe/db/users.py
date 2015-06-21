@@ -14,14 +14,14 @@ class Users():
     default_projection = ['_id', 'username']
 
     @staticmethod
-    def getAll():
+    def get_all():
         """
         Get all users
         """
         return Users.collection.find(projection=Users.default_projection)
 
     @staticmethod
-    def getById(user_id):
+    def get_by_id(user_id):
         """
         Get user by id
         """
@@ -44,17 +44,16 @@ class Users():
         """
         Get a list of users which have access this frame
         """
-        frame = Frames.getById(frame_id)
+        frame = Frames.get_by_id(frame_id)
         users = Users.collection.find({'username': {'$in': frame['users']}})
-        print(users)
         return users
 
     @staticmethod
-    def createUser(username, password):
+    def create_user(username, password):
         """
         Given a username and password, hash the password and insert it.
         """
-        if Users._checkExisting(username):
+        if Users._check_existing(username):
             return False
 
         password_bytes = password.encode('utf-8')
@@ -76,7 +75,7 @@ class Users():
         return Users.collection.insert_one(doc)
 
     @staticmethod
-    def updateById(user_id, doc):
+    def update_by_id(user_id, doc):
         """
         Update user by id, returning the updated doc
         """
@@ -85,7 +84,7 @@ class Users():
             {"_id": cid}, {"$set": doc}, return_document=ReturnDocument.AFTER)
 
     @staticmethod
-    def deleteById(user_id):
+    def delete_by_id(user_id):
         """
         Update user by id, returning the updated doc
         """
@@ -93,7 +92,7 @@ class Users():
         return Users.collection.delete_one({"_id": cid})
 
     @staticmethod
-    def _checkExisting(username):
+    def _check_existing(username):
         """
         Check if a user exists
         """

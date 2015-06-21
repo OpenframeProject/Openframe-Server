@@ -12,6 +12,8 @@ class AdminWebSocketHandler(BaseWebSocketHandler):
         print("WebSocket opened " + username)
         self.user = Users.get_by_username(username)
 
+        # admin websocket connections get a uuid since an admin user
+        # might have multiple admin devices open
         self.uuid = uuid.uuid4()
 
         # publish this event, handled in AdminManager
@@ -19,7 +21,6 @@ class AdminWebSocketHandler(BaseWebSocketHandler):
 
         # listen for 'frame:update_content' events via websockets
         self.on('frame:update_content', self._update_content)
-
         # listen for 'frame:update_content' events via websockets
         self.on('frame:mirror_frame', self._mirror_frame)
 
@@ -37,7 +38,6 @@ class AdminWebSocketHandler(BaseWebSocketHandler):
     def _update_content(self, data):
         content_id = data['content_id']
         frame_id = data['frame_id']
-        print('_update_content', data)
 
         # handled in frame_manager
         self.pubsub.publish(
@@ -48,7 +48,6 @@ class AdminWebSocketHandler(BaseWebSocketHandler):
     def _mirror_frame(self, data):
         frame_id = data['frame_id']
         mirrored_frame_id = data['mirrored_frame_id']
-        print('_mirror_frame', data)
 
         # handled in frame_manager
         self.pubsub.publish(

@@ -13,10 +13,12 @@ def _unify_ids(docs):
 
     # If this is a list
     if isinstance(docs, list):
-        print('is list')
+        #print('is list')
         for doc in docs:
             replace_id(doc)
     # If this is a single doc
     if isinstance(docs, dict):
-        print('is dict')
+        #print('is dict')
         replace_id(docs)
+
+    return docs

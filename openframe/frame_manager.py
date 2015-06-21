@@ -13,16 +13,16 @@ class FrameManager():
         self._application = application
 
         self.pubsub.subscribe(
-            'frame:connected', self.add_frame_connection)
+            'frame:connected', self.handle_add_frame_connection)
 
         self.pubsub.subscribe(
-            'frame:disconnected', self.remove_frame_connection)
+            'frame:disconnected', self.handle_remove_frame_connection)
 
         self.pubsub.subscribe(
-            'frame:update_content', self.update_frame_content)
+            'frame:update_content', self.handle_update_content)
 
         self.pubsub.subscribe(
-            'frame:mirror_frame', self.mirror_frame)
+            'frame:mirror_frame', self.handle_mirror_frame)
 
     @property
     def application(self):
@@ -32,79 +32,67 @@ class FrameManager():
     def pubsub(self):
         return self.application.pubsub
 
-    def add_frame_connection(self, frame_ws):
-        print('FrameManager::add_frame_connection: ' + frame_ws.frame_id)
+    def handle_add_frame_connection(self, frame_ws):
+        """
+        Handles frame:connected event. Should add the new frame connection
+        to the in-memory connected frame list.
+
+        @param frame_ws - a reference to the websocket connection object
+        """
+        print('FrameManager::handle_add_frame_connection: ' +
+              frame_ws.frame_id)
+
+        # mark frame "connected" in DB then attach the frame object to
+        # the websocket connection object for easy access later
+        frame_ws.frame = Frames.update_by_id(frame_ws.frame_id,
+                                             {"connected": True})
+
+        # add the frame websocket connection to the in-memory list of frames
         self.frames[frame_ws.frame_id] = frame_ws
 
         # If the connected frame has current content set, send it along
-        # TODO: eventually the frame will store its own latest content state
         if 'current_content' in frame_ws.frame:
-            content_id = frame_ws.frame['current_content']['_id']
-            self.update_frame_content(
-                frame_ws.frame_id,
-                content_id,
-                cancel_mirroring=False)
+            # send content to frame if frame connected
+            self.frames[frame_ws.frame_id].send(
+                'frame:update_content',
+                frame_ws.frame['current_content'])
 
-    def remove_frame_connection(self, frame_ws):
-        print('FrameManager::remove_frame_connection: ' + frame_ws.frame_id)
+    def handle_remove_frame_connection(self, frame_ws):
+        """
+        Handles frame:disconnected event. Should remove the frame
+        from the in-memory connected frame list.
+        """
+        print('FrameManager::handle_remove_frame_connection: ' +
+              frame_ws.frame_id)
+
         del self.frames[frame_ws.frame_id]
 
-    def update_frame_content(self, frame_id, content_id, cancel_mirroring=True):
-        print(content_id)
+    def handle_update_content(self, frame_id, content_id):
+        """
+        Handles the frame:update_content event.
+        """
 
-        # update the current_content on the frame in the db
-
-        # get content
-        content = Content.getById(content_id)
-        _unify_ids(content)
-
+        # get the content
+        content = Content.get_by_id(content_id)
+        frame = Frames.get_by_id(frame_id)
+        # set the current content for updating frame
         doc = {
             'current_content': content
         }
 
-        if (cancel_mirroring):
-            doc['mirroring'] = None
-            doc['mirror_meta'] = {}
+        print('FrameManager->handle_update_content')
 
-        # update frame in db to reflect current content
-        frame = Frames.updateById(
-            frame_id, doc)
+        # kick off the recursive content updates down the mirror graph
+        self.update_mirroring_frames(frame, doc, root=True)
 
-        # update all frames which mirror this one
-        Frames.updateMirroredContent(frame_id, {'current_content': content})
-
-        # publish frame:content_updated event, handled in admin_manager
-        self.pubsub.publish(
-            'frame:content_updated', frame=frame)
-
-        # get all frames mirroring frame_id
-        mirroring_frames = Frames.getMirroring(frame_id)
-
-        # push the new content out to admins (handled in admin_manager)
-        for mirroring_frame in mirroring_frames:
-            self.pubsub.publish(
-                'frame:content_updated', frame=mirroring_frame)
-
-        # get a list of the mirroring frames' _ids
-        _unify_ids(mirroring_frames)
-        mirroring_ids = [o['_id'] for o in mirroring_frames]
-
-        # push the content out to any connected mirroring frames
-        for _id in mirroring_ids:
-            if _id in self.frames:
-                self.frames[_id].send('frame:update_content', content)
-
-        # send content to frame if frame connected
-        if frame_id in self.frames:
-            self.frames[frame_id].send('frame:update_content', content)
-
-    def mirror_frame(self, frame_id, mirrored_frame_id):
+    def handle_mirror_frame(self, frame_id, mirrored_frame_id):
         """
         Set a frame to mirror another frame.
 
         Returns the from which is mirroring the other.
         """
-        mirrored_frame = Frames.getById(mirrored_frame_id)
+
+        mirrored_frame = Frames.get_by_id(mirrored_frame_id)
         content = mirrored_frame['current_content']
 
         doc = {
@@ -116,12 +104,43 @@ class FrameManager():
             'current_content': content
         }
 
-        frame = Frames.updateById(frame_id, doc)
+        # update this frame to mirror mirrored_frame_id
+        frame = Frames.update_by_id(frame_id, doc)
 
-        # publish frame:content_updated event
+        # kick off the recursive content updates down the mirror graph
+        self.update_mirroring_frames(frame, doc)
+
+    def update_mirroring_frames(self, frame, doc, root=False):
+        # this was important because when content is being updated
+        # from a mirrored frame we don't want to reset the mirroring flag
+        if (root):
+            doc['mirroring'] = None
+            doc['mirror_meta'] = {}
+            # if root, update frame in db
+            frame = Frames.update_by_id(frame['_id'], doc)
+
+        # aside from the root save, make sure we're not changing any
+        # mirroring settings on the frames -- just content
+        if 'mirroring' in doc:
+            del doc['mirroring']
+        if 'mirror_meta' in doc:
+            del doc['mirror_meta']
+
+        # publish frame:content_updated event, handled in admin_manager
+        # (sends changes out to connected admins who are users of this frame)
         self.pubsub.publish(
             'frame:content_updated', frame=frame)
 
-        # send content to frame if frame connected
-        if frame_id in self.frames:
-            self.frames[frame_id].send('frame:update_content', content)
+        # if this frame is connected, push out the new content to it
+        if frame['_id'] in self.frames:
+            self.frames[frame['_id']].send('frame:update_content', doc['current_content'])
+
+        # update all frames which mirror this one in batch fashion
+        mirroring_frames = Frames.update_mirroring_frames(
+            frame['_id'], doc)
+
+        # for each frame that was mirrored, do it all again
+        # at each leaf on the tree mirroring_frames should be
+        # an empty list, halting recursion
+        for frame in mirroring_frames:
+            self.update_mirroring_frames(frame, doc)

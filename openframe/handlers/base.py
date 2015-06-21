@@ -126,11 +126,13 @@ class BaseWebSocketHandler(tornado.websocket.WebSocketHandler):
                                                     **kwargs)
         """
         Instantiate an instance-scoped pubsub to handle websocket
-        event subscriptions. Should allow websocket handlers to do something like:
+        event subscriptions. Allow websocket handlers to treat messages
+        like events, registering with on:
 
-        self.on_event('frame:update', self.handle_event)
+        self.on('frame:update', self._handle_event)
 
-        Which would get triggered when an evented 'frame:update' message comes over the pipe
+        Which would get triggered when an evented 'frame:update'
+        message comes over the pipe
         """
         self.ps = MicroPubSub()
 
@@ -146,7 +148,8 @@ class BaseWebSocketHandler(tornado.websocket.WebSocketHandler):
 
     def on_message(self, message):
         """
-        Extract event name and data from message, call corresponding event handler.
+        Extract event name and data from message,
+        call corresponding event handler.
         """
         message = json_decode(message)
         event = message['name']
@@ -161,7 +164,8 @@ class BaseWebSocketHandler(tornado.websocket.WebSocketHandler):
 
     def send(self, event, data=None):
         """
-        Send an "evented" message out to the websocket client, i.e. in the form:
+        Send an "evented" message out to the websocket client,
+        i.e. in the form:
         {
             'name': 'some:event',
             'data': {
@@ -171,5 +175,4 @@ class BaseWebSocketHandler(tornado.websocket.WebSocketHandler):
         }
         """
         message = dumps({'name': event, 'data': data})
-        print('sending: ' + message)
         self.write_message(message)

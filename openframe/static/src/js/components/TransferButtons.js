@@ -19,7 +19,7 @@ var TransferButtons = React.createClass({
     },
 
     _handleSendClicked: function(e) {
-        console.log('_handleSendClicked');
+        console.log('_handleSendClicked', ContentStore.getSelectedContent());
         FrameActions.updateContent(ContentStore.getSelectedContent());
     },
 

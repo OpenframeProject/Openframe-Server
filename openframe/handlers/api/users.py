@@ -15,7 +15,7 @@ class UsersHandler(BaseHandler):
         if username:
             users_resp = Users.get_by_username(username)
         else:
-            users_resp = Users.getAll()
+            users_resp = Users.get_all()
         if users_resp is not None:
             self.write(dumps(users_resp))
         else:
@@ -34,12 +34,12 @@ class UsersHandler(BaseHandler):
     def put(self, username):
         print('update user: ' + username)
         doc = json_decode(self.request.body.decode('utf-8'))
-        result = Users.updateById(username, doc)
+        result = Users.update_by_id(username, doc)
         if not result:
             print('Problem updating user')
         self.write(dumps(result))
 
     @authenticated
     def delete(self, username):
-        res = Users.deleteById(username)
+        res = Users.delete_by_id(username)
         self.write(dumps(res.acknowledged))

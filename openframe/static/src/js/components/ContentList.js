@@ -66,7 +66,7 @@ var ContentList = React.createClass({
 
   	_addSlide: function(contentItem) {
   		var html = '<div class="swiper-slide content-slide" data-contentid="' + contentItem._id + '"><img src=' + contentItem.url + ' /></div>'
-		this.swiper.prependSlide(html);
+		  this.swiper.prependSlide(html);
   	},
 
   	_slideTo: function(index) {

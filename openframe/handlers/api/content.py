@@ -14,10 +14,10 @@ class ContentHandler(BaseHandler):
     def get(self, content_id=None):
         if content_id:
             print('get content: ' + content_id)
-            content_resp = Content.getById(content_id)
+            content_resp = Content.get_by_id(content_id)
 
         else:
-            content_resp = Content.getAll()
+            content_resp = Content.get_all()
         _unify_ids(content_resp)
         self.write(dumps(content_resp))
 
@@ -33,14 +33,14 @@ class ContentHandler(BaseHandler):
     def put(self, content_id):
         print('update content: ' + content_id)
         doc = json_decode(self.request.body.decode('utf-8'))
-        result = Content.updateById(content_id, doc)
+        result = Content.update_by_id(content_id, doc)
         if not result:
             print('Problem updating content')
         _unify_ids(result)
         self.write(dumps(result))
 
     def delete(self, content_id):
-        res = Content.deleteById(content_id)
+        res = Content.delete_by_id(content_id)
         self.write(dumps(res.acknowledged))
 
 # Get content by username
@@ -49,6 +49,8 @@ class ContentHandler(BaseHandler):
 class ContentByUserHandler(BaseHandler):
 
     def get(self, username):
-        content_resp = Content.getByUser(username)
-        _unify_ids(content_resp)
+        content_resp = Content.get_by_username(username)
+        #_unify_ids(content_resp)
+        print(username)
+        print(content_resp)
         self.write(dumps(content_resp))

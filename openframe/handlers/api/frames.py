@@ -15,9 +15,9 @@ class FramesHandler(BaseHandler):
     def get(self, frame_id=None):
         if frame_id:
             print('get frame: ' + frame_id)
-            frame_resp = Frames.getById(frame_id)
+            frame_resp = Frames.get_by_id(frame_id)
         else:
-            frame_resp = Frames.getAll()
+            frame_resp = Frames.get_all()
         _unify_ids(frame_resp)
         self.write(dumps(frame_resp))
 
@@ -33,14 +33,14 @@ class FramesHandler(BaseHandler):
     def put(self, frame_id):
         print('update frame: ' + frame_id)
         doc = json_decode(self.request.body.decode('utf-8'))
-        result = Frames.updateById(frame_id, doc)
+        result = Frames.update_by_id(frame_id, doc)
         if not result:
             print('Problem updating frame')
         _unify_ids(result)
         self.write(dumps(result))
 
     def delete(self, frame_id):
-        res = Frames.deleteById(frame_id)
+        res = Frames.delete_by_id(frame_id)
         self.write(dumps(res.acknowledged))
 
 
@@ -53,7 +53,7 @@ class FramesByUserHandler(BaseHandler):
     def get(self, username):
         active = self.get_argument('active', None)
         if username:
-            resp = Frames.getByUser(username, active)
+            resp = Frames.get_by_username(username, active)
         else:
             print('username missing')
             resp = {'error': 'username required'}
@@ -67,13 +67,13 @@ class FramesByOwnerHandler(BaseHandler):
     Get frames by owner
     """
 
-    def get(self, username):
+    def get(self, owner):
         active = self.get_argument('active', None)
-        if username:
-            resp = Frames.getByOwner(username, active)
+        if owner:
+            resp = Frames.get_by_owner(owner, active)
         else:
-            print('username missing')
-            resp = {'error': 'username required'}
+            print('owner missing')
+            resp = {'error': 'owner required'}
         _unify_ids(resp)
         self.write(dumps(resp))
 
@@ -85,7 +85,7 @@ class VisibleFramesHandler(BaseHandler):
     """
 
     def get(self):
-        frames = Frames.getVisible()
+        frames = Frames.get_public()
         print(frames)
         _unify_ids(frames)
         self.write(dumps(frames))
