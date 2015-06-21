@@ -135,10 +135,6 @@ class FrameManager():
         self.update_mirroring_frames(frame, doc)
 
     def update_mirroring_frames(self, frame, doc, root=False):
-        # if this frame is mirroring another frame, store the mirroring_id
-        if 'mirroring' in frame:
-            mirroring_id = frame['mirroring']
-
         # if this is a content update, it should become the root.
         # i.e we want to reset its mirroring data
         if (root):
@@ -147,11 +143,6 @@ class FrameManager():
             # if root, update frame in db
             frame = Frames.update_by_id(frame['_id'], doc)
 
-        # if this frame was mirroring another, update the mirrored
-        # frame's "mirroring_count"
-        if mirroring_id:
-            Frames.update_mirroring_count(mirroring_id)
-
         # aside from the root save, make sure we're not changing any
         # mirroring settings on the frames -- just content
         if 'mirroring' in doc:
@@ -159,10 +150,10 @@ class FrameManager():
         if 'mirror_meta' in doc:
             del doc['mirror_meta']
 
-        # publish frame:content_updated event, handled in admin_manager
+        # publish frame:frame_updated event, handled in admin_manager
         # (sends changes out to connected admins who are users of this frame)
         self.pubsub.publish(
-            'frame:content_updated', frame=frame)
+            'frame:frame_updated', frame=frame)
 
         # if this frame is connected, push out the new content to it
         if frame['_id'] in self.frames:

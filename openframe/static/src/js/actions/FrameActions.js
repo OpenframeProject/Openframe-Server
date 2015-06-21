@@ -97,7 +97,7 @@ var FrameActions = {
         };
         Socker.send('frame:update_content', data);
 
-		// WebSocket event handler for frame:content_updated triggers the dispatch
+		// WebSocket event handler for frame:frame_updated triggers the dispatch
 	},
 
     mirrorFrame: function(mirrored_frame) {

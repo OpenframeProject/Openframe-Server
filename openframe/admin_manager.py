@@ -14,7 +14,7 @@ class AdminManager():
         self.pubsub.subscribe(
             'frame:disconnected', self.remove_frame_connection)
         self.pubsub.subscribe(
-            'frame:content_updated', self.update_admin_frame)
+            'frame:frame_updated', self.update_admin_frame)
         self.pubsub.subscribe(
             'frame:frame_mirrored', self.update_admin_frame)
         self.pubsub.subscribe(
@@ -92,7 +92,7 @@ class AdminManager():
             if user_id in self.admins:
                 for ws_uuid in self.admins[user_id]:
                     self.admins[user_id][ws_uuid].send(
-                        'frame:content_updated', frame)
+                        'frame:frame_updated', frame)
 
     def setup_frame(self, frame):
         print('AdminManager::setup_frame')

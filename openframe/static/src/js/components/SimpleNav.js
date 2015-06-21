@@ -40,6 +40,15 @@ var SimpleNav = React.createClass({
             return {__html: connected};
         }
 
+        if (mirroring_count) {
+            mirroring_icon = (
+                <span className="of-icon-mirror"></span>
+            );
+            mirroring_content = (
+                <span className="mirroring-meta">{mirroring_count}</span>
+            );
+        }
+
         if (mirroring) {
             mirroring_icon = (
                 <span className="of-icon-mirror"></span>
@@ -49,14 +58,6 @@ var SimpleNav = React.createClass({
             );
         }
 
-        if (mirroring_count) {
-            mirroring_icon = (
-                <span className="of-icon-mirror"></span>
-            );
-            mirroring_content = (
-                <span className="mirroring-meta">{mirroring_count}</span>
-            );
-        }
 
 
 

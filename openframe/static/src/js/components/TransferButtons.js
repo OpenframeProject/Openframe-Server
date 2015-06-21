@@ -1,6 +1,7 @@
 var React = require('react'),
 	FrameActions = require('../actions/FrameActions'),
     ContentStore = require('../stores/ContentStore'),
+    FrameStore = require('../stores/FrameStore'),
 	UIStore = require('../stores/UIStore');
 
 var TransferButtons = React.createClass({

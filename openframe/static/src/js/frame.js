@@ -38,7 +38,7 @@ OF_Frame = (function(frame_id, socker) {
             content_id: _id
         };
 
-        Socker.send('frame:content_updated', data);
+        Socker.send('frame:frame_updated', data);
     }
 
     function _url_domain(data) {
