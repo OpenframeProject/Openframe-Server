@@ -26,7 +26,7 @@ class FrameWebSocketHandler(BaseWebSocketHandler):
         # set this frame to active in the db
         self._handle_frame_connected()
 
-        self.on('frame:content_updated', self._handle_content_updated)
+        # self.on('frame:frame_updated', self._handle_frame_updated)
 
         self.on('frame:setup', self._handle_setup)
 
@@ -56,7 +56,7 @@ class FrameWebSocketHandler(BaseWebSocketHandler):
         # publish the disconnection event, handled in frame and admin managers
         self.pubsub.publish("frame:disconnected", frame_ws=self)
 
-    def _handle_content_updated(self, data):
+    def _handle_frame_updated(self, data):
         """
         Content on the frame is updated with the initial
         frame:update_content WS event.
@@ -64,11 +64,11 @@ class FrameWebSocketHandler(BaseWebSocketHandler):
         This handles a notification from the frame that its content
         has been updated.
         """
-        print('_handle_content_updated')
+        print('_handle_frame_updated')
 
         # publish frame:updated event
         # self.pubsub.publish(
-        #     'frame:content_updated',
+        #     'frame:frame_updated',
         #     frame_id=data['frame_id'],
         #     content_id=data['content_id'])
 

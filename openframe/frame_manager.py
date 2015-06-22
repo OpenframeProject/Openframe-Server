@@ -75,15 +75,28 @@ class FrameManager():
         # get the content
         content = Content.get_by_id(content_id)
         frame = Frames.get_by_id(frame_id)
+
+        # if the mirroring frame was mirroring a different frame,
+        # update the previous frame's mirror count
+        previous_mirroring_id = None
+        frame = Frames.get_by_id(frame_id)
+        if 'mirroring' in frame and frame['mirroring'] is not None:
+            previous_mirroring_id = frame['mirroring']
+
         # set the current content for updating frame
         doc = {
             'current_content': content
         }
 
-        print('FrameManager->handle_update_content')
-
         # kick off the recursive content updates down the mirror graph
         self.update_mirroring_frames(frame, doc, root=True)
+
+        # if the frame was mirroring a different frame,
+        # update the previous frame's mirroring count
+        if previous_mirroring_id:
+            Frames.update_mirroring_count(previous_mirroring_id)
+            self.pubsub.publish(
+                'frame:frame_updated', frame_id=previous_mirroring_id)
 
     def handle_mirror_frame(self, frame_id, mirrored_frame_id):
         """
@@ -91,6 +104,13 @@ class FrameManager():
 
         Returns the from which is mirroring the other.
         """
+
+        # if the mirroring frame was mirroring a different frame,
+        # update the previous frame's mirror count
+        previous_mirroring_id = None
+        frame = Frames.get_by_id(frame_id)
+        if 'mirroring' in frame and frame['mirroring'] is not None:
+            previous_mirroring_id = frame['mirroring']
 
         mirrored_frame = Frames.get_by_id(mirrored_frame_id)
         content = mirrored_frame['current_content']
@@ -107,12 +127,23 @@ class FrameManager():
         # update this frame to mirror mirrored_frame_id
         frame = Frames.update_by_id(frame_id, doc)
 
+        # if set, update the previously mirrored frame
+        if previous_mirroring_id:
+            Frames.update_mirroring_count(previous_mirroring_id)
+            self.pubsub.publish(
+                'frame:frame_updated', frame_id=previous_mirroring_id)
+
+        # update the mirroring_count on the newly mirrored frame
+        Frames.update_mirroring_count(mirrored_frame_id)
+        self.pubsub.publish(
+            'frame:frame_updated', frame_id=mirrored_frame_id)
+
         # kick off the recursive content updates down the mirror graph
         self.update_mirroring_frames(frame, doc)
 
     def update_mirroring_frames(self, frame, doc, root=False):
-        # this was important because when content is being updated
-        # from a mirrored frame we don't want to reset the mirroring flag
+        # if this is a content update, it should become the root.
+        # i.e we want to reset its mirroring data
         if (root):
             doc['mirroring'] = None
             doc['mirror_meta'] = {}
@@ -126,16 +157,15 @@ class FrameManager():
         if 'mirror_meta' in doc:
             del doc['mirror_meta']
 
-        # publish frame:content_updated event, handled in admin_manager
+        # publish frame:frame_updated event, handled in admin_manager
         # (sends changes out to connected admins who are users of this frame)
         self.pubsub.publish(
-            'frame:content_updated', frame=frame)
+            'frame:frame_updated', frame=frame)
 
         # if this frame is connected, push out the new content to it
-        if frame['_id'] in self.frames:
-            self.frames[frame['_id']].send('frame:update_content', doc['current_content'])
+        self.update_frame_content(frame, doc['current_content'])
 
-        # update all frames which mirror this one in batch fashion
+        # update all frames which are mirroring this one in batch fashion
         mirroring_frames = Frames.update_mirroring_frames(
             frame['_id'], doc)
 
@@ -144,3 +174,8 @@ class FrameManager():
         # an empty list, halting recursion
         for frame in mirroring_frames:
             self.update_mirroring_frames(frame, doc)
+
+    def update_frame_content(self, frame, content):
+        if frame['_id'] in self.frames:
+            self.frames[frame['_id']].send('frame:update_content',
+                                           content)

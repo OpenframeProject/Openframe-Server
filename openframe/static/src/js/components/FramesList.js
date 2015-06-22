@@ -101,15 +101,16 @@ var FramesList = React.createClass({
   	},
 
     render: function() {
-        var mirrored_by = '';
+        var mirroring_count = '';
 
-        if (this.state.currentFrame && _.isArray(this.state.currentFrame.mirrored_by)) {
-            mirrored_by = (
+        if (this.state.currentFrame && this.state.currentFrame.mirroring_count) {
+            mirroring_count = (
                 <div className="visible-frame-stats">
-                    <span className="of-icon-mirror"></span> {this.state.currentFrame.mirrored_by.length}
+                    <span className="of-icon-mirror"></span> {this.state.currentFrame.mirroring_count}
                 </div>
             )
         }
+        console.log('mirroring_count: ', this.state.currentFrame.mirroring_count)
         return (
             <div>
                 <div className="swiper-outer-container" ref="container">
@@ -125,7 +126,7 @@ var FramesList = React.createClass({
                             <span className="visible-frame-name">{this.state.currentFrame.name}</span>
                             <span className="visible-frame-user">@ {this.state.currentFrame.owner}</span>
                         </div>
-                        {mirrored_by}
+                        {mirroring_count}
                     </div>
                 </div>
             </div>

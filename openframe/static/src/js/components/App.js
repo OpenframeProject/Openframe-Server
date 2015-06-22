@@ -10,7 +10,6 @@ var React = require('react'),
 	FramesList = require('./FramesList.js'),
 	FooterNav = require('./FooterNav.js'),
 	Drawer = require('./Drawer.js'),
-	SettingsDrawer = require('./SettingsDrawer.js'),
 	AddContentModal = require('./AddContentModal.js'),
 	SettingsModal = require('./SettingsModal.js'),
 
@@ -47,7 +46,7 @@ var App = React.createClass({
 		// TODO: these should move to the corresponding Actions creator (e.g. FrameActions)
 		Socker.on('frame:connected', FrameActions.frameConnected);
         Socker.on('frame:disconnected', FrameActions.frameDisconnected);
-        Socker.on('frame:content_updated', FrameActions.frameContentUpdated);
+        Socker.on('frame:frame_updated', FrameActions.frameContentUpdated);
         Socker.on('frame:setup', FrameActions.setup);
 	},
 

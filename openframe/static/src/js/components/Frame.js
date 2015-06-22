@@ -34,7 +34,6 @@ var Frame = React.createClass({
 			paddingBottom: (1/this.w_h_ratio) * 100 + '%'
 		};
 
-		var active = this.state.frame.active ? '*' : '';
 		return (
 			<div className="row frames-list" ref="frameContainer">
 				<div className="col-xl-12 frame-outer-container" ref="frameOuterContainer">

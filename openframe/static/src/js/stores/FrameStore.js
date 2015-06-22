@@ -188,6 +188,12 @@ AppDispatcher.register(function(action) {
 			FrameStore.emitChange();
 			break;
 
+		case OFConstants.FRAME_UPDATED:
+			// adding the updated frame since it will replace current instance
+			addFrame(action.frame);
+			FrameStore.emitChange();
+			break;
+
 		case OFConstants.FRAME_MIRRORED:
 			// adding the updated frame since it will replace current instance
 			addFrame(action.frame);
