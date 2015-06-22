@@ -20,7 +20,8 @@ class Frames():
         """
         Get a frame by id
         """
-        fid = frame_id if not ObjectId.is_valid(frame_id) else ObjectId(frame_id)
+        fid = frame_id if not ObjectId.is_valid(
+            frame_id) else ObjectId(frame_id)
         resp = Frames.collection.find_one({'_id': fid})
         _unify_ids(resp)
         return resp
@@ -31,7 +32,7 @@ class Frames():
         Get a list of frames which user has access to
         """
         query = {'users': username}
-        if active != None:
+        if active is not None:
             query['active'] = active
         resp = list(Frames.collection.find(query))
         _unify_ids(resp)
@@ -43,7 +44,7 @@ class Frames():
         Get a list of frames which user owns
         """
         query = {'owner': username}
-        if active != None:
+        if active is not None:
             query['active'] = active
         resp = list(Frames.collection.find(query))
         _unify_ids(resp)
@@ -52,10 +53,10 @@ class Frames():
     @staticmethod
     def get_public(active=None):
         """
-        Get a list of frames which are public
+        Get a list of frames which are publicly visible (for mirroring)
         """
         query = {'settings.visible': True}
-        if active != None:
+        if active is not None:
             query['active'] = active
         resp = list(Frames.collection.find(query))
         _unify_ids(resp)
@@ -73,7 +74,8 @@ class Frames():
         """
         Update a frame by id, returning the updated doc
         """
-        fid = frame_id if not ObjectId.is_valid(frame_id) else ObjectId(frame_id)
+        fid = frame_id if not ObjectId.is_valid(
+            frame_id) else ObjectId(frame_id)
         # do not update the _id, ever.
         if '_id' in doc:
             del doc['_id']
@@ -105,7 +107,8 @@ class Frames():
         """
         Update a frame by id, returning the updated doc
         """
-        fid = frame_id if not ObjectId.is_valid(frame_id) else ObjectId(frame_id)
+        fid = frame_id if not ObjectId.is_valid(
+            frame_id) else ObjectId(frame_id)
         resp = Frames.collection.delete_one({"_id": fid})
         return _unify_ids(resp)
 
@@ -114,8 +117,10 @@ class Frames():
         """
         Set a frame to mirror another by id
         """
-        fid = frame_id if not ObjectId.is_valid(frame_id) else ObjectId(frame_id)
-        mid = frame_id if not ObjectId.is_valid(mirroring_id) else ObjectId(mirroring_id)
+        fid = frame_id if not ObjectId.is_valid(
+            frame_id) else ObjectId(frame_id)
+        mid = frame_id if not ObjectId.is_valid(
+            mirroring_id) else ObjectId(mirroring_id)
 
         doc = {
             'mirroring': mid
@@ -133,7 +138,6 @@ class Frames():
         """
         Get a list of all the frames that are mirroring frame_id
         """
-        # fid = frame_id if not ObjectId.is_valid(frame_id) else ObjectId(frame_id)
         query = {'mirroring': frame_id}
         resp = list(Frames.collection.find(query))
         return _unify_ids(resp)
