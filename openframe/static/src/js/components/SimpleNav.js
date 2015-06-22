@@ -33,11 +33,11 @@ var SimpleNav = React.createClass({
             mirroring_count = this.state.selectedFrame.mirroring_count;
 
         function connected(connected) {
-            var connected = '';
+            var connected_content = '';
             if (connected) {
-                connected = '&bull; ';
+                connected_content = '&bull; ';
             }
-            return {__html: connected};
+            return {__html: connected_content};
         }
 
         if (mirroring_count) {

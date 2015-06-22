@@ -12,7 +12,7 @@ var NavFrameLink = React.createClass({
 	render: function() {
 		var activeClass = 'not-connected',
 			activeText = 'not connected';
-		if (this.props.frame.active) {
+		if (this.props.frame.connected) {
 			activeClass = activeText = 'connected';
 		}
 
