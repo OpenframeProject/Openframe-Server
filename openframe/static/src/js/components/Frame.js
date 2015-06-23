@@ -1,5 +1,6 @@
 var React = require('react'),
 	FrameActions = require('../actions/FrameActions'),
+	UIActions = require('../actions/UIActions'),
 	FrameStore = require('../stores/FrameStore');
 
 var Frame = React.createClass({
@@ -17,33 +18,9 @@ var Frame = React.createClass({
 		this._updateContainerDimensions();
 	},
 
-	render: function() {
-		if (!this.state.frame) {
-			return <div className="row frames-list"></div>
-		}
-		this.w_h_ratio = this.state.frame && this.state.frame.settings ? this.state.frame.settings.w_h_ratio : 1;
-
-		var url = this.state.frame && this.state.frame.current_content ? this.state.frame.current_content.url : '';
-		var divStyle = {
-			backgroundImage: 'url(' + url + ')',
-		};
-
-		console.log(this.w_h_ratio);
-
-		var whStyle = {
-			paddingBottom: (1/this.w_h_ratio) * 100 + '%'
-		};
-
-		return (
-			<div className="row frames-list" ref="frameContainer">
-				<div className="col-xl-12 frame-outer-container" ref="frameOuterContainer">
-					<button type="button" className="btn btn-primary btn-xs btn-settings hide" data-toggle="modal" data-target="#myModal">S</button>
-					<div className="frame-inner-container" ref="frameInnerContainer">
-		            	<div className="frame" style={divStyle} ref="frame"/>
-		            </div>
-		        </div>
-	        </div>
-		);
+	_handleClick: function(e) {
+		console.log('CLICKED!');
+		UIActions.openPreview(this.state.frame);
 	},
 
   	_onChange: function() {
@@ -87,9 +64,35 @@ var Frame = React.createClass({
 
 		console.log('frameOuterContainer:', frameOuterContainer);
 		console.log('container:', w, h, maxW, maxH);
-  	}
+  	},
 
+	render: function() {
+		if (!this.state.frame) {
+			return <div className="row frames-list"></div>
+		}
+		this.w_h_ratio = this.state.frame && this.state.frame.settings ? this.state.frame.settings.w_h_ratio : 1;
 
+		var url = this.state.frame && this.state.frame.current_content ? this.state.frame.current_content.url : '';
+		var divStyle = {
+			backgroundImage: 'url(' + url + ')',
+		};
+
+		console.log(this.w_h_ratio);
+
+		var whStyle = {
+			paddingBottom: (1/this.w_h_ratio) * 100 + '%'
+		};
+
+		return (
+			<div className="row frames-list" ref="frameContainer">
+				<div className="col-xl-12 frame-outer-container" ref="frameOuterContainer">
+					<div className="frame-inner-container" ref="frameInnerContainer" onClick={this._handleClick}>
+		            	<div className="frame" style={divStyle} ref="frame"/>
+		            </div>
+		        </div>
+	        </div>
+		);
+	}
 });
 
 module.exports = Frame;

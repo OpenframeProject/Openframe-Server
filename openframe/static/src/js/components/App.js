@@ -12,6 +12,7 @@ var React = require('react'),
 	Drawer = require('./Drawer.js'),
 	AddContentModal = require('./AddContentModal.js'),
 	SettingsModal = require('./SettingsModal.js'),
+	FramePreview = require('./FramePreview.js'),
 
 	AppDispatcher = require('../dispatcher/AppDispatcher'),
 	FrameActions = require('../actions/FrameActions'),
@@ -81,6 +82,7 @@ var App = React.createClass({
 				<Drawer />
 				<SettingsModal />
 				<AddContentModal />
+				<FramePreview />
 			</div>
 	    )
   	}

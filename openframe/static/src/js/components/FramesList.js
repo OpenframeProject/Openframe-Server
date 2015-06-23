@@ -1,8 +1,10 @@
 var React = require('react'),
 	Swiper = require('swiper'),
-	FrameActions = require('../actions/FrameActions'),
+    FrameActions = require('../actions/FrameActions'),
+	UIActions = require('../actions/UIActions'),
     FrameStore = require('../stores/FrameStore'),
-    _ = require('lodash');
+    _ = require('lodash'),
+    $ = require('jquery');
 
 var FramesList = React.createClass({
 	getInitialState: function() {
@@ -19,10 +21,14 @@ var FramesList = React.createClass({
 		FrameActions.loadVisibleFrames();
 		FrameStore.addChangeListener(this._onChange);
         this._updateContainerDimensions();
+
+        // hack
+        $(document).on('click', '.frame-slide', this._handleClick);
     },
 
     componentWillUnmount: function() {
         FrameStore.removeChangeListener(this._onChange);
+        $(document).off('click', '.frame-slide');
     },
 
     componentDidUpdate: function() {
@@ -72,6 +78,10 @@ var FramesList = React.createClass({
             frame_id = slide.dataset.frameid;
         console.log('_slideChangeEnd', frame_id);
         FrameActions.slideChanged(frame_id);
+    },
+
+    _handleClick: function() {
+        UIActions.openPreview(this.state.currentFrame);
     },
 
      _updateContainerDimensions: function() {

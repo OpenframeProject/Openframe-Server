@@ -6770,15 +6770,6 @@ ul {
   background-position: center center;
   background-size: cover;
 }
-.frame-name {
-  position: absolute;
-  width: 100%;
-  margin: 10px auto;
-  text-transform: uppercase;
-  font-weight: 700;
-  font-size: 1.2em;
-  padding-top: 3px;
-}
 .connected {
   position: relative;
   top: -1px;
@@ -6845,6 +6836,16 @@ ul {
 ul.dropdown-menu {
   min-width: 300px;
 }
+.btn-simple-nav {
+  position: relative;
+  font-size: 1.2em;
+  border: none;
+  background: none;
+  padding: 10px;
+}
+.btn-simple-nav:focus {
+  outline: none;
+}
 .of-nav-fixed {
   position: absolute;
   top: 0;
@@ -6852,15 +6853,14 @@ ul.dropdown-menu {
   height: 40px;
   z-index: 920;
 }
-.of-nav-fixed .btn-simple-nav {
-  position: relative;
+.of-nav-fixed .frame-name {
+  position: absolute;
+  width: 100%;
+  margin: 10px auto;
+  text-transform: uppercase;
+  font-weight: 700;
   font-size: 1.2em;
-  border: none;
-  background: none;
-  padding: 10px;
-}
-.of-nav-fixed .btn-simple-nav:focus {
-  outline: none;
+  padding-top: 3px;
 }
 .of-nav-fixed .navbar-nav > li > a {
   padding: 10px;
@@ -6869,7 +6869,7 @@ ul.dropdown-menu {
   padding: 5px 0px;
   margin: 0px;
 }
-.of-nav-fixed .mirroring-content {
+.mirroring-content {
   position: relative;
   top: -1px;
   text-transform: lowercase;
@@ -6879,7 +6879,7 @@ ul.dropdown-menu {
   letter-spacing: normal;
   margin-left: 10px;
 }
-.of-nav-fixed .mirroring-content .mirroring-meta {
+.mirroring-content .mirroring-meta {
   padding-left: 10px;
 }
 .of-nav-footer {
@@ -7062,6 +7062,67 @@ ul.dropdown-menu {
 .modal-title {
   font-weight: 400;
   font-size: 1.2em;
+}
+/**
+ * Previews
+ */
+.preview-container {
+  -webkit-transform: translateZ(0);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.preview-container.preview-closed {
+  opacity: 0;
+}
+.preview-container.preview-open {
+  z-index: 2000;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+  -webkit-transition: opacity 0.5s ease;
+}
+.preview-container .preview-footer-wrap {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  letter-spacing: normal;
+  font-weight: 300;
+}
+.preview-container .preview-footer-wrap .preview-footer {
+  padding: 10px;
+}
+.preview-container .preview-footer-wrap .preview-footer .btn-simple-nav {
+  position: relative;
+  font-size: 1em;
+  top: -7px;
+  right: -10px;
+}
+.preview-container .preview-footer-wrap .preview-footer .preview-tags {
+  color: #FFF;
+  font-size: 1.2em;
+}
+.preview-container .preview-footer-wrap .preview-footer .preview-url {
+  word-wrap: break-word;
+  color: #dddddd;
+}
+.preview-container .preview-footer-wrap .preview-frame-details {
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #FFF;
+}
+.preview-container .preview-footer-wrap .preview-frame-details .frame-name {
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+.preview-container .preview-footer-wrap .preview-frame-details .owner {
+  color: #dddddd;
 }
 /**
  * iOS stuff

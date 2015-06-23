@@ -1,6 +1,7 @@
 var React = require('react'),
 	Swiper = require('swiper'),
-	ContentActions = require('../actions/ContentActions'),
+    ContentActions = require('../actions/ContentActions'),
+	UIActions = require('../actions/UIActions'),
 	ContentStore = require('../stores/ContentStore');
 
 var ContentList = React.createClass({
@@ -14,15 +15,27 @@ var ContentList = React.createClass({
 		ContentActions.loadContent();
 		ContentStore.addChangeListener(this._onChange);
 		this._updateContainerDimensions();
-	},
 
-	componentWillUnmount: function() {
-		console.log('componentDidUnmount');
-		ContentStore.removeChangeListener(this._onChange);
+        // hack
+        $(document).on('click', '.content-slide', this._handleClick);
+    },
+
+    componentWillUnmount: function() {
+        console.log('componentDidUnmount');
+        ContentStore.removeChangeListener(this._onChange);
+        $(document).off('click', '.content-slide');
 	},
 
     componentDidUpdate: function() {
 
+    },
+
+    _handleClick: function() {
+        // hack -- so we can use the FramePreview
+        // component here. Should get refactored to be more generic.
+        UIActions.openPreview({
+            current_content: ContentStore.getSelectedContent()
+        });
     },
 
   	_onChange: function() {
