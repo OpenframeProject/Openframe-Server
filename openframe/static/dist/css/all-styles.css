@@ -7076,15 +7076,18 @@ ul.dropdown-menu {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
+  z-index: 2000;
+  transition: visibility 0s linear 0.25s, opacity 0.25s ease;
+  -webkit-transition: visibility 0s linear 0.25s, opacity 0.25s ease;
 }
 .preview-container.preview-closed {
   opacity: 0;
+  visibility: hidden;
 }
 .preview-container.preview-open {
-  z-index: 2000;
+  visibility: visible;
   opacity: 1;
-  transition: opacity 0.5s ease;
-  -webkit-transition: opacity 0.5s ease;
+  transition-delay: 0s;
 }
 .preview-container .preview-footer-wrap {
   position: absolute;

@@ -581,18 +581,22 @@ ul.dropdown-menu {
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
+    z-index: @zindex-preview;
+    transition: visibility 0s linear 0.25s, opacity 0.25s ease;
+    -webkit-transition: visibility 0s linear 0.25s, opacity 0.25s ease;
+    // -webkit-backface-visibility: hidden;
 
     &.preview-closed {
         opacity: 0;
-        // transition: opacity 0.5s ease;
-        // -webkit-transition: opacity 0.5s ease;
+        visibility: hidden;
     }
 
     &.preview-open {
-        z-index: @zindex-preview;
+        visibility: visible;
         opacity: 1;
-        transition: opacity 0.5s ease;
-        -webkit-transition: opacity 0.5s ease;
+        transition-delay: 0s;
+        // transition-property: opacitiy;
+        // transition-duration: 0.5s;
     }
 
 
