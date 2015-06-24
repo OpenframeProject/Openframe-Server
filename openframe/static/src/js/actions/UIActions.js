@@ -52,6 +52,19 @@ var UIActions = {
         AppDispatcher.handleViewAction({
             actionType: OFConstants.UI_CLOSE_SETTINGS
         });
+    },
+
+    openPreview: function(frame) {
+        AppDispatcher.handleViewAction({
+            actionType: OFConstants.UI_OPEN_PREVIEW,
+            frame: frame
+        })
+    },
+
+    closePreview: function() {
+        AppDispatcher.handleViewAction({
+            actionType: OFConstants.UI_CLOSE_PREVIEW
+        })
     }
 
 }

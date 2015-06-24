@@ -41,6 +41,8 @@ module.exports = keymirror({
 	UI_CLOSE_ADD_CONTENT: null,
 	UI_OPEN_SETTINGS: null,
 	UI_CLOSE_SETTINGS: null,
+	UI_OPEN_PREVIEW: null,
+	UI_CLOSE_PREVIEW: null,
 
 	// emitted by stores
 	CHANGE_EVENT: null

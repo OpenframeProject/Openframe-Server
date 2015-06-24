@@ -9,6 +9,8 @@ var _menuOpen = false,
     _settingsOpen = false,
     _addOpen = false,
     _settingsOpen = false,
+    _previewOpen = false,
+    _previewFrame = null,
     _selectionPanel = "collection";
 
 var _toggleMenu = function(open) {
@@ -47,6 +49,13 @@ var UIStore = assign({}, EventEmitter.prototype, {
         return {
             settingsOpen: _settingsOpen
         };
+    },
+
+    getPreviewState: function() {
+        return {
+            previewOpen: _previewOpen,
+            frame: _previewFrame
+        }
     },
 
     emitChange: function() {
@@ -100,6 +109,17 @@ AppDispatcher.register(function(action) {
         case OFConstants.UI_CLOSE_SETTINGS:
             // modal already closing, no change emmission needed
             _settingsOpen = false;
+            break;
+
+        case OFConstants.UI_OPEN_PREVIEW:
+            _previewOpen = true;
+            _previewFrame = action.frame;
+            UIStore.emitChange();
+            break;
+
+        case OFConstants.UI_CLOSE_PREVIEW:
+            _previewOpen = false;
+            UIStore.emitChange();
             break;
 
         case OFConstants.CONTENT_ADD_DONE:
