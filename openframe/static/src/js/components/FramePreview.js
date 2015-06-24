@@ -63,16 +63,21 @@ var FramePreview = React.createClass({
 
         if (this.state.frame.name) {
             frameDetails = (
-                <div className="row preview-frame-details">
-                    <div className="col-xs-6">
-                        <span className="frame-name">{this.state.frame.name}</span>
-                        <span className="mirroring-content">
-                            {mirroring_icon}
-                            {mirroring_content}
-                        </span>
-                    </div>
-                    <div className="col-xs-6">
-                        <span className="owner pull-right">@{this.state.frame.owner}</span>
+                <div>
+                    <div className="row preview-frame-details">
+                        <div className="col-xs-6">
+                            <span className="frame-name">{this.state.frame.name}</span>
+                            <span className="mirroring-content">
+                                {mirroring_icon}
+                                {mirroring_content}
+                            </span>
+                        </div>
+                        <div className="col-xs-6">
+                            <span className="owner pull-right">@{this.state.frame.owner}</span>
+                        </div>
+                        <div className="col-xs-12 description">
+                            {this.state.frame.description}
+                        </div>
                     </div>
                 </div>
             );

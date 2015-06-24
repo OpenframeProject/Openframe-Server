@@ -7112,20 +7112,21 @@ ul.dropdown-menu {
 }
 .preview-container .preview-footer-wrap .preview-footer .preview-url {
   word-wrap: break-word;
-  color: #dddddd;
+  color: #d0d0d0;
 }
 .preview-container .preview-footer-wrap .preview-frame-details {
   padding: 10px;
   background-color: rgba(0, 0, 0, 0.5);
-  color: #FFF;
+  color: #d0d0d0;
 }
 .preview-container .preview-footer-wrap .preview-frame-details .frame-name {
   text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 1.2px;
+  color: #FFF;
 }
-.preview-container .preview-footer-wrap .preview-frame-details .owner {
-  color: #dddddd;
+.preview-container .preview-footer-wrap .preview-frame-details .description {
+  font-size: .8em;
 }
 /**
  * iOS stuff
