@@ -124,7 +124,7 @@ var FramesList = React.createClass({
                     <div className="visible-frame-details">
                         <div>
                             <span className="visible-frame-name">{this.state.currentFrame.name}</span>
-                            <span className="visible-frame-user">@ {this.state.currentFrame.owner}</span>
+                            <span className="visible-frame-user">@{this.state.currentFrame.owner}</span>
                         </div>
                         {mirroring_count}
                     </div>
