@@ -17,27 +17,15 @@ var ContentList = React.createClass({
         ContentActions.loadContent();
         ContentStore.addChangeListener(this._onChange);
         this._updateContainerDimensions();
-
-        // hack
-        // $(document).on('click', '.content-slide', this._handleClick);
     },
 
     componentWillUnmount: function() {
         console.log('componentDidUnmount');
         ContentStore.removeChangeListener(this._onChange);
-        $(document).off('click', '.content-slide');
     },
 
     componentDidUpdate: function() {
 
-    },
-
-    _handleClick: function() {
-        // hack -- so we can use the FramePreview
-        // component here. Should get refactored to be more generic.
-        // UIActions.openPreview({
-        //     current_content: ContentStore.getSelectedContent()
-        // });
     },
 
     _onChange: function() {
@@ -49,11 +37,7 @@ var ContentList = React.createClass({
 
         this._initSlider();
 
-        // this._populateSlider()
-
-        // var slide_index = $('div.swiper-slide').length;
         var content_id = this.state.content[0]._id;
-        // ContentActions.slideChanged(content_id);
     },
 
     _initSlider: function() {

@@ -1,5 +1,7 @@
 var React = require('react'),
-	Swiper = require('swiper'),
+    Swiper = require('swiper'),
+    FrameItem = require('./FrameItem'),
+	FrameItemDetails = require('./FrameItemDetails'),
     FrameActions = require('../actions/FrameActions'),
 	UIActions = require('../actions/UIActions'),
     FrameStore = require('../stores/FrameStore'),
@@ -21,14 +23,10 @@ var FramesList = React.createClass({
 		FrameActions.loadVisibleFrames();
 		FrameStore.addChangeListener(this._onChange);
         this._updateContainerDimensions();
-
-        // hack
-        $(document).on('click', '.frame-slide', this._handleClick);
     },
 
     componentWillUnmount: function() {
         FrameStore.removeChangeListener(this._onChange);
-        $(document).off('click', '.frame-slide');
     },
 
     componentDidUpdate: function() {
@@ -36,38 +34,39 @@ var FramesList = React.createClass({
 
     _initSlider: function() {
         var el = React.findDOMNode(this.refs.Swiper);
+        if (this.swiper) {
+            this.swiper.destroy();
+        }
         this.swiper = new Swiper(el, {
             slidesPerView: 3,
             spaceBetween: 50,
-            preloadImages: true,
             centeredSlides: true,
-            freeMode: true,
-            freeModeMomentum: true,
-            freeModeMomentumRatio: .25,
-            freeModeSticky:true,
+            // preloadImages: true,
+            // freeMode: true,
+            // freeModeMomentum: true,
+            // freeModeMomentumRatio: .25,
+            // freeModeSticky:true,
             keyboardControl: true,
             onSlideChangeEnd: this._slideChangeEnd
         });
-
-
     },
 
-    _populateSlider: function() {
-        this.swiper.removeAllSlides();
-        this.state.frames.forEach(this._addSlide);
-    },
+    // _populateSlider: function() {
+    //     this.swiper.removeAllSlides();
+    //     this.state.frames.forEach(this._addSlide);
+    // },
 
-    _addSlide: function(frame) {
-        // If there is current content set on the frame.
-        if (frame.current_content && frame.current_content.url) {
-            var html = '' +
-                '<div class="swiper-slide frame-slide" data-frameid="' + frame._id + '">' +
-                    '<img src=' + frame.current_content.url + ' />' +
-                '</div>';
+    // _addSlide: function(frame) {
+    //     // If there is current content set on the frame.
+    //     if (frame.current_content && frame.current_content.url) {
+    //         var html = '' +
+    //             '<div class="swiper-slide frame-slide" data-frameid="' + frame._id + '">' +
+    //                 '<img src=' + frame.current_content.url + ' />' +
+    //             '</div>';
 
-            this.swiper.appendSlide(html);
-        }
-    },
+    //         this.swiper.appendSlide(html);
+    //     }
+    // },
 
     _slideTo: function(index) {
         this.swiper.slideTo(index);
@@ -76,15 +75,11 @@ var FramesList = React.createClass({
     _slideChangeEnd: function(slider) {
         var slide = this.swiper.slides[this.swiper.activeIndex],
             frame_id = slide.dataset.frameid;
-        console.log('_slideChangeEnd', frame_id);
+        console.log(frame_id);
         FrameActions.slideChanged(frame_id);
     },
 
-    _handleClick: function() {
-        UIActions.openPreview(this.state.currentFrame);
-    },
-
-     _updateContainerDimensions: function() {
+    _updateContainerDimensions: function() {
         var container = this.refs.container.getDOMNode(),
             h = container.offsetHeight,
             padding = 100,
@@ -96,18 +91,16 @@ var FramesList = React.createClass({
 
   	_onChange: function() {
   		this.setState({
-  			frames: FrameStore.getVisibleFrames(),
-            currentFrame: FrameStore.getSelectedVisibleFrame()
-  		});
+  			frames: FrameStore.getVisibleFrames()
+  		}, function() {
+            if (!this.swiper) {
+                this._initSlider();
+            }
+        });
 
-  		// TODO: better React integration for the swiper
+        // TODO: better React integration for the swiper
         // Maybe a slide component?
 
-  		if (!this.swiper) {
-  			this._initSlider();
-  		    this._populateSlider()
-            this.swiper.slideTo(0);
-        }
   	},
 
     render: function() {
@@ -120,25 +113,22 @@ var FramesList = React.createClass({
                 </div>
             )
         }
-        console.log('mirroring_count: ', this.state.currentFrame.mirroring_count)
+
+        var frameItems = this.state.frames.map(function (frameItem) {
+            return (
+                <FrameItem frame={frameItem} key={frameItem._id} />
+            );
+        });
         return (
             <div>
                 <div className="swiper-outer-container" ref="container">
                     <div className="swiper-container" ref="Swiper">
                         <div className="swiper-wrapper">
-
+                            {frameItems}
                         </div>
                     </div>
                 </div>
-                <div className="frame-slide-content">
-                    <div className="visible-frame-details">
-                        <div>
-                            <span className="visible-frame-name">{this.state.currentFrame.name}</span>
-                            <span className="visible-frame-user">@{this.state.currentFrame.owner}</span>
-                        </div>
-                        {mirroring_count}
-                    </div>
-                </div>
+                <FrameItemDetails />
             </div>
         );
     }

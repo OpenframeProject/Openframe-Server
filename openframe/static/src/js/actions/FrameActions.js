@@ -203,6 +203,7 @@ var FrameActions = {
     },
 
     slideChanged: function(frame_id) {
+        console.log('frame_id', frame_id);
 		AppDispatcher.handleViewAction({
 			actionType: OFConstants.FRAME_SLIDE_CHANGED,
 			frame_id: frame_id
