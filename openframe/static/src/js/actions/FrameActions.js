@@ -89,24 +89,15 @@ var FrameActions = {
 	 */
 	updateContent: function(content) {
 		var frame = FrameStore.getSelectedFrame();
-		console.log(frame, content);
-		// var content = ContentStore.getSelectedContent();
+        frame.current_content = content;
         var data = {
-            frame_id: frame._id,
-            content_id: content._id
+            frame: frame
         };
-        Socker.send('frame:update_content', data);
-
-		// WebSocket event handler for frame:frame_updated triggers the dispatch
+        Socker.send('frame:update_frame', data);
 	},
 
     mirrorFrame: function(mirrored_frame) {
         var frame = FrameStore.getSelectedFrame();
-
-        if (_.isArray(mirrored_frame.mirrored_by)) {
-            mirrored_frame.mirrored_by.push(frame._id)
-        }
-
         var data = {
             frame_id: frame._id,
             mirrored_frame_id: mirrored_frame._id

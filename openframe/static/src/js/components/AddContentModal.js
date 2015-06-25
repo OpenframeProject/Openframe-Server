@@ -90,9 +90,6 @@ var AddContentModal = React.createClass({
 		if (val[val.length-1] === ' ') {
 			el.value += '#'
 		}
-		// hack because I can't seem to get the autocapitalize="off" to work
-		// for the tags field ??
-		el.value = el.value.toLowerCase();
 	},
 
 	_handleKeyDown: function(e) {
@@ -139,7 +136,7 @@ var AddContentModal = React.createClass({
 				    			<div className="col-xs-12">
 						    		<div className="form-label">Enter URL</div>
 						    		<div className="form-input">
-						    			<input ref="url" type="url" autocapitalize="off" placeholder="http://..." />
+						    			<input ref="url" type="url" autoCapitalize="off" placeholder="http://..." />
 						    		</div>
 						    	</div>
 					    	</div>
@@ -149,7 +146,7 @@ var AddContentModal = React.createClass({
 						    		<div className="form-label">Enter description with tags</div>
 						    		<div className="form-input">
 						    			<input ref="tags" type="text"
-						    					autocapitalize="off"
+						    					autoCapitalize="off"
 						    					placeholder="#photo #Rodchenko #1941"
 						    					onFocus={this._handleOnFocus}
 						    					onChange={this._handleTagsChange}

@@ -13,8 +13,9 @@ var ContentStore = assign({}, EventEmitter.prototype, {
 
 	init: function(content) {
 		_content = content;
-		_selected_content_id = _content[0]._id;
-		console.log('init', _selected_content_id);
+		// since the last item becomes the first in the slider,
+		// we start with (content.length - 1)
+		_selected_content_id = _content[content.length - 1]._id;
 	},
 
 	addContent: function(content) {

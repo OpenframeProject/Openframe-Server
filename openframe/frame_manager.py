@@ -19,7 +19,7 @@ class FrameManager():
             'frame:disconnected', self.handle_remove_frame_connection)
 
         self.pubsub.subscribe(
-            'frame:update_content', self.handle_update_content)
+            'frame:update_frame', self.handle_update_frame)
 
         self.pubsub.subscribe(
             'frame:mirror_frame', self.handle_mirror_frame)
@@ -67,25 +67,22 @@ class FrameManager():
 
         del self.frames[frame_ws.frame_id]
 
-    def handle_update_content(self, frame_id, content_id):
+    def handle_update_frame(self, frame):
         """
-        Handles the frame:update_content event.
+        Persist the frame, publish the update out to connected
+        frames (the frame and all mirroring) and admins
         """
-
-        # get the content
-        content = Content.get_by_id(content_id)
-        frame = Frames.get_by_id(frame_id)
+        frame = Frames.update_by_id(frame['_id'], frame)
 
         # if the mirroring frame was mirroring a different frame,
         # update the previous frame's mirror count
         previous_mirroring_id = None
-        frame = Frames.get_by_id(frame_id)
         if 'mirroring' in frame and frame['mirroring'] is not None:
             previous_mirroring_id = frame['mirroring']
 
         # set the current content for updating frame
         doc = {
-            'current_content': content
+            'current_content': frame['current_content']
         }
 
         # kick off the recursive content updates down the mirror graph

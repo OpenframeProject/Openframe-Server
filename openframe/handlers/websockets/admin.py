@@ -19,8 +19,8 @@ class AdminWebSocketHandler(BaseWebSocketHandler):
         # publish this event, handled in AdminManager
         self.pubsub.publish("admin:connected", admin_ws=self)
 
-        # listen for 'frame:update_content' events via websockets
-        self.on('frame:update_content', self._update_content)
+        # listen for 'frame:update_frame' events via websockets
+        self.on('frame:update_frame', self._update_frame)
         # listen for 'frame:update_content' events via websockets
         self.on('frame:mirror_frame', self._mirror_frame)
 
@@ -44,6 +44,14 @@ class AdminWebSocketHandler(BaseWebSocketHandler):
             'frame:update_content',
             content_id=content_id,
             frame_id=frame_id)
+
+    def _update_frame(self, data):
+        frame = data['frame']
+
+        # handled in frame_manager
+        self.pubsub.publish(
+            'frame:update_frame',
+            frame=frame)
 
     def _mirror_frame(self, data):
         frame_id = data['frame_id']
