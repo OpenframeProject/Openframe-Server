@@ -1,7 +1,7 @@
 var React = require('react'),
 	FrameActions = require('../actions/FrameActions'),
     ContentStore = require('../stores/ContentStore'),
-    FrameStore = require('../stores/FrameStore'),
+    PublicFrameStore = require('../stores/PublicFrameStore'),
 	UIStore = require('../stores/UIStore');
 
 var TransferButtons = React.createClass({
@@ -26,7 +26,7 @@ var TransferButtons = React.createClass({
 
 	_handleMirrorClicked: function(e) {
         console.log('_handleMirrorClicked');
-		FrameActions.mirrorFrame(FrameStore.getSelectedVisibleFrame());
+		FrameActions.mirrorFrame(PublicFrameStore.getSelectedPublicFrame());
 	},
 
     render: function() {

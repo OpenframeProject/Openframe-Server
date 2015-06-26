@@ -71,29 +71,6 @@ var FrameStore = assign({}, EventEmitter.prototype, {
 		};
 	},
 
-	initVisibleFrames: function(visibleFrames) {
-		_visibleFrames = visibleFrames;
-		_selected_visible_frame_id = _visibleFrames[0]._id;
-		console.log('initVisibleFrames', _selected_visible_frame_id);
-	},
-
-	addVisibleFrame: function(frame) {
-		_visibleFrames.push(frame);
-		_selected_visible_frame_id = frame._id;
-	},
-
-	removeVisibleFrame: function(frame) {
-		_visibleFrames = _.remove(_visibleFrames, {_id: frame._id});
-	},
-
-	getVisibleFrames: function() {
-		return _visibleFrames;
-	},
-
-	getSelectedVisibleFrame: function() {
-		return _.find(_visibleFrames, {'_id': _selected_visible_frame_id});
-	},
-
 	emitChange: function() {
 		this.emit(OFConstants.CHANGE_EVENT);
 	},
@@ -127,6 +104,7 @@ var FrameStore = assign({}, EventEmitter.prototype, {
 
 // Register callback to handle all updates
 AppDispatcher.register(function(action) {
+	// console.log('ACTION: FrameStore: ', action.actionType);
   	switch(action.actionType) {
 		case OFConstants.FRAME_LOAD:
 			console.log('loading frames...');
@@ -142,20 +120,6 @@ AppDispatcher.register(function(action) {
 			console.log('frames failed to load: ', action.err);
 			break;
 
-		case OFConstants.FRAME_LOAD_VISIBLE:
-			console.log('loading visible frames...');
-			break;
-
-    	case OFConstants.FRAME_LOAD_VISIBLE_DONE:
-    		console.log('visible frames loaded: ', action.frames);
-			FrameStore.initVisibleFrames(action.frames);
-			FrameStore.emitChange();
-			break;
-
-		case OFConstants.FRAME_LOAD_VISIBLE_FAIL:
-			console.log('visible frames failed to load: ', action.err);
-			break;
-
 		case OFConstants.FRAME_CONNECTED:
 			FrameStore.connectFrame(action.frame);
 			FrameStore.emitChange();
@@ -168,12 +132,6 @@ AppDispatcher.register(function(action) {
 
     	case OFConstants.FRAME_SELECT:
     		selectFrame(action.frame);
-			FrameStore.emitChange();
-			break;
-
-		case OFConstants.FRAME_SLIDE_CHANGED:
-			console.log('slide changed...', action);
-			_selected_visible_frame_id = action.frame_id;
 			FrameStore.emitChange();
 			break;
 

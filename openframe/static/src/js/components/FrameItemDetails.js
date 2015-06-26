@@ -1,8 +1,17 @@
 var React = require('react'),
-    FrameStore = require('../stores/FrameStore');
+    PublicFrameStore = require('../stores/PublicFrameStore');
 
 var FrameItemDetails = React.createClass({
-    getInitialState: function() {
+    // getInitialState: function() {
+    //     return {
+    //         frame: {
+    //             name: '',
+    //             owner: ''
+    //         }
+    //     }
+    // },
+
+    getDefaultProps: function() {
         return {
             frame: {
                 name: '',
@@ -11,42 +20,40 @@ var FrameItemDetails = React.createClass({
         }
     },
 
-    componentDidMount: function() {
-        FrameStore.addChangeListener(this._onChange);
-    },
+    // componentDidMount: function() {
+    //     PublicFrameStore.addChangeListener(this._onChange);
+    // },
 
-    componentWillUnmount: function() {
-        FrameStore.removeChangeListener(this._onChange);
-    },
+    // componentWillUnmount: function() {
+    //     PublicFrameStore.removeChangeListener(this._onChange);
+    // },
 
-    _onChange: function() {
-        this.setState({
-            // currentFrame: FrameStore.getSelectedVisibleFrame()
-        });
-    },
+    // _onChange: function() {
+
+    // },
 
     render: function() {
 
         var mirroring_count = '';
 
-        if (this.state.frame && this.state.frame.mirroring_count) {
+        if (this.props.frame && this.props.frame.mirroring_count) {
             mirroring_count = (
                 <div className="visible-frame-stats">
-                    <span className="of-icon-mirror"></span> {this.state.frame.mirroring_count}
+                    <span className="of-icon-mirror"></span> {this.props.frame.mirroring_count}
                 </div>
             )
         }
 
         var owner = '';
-        if (this.state.frame.owner) {
-            owner += '@' + this.state.frame.owner;
+        if (this.props.frame.owner) {
+            owner += '@' + this.props.frame.owner;
         }
 
         return (
             <div className="frame-slide-content">
                 <div className="visible-frame-details">
                     <div>
-                        <span className="visible-frame-name">{this.state.frame.name}</span>
+                        <span className="visible-frame-name">{this.props.frame.name}</span>
                         <span className="visible-frame-user">{owner}</span>
                     </div>
                     {mirroring_count}

@@ -7,7 +7,7 @@ var React = require('react'),
 	TransferButtons = require('./TransferButtons.js'),
 	AddContentForm = require('./AddContentForm.js'),
 	ContentList = require('./ContentList.js'),
-	FramesList = require('./FramesList.js'),
+	PublicFramesList = require('./PublicFramesList.js'),
 	FooterNav = require('./FooterNav.js'),
 	Drawer = require('./Drawer.js'),
 	AddContentModal = require('./AddContentModal.js'),
@@ -70,7 +70,7 @@ var App = React.createClass({
 
   	render: function(){
   		var contentList = <ContentList />,
-  			frameList = <FramesList />;
+  			frameList = <PublicFramesList />;
   		var selectionPanel = this.state.selectionPanel === 'collection' ? contentList : frameList;
 	    return (
 			<div className='container app'>

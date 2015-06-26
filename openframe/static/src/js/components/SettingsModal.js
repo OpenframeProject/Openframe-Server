@@ -101,8 +101,6 @@ var SettingsModal = React.createClass({
     },
 
 	render: function() {
-		console.log('CCCCCCCCCC ----> ', this.state.frame);
-
 		return (
 			<div className="modal fade modal-settings" ref="modal">
 				<div className="modal-dialog">

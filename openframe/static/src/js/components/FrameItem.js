@@ -3,6 +3,9 @@ var React = require('react'),
 	ContentStore = require('../stores/ContentStore');
 
 var FrameItem = React.createClass({
+	propTypes: {
+		frame: React.PropTypes.object.isRequired
+	},
 	_handleSlideClick: function(e) {
 		console.log('slide click');
 		UIActions.openPreview(this.props.frame);

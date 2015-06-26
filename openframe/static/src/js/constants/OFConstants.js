@@ -6,19 +6,15 @@ module.exports = keymirror({
 	FRAME_LOAD: null,
 	FRAME_LOAD_DONE: null,
 	FRAME_LOAD_FAIL: null,
-	FRAME_LOAD_VISIBLE: null,
-	FRAME_LOAD_VISIBLE_DONE: null,
-	FRAME_LOAD_VISIBLE_FAIL: null,
 	FRAME_SELECT: null,
 	FRAME_UPDATE_CONTENT: null,
 	FRAME_SETTINGS_CONTENT: null,
 	FRAME_CONTENT_UPDATED: null,
-	FRAME_CONNECT: null,
-	FRAME_DISCONNECT: null,
+	FRAME_CONNECTED: null,
+	FRAME_DISCONNECTED: null,
 	FRAME_SAVE: null,
 	FRAME_SAVE_DONE: null,
 	FRAME_SAVE_FAIL: null,
-	FRAME_SLIDE_CHANGED: null,
 	FRAME_MIRRORED: null,
 
 	// content action types
@@ -33,6 +29,14 @@ module.exports = keymirror({
 	CONTENT_REMOVE: null,
 	CONTENT_REMOVE_DONE: null,
 	CONTENT_REMOVE_FAIL: null,
+
+	// public frames list
+	PUBLIC_FRAMES_LOAD: null,
+	PUBLIC_FRAMES_LOAD_DONE: null,
+	PUBLIC_FRAMES_LOAD_FAIL: null,
+	PUBLIC_FRAMES_ADD: null,
+	PUBLIC_FRAMES_REMOVE: null,
+	PUBLIC_FRAMES_SLIDE_CHANGED: null,
 
 	// UI action types
 	UI_MENU_TOGGLE: null,

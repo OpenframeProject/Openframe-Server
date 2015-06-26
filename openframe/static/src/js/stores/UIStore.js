@@ -127,10 +127,6 @@ AppDispatcher.register(function(action) {
             UIStore.emitChange();
             break;
 
-        // case OFConstants.FRAME_SLIDE_CHANGED:
-        //     _selected_visible_frame_id = action.frame_id;
-        //     break;
-
         case OFConstants.FRAME_SAVE:
             _settingsOpen = false;
             UIStore.emitChange();
