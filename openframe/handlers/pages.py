@@ -1,4 +1,5 @@
 import hashlib
+import time
 from tornado.web import authenticated
 
 from openframe.handlers.base import BaseHandler
@@ -78,11 +79,14 @@ class MainHandler(BaseHandler):
             self.redirect('/login')
         frames = []
         content = []
+        timestamp = time.time()
         if username:
             frames = Frames.get_by_username(username, active=True)
             content = Content.get_by_username(username)
         self.render(
-            "index.html", user=username, frames=frames, content=content)
+            "index.html", user=username, frames=frames,
+            content=content, timestamp=timestamp
+        )
 
 
 class FrameHandler(BaseHandler):

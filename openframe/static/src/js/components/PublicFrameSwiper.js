@@ -47,11 +47,17 @@ var PublicFrameSwiper = React.createClass({
         console.log('_updateContainerDimensions');
         var container = this.refs.container.getDOMNode(),
             h = container.offsetHeight,
-            padding = 100,
-            newH = h - padding;
+            // current top of the frames swiper container (i.e. screen midpoint)
+            top = container.offsetTop,
+            //  height of the footer nav (40) + frame detail text (52)
+            footerH = 92,
+            //  additional padding
+            padding = 40,
+            totalPad = footerH + padding,
+            newH = h - totalPad;
 
         container.style.height = newH+'px';
-        // container.style.top = '0px';
+        container.style.top = (top + padding/2) + 'px';
     },
 
     render: function() {
