@@ -12,6 +12,7 @@ class FrameManager():
         self.frames = {}
         self._application = application
 
+        # Frame events
         self.pubsub.subscribe(
             'frame:connected', self.handle_add_frame_connection)
 
@@ -23,6 +24,10 @@ class FrameManager():
 
         self.pubsub.subscribe(
             'frame:mirror_frame', self.handle_mirror_frame)
+
+        # Admin events
+        self.pubsub.subscribe(
+            'admin:connected', self.handle_admin_connected)
 
     @property
     def application(self):
@@ -44,8 +49,8 @@ class FrameManager():
 
         # mark frame "connected" in DB then attach the frame object to
         # the websocket connection object for easy access later
-        # frame_ws.frame = Frames.update_by_id(frame_ws.frame_id,
-        #                                      {"connected": True})
+        frame_ws.frame = Frames.update_by_id(frame_ws.frame_id,
+                                             {"connected": True})
 
         frame_ws.frame = Frames.get_by_id(frame_ws.frame_id)
 
@@ -69,8 +74,8 @@ class FrameManager():
 
         # mark frame "connected: false" in DB then attach the frame object to
         # the websocket connection object for easy access later
-        # frame_ws.frame = Frames.update_by_id(frame_ws.frame_id,
-        #                                      {"connected": False})
+        frame_ws.frame = Frames.update_by_id(frame_ws.frame_id,
+                                             {"connected": False})
 
         del self.frames[frame_ws.frame_id]
 
@@ -183,3 +188,24 @@ class FrameManager():
         if frame['_id'] in self.frames:
             self.frames[frame['_id']].send('frame:update_content',
                                            content)
+
+    def handle_admin_connected(self, admin_ws):
+        """
+        When a new admin connects, clean up the 'connected' statuses of
+        the user's frames.
+        """
+        user_frames = Frames.get_by_username(admin_ws.user['username'])
+        # iterate through all user's frames and update the connected flag
+        for frame in user_frames:
+            if frame['_id'] in self.frames:
+                # the frame is connected
+                if 'connected' not in frame or frame['connected'] is False:
+                    # but isn't marked so in the db, set it.
+                    frame = Frames.update_by_id(
+                        frame['_id'], {'connected': True})
+            else:
+                # the frame is NOT connected
+                if 'connected' not in frame or frame['connected'] is True:
+                    # but is marked so in the db, set it.
+                    frame = Frames.update_by_id(
+                        frame['_id'], {'connected': False})
