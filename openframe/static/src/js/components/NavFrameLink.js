@@ -24,7 +24,7 @@ var NavFrameLink = React.createClass({
 		return (
 			<li onClick={this.handleFrameSelection}>
 				<a href="#">
-					<span className={isSelected(this.props.frame.selected)} /> {this.props.frame.name}
+					<span className={isSelected(this.props.selected)} /> {this.props.frame.name}
 					<span className={classes}>{activeText}</span>
 				</a>
 			</li>

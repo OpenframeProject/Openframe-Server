@@ -32,7 +32,22 @@ var React = require('react'),
 var App = React.createClass({
 	getInitialState: function() {
 		return {
-			selectionPanel: "collection"
+			selectionPanel: "collection",
+			frames: [],
+            selectedFrame: {
+                name: '',
+				description: '',
+				settings: {
+					visible: true,
+					rotation: 0
+				},
+                mirroring: null,
+                mirroring_count: null,
+                mirror_meta: {
+                    name: '',
+                    owner: ''
+                }
+            }
 		};
 	},
 
@@ -52,20 +67,42 @@ var App = React.createClass({
 	},
 
 	componentDidMount: function() {
-
-		// console.log('componentDidMount', $('.nav-footer').height());
-		// console.log('componentDidMount', React.findDOMNode(this.refs.navFooter).offsetHeight);
 		UIStore.addChangeListener(this._onChange);
-
+		FrameStore.addChangeListener(this._onChange);
+		// kick off frame loading
+		FrameActions.loadFrames();
 	},
 
 	componentWillUnmount: function() {
-		UIStore.addChangeListener(this._onChange);
+		UIStore.removeChangeListener(this._onChange);
+		FrameStore.removeChangeListener(this._onChange);
+	},
+
+	/**
+	 * Triggered from within settings modal
+	 * @param  {[type]} settings [description]
+	 */
+	_saveFrame: function(settings) {
+		FrameActions.saveFrame(this.state.selectedFrame);
+	},
+
+	/**
+	 * Triggered by changes within settings modal.
+	 * @param  {[type]} frame [description]
+	 */
+	_onSettingsChange: function(frame) {
+		this.setState({
+			selectedFrame: frame
+		});
 	},
 
 	_onChange: function() {
-		var panel = UIStore.getSelectionPanelState();
-		this.setState(panel);
+		console.log('SELECTED FRAME: ', FrameStore.getSelectedFrame());
+		this.setState({
+			selectionPanel: UIStore.getSelectionPanelState(),
+            frames: FrameStore.getAllFrames(),
+            selectedFrame: FrameStore.getSelectedFrame()
+        });
 	},
 
   	render: function(){
@@ -74,13 +111,19 @@ var App = React.createClass({
   		var selectionPanel = this.state.selectionPanel === 'collection' ? contentList : frameList;
 	    return (
 			<div className='container app'>
-				<SimpleNav />
-				<Frame />
-				<TransferButtons />
+				<SimpleNav frames={this.state.frames} selectedFrame={this.state.selectedFrame}/>
+				<Frame frame={this.state.selectedFrame} />
+				<TransferButtons panelState={this.state.selectionPanel} />
 				<div>{selectionPanel}</div>
 				<FooterNav ref="navFooter"/>
-				<Drawer />
-				<SettingsModal />
+				<Drawer
+					frames={this.state.frames}
+					selectedFrame={this.state.selectedFrame} />
+				<SettingsModal
+					frame={this.state.selectedFrame}
+					onSaveSettings={this._saveFrame}
+					onSettingsChange={this._onSettingsChange}
+				/>
 				<AddContentModal />
 				<FramePreview />
 			</div>

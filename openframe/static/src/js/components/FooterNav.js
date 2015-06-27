@@ -36,7 +36,9 @@ var FooterNav = React.createClass({
 	},
 
 	_onChange: function() {
-        this.setState(UIStore.getSelectionPanelState());
+        this.setState({
+        	selectionPanel: UIStore.getSelectionPanelState()
+        });
     },
 
 	/**

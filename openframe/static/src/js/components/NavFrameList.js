@@ -1,10 +1,9 @@
 var React = require('react'),
-	NavFrameLink = require('./NavFrameLink'),
-	FrameStore = require('../stores/FrameStore');
+	NavFrameLink = require('./NavFrameLink');
 
 var NavFrameList = React.createClass({
 	componentDidMount: function() {
-        FrameStore.addChangeListener(this._onChange);
+        // FrameStore.addChangeListener(this._onChange);
     },
 
     getDefaultProps: function() {
@@ -17,15 +16,23 @@ var NavFrameList = React.createClass({
     	};
     },
 
-    getInitialState: function() {
-        return {
-            frames: []
-        }
-    },
+    // getInitialState: function() {
+    //     return {
+    //         frames: []
+    //     }
+    // },
 
 	render: function() {
 		function createFrameLink(frame) {
-            return <NavFrameLink key={frame._id} frame={frame} linkClickHandler={this.props.linkClickHandler} />
+            console.log('MMMMMM?', frame, this.props.selectedFrame);
+            return (
+                <NavFrameLink
+                    key={frame._id}
+                    frame={frame}
+                    selected={frame._id === this.props.selectedFrame._id}
+                    linkClickHandler={this.props.linkClickHandler}
+                />
+            );
         }
 
 		var classes = this.props.extraClasses + ' nav-frame-list drawer-content';
@@ -42,17 +49,17 @@ var NavFrameList = React.createClass({
 
 		return (
 			<ul className={classes} role="menu">
-                {this.state.frames.map(createFrameLink.bind(this))}
+                {this.props.frames.map(createFrameLink.bind(this))}
                 {logout}
             </ul>
 		);
 	},
 
-	_onChange: function() {
-        this.setState({
-            frames: FrameStore.getAllFrames()
-        });
-    }
+	// _onChange: function() {
+ //        this.setState({
+ //            frames: FrameStore.getAllFrames()
+ //        });
+ //    }
 
 });
 

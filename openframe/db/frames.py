@@ -27,37 +27,37 @@ class Frames():
         return resp
 
     @staticmethod
-    def get_by_username(username, active=None):
+    def get_by_username(username, connected=None):
         """
         Get a list of frames which user has access to
         """
         query = {'users': username}
-        if active is not None:
-            query['active'] = active
+        if connected is not None:
+            query['connected'] = connected
         resp = list(Frames.collection.find(query))
         _unify_ids(resp)
         return resp
 
     @staticmethod
-    def get_by_owner(username, active=None):
+    def get_by_owner(username, connected=None):
         """
         Get a list of frames which user owns
         """
         query = {'owner': username}
-        if active is not None:
-            query['active'] = active
+        if connected is not None:
+            query['connected'] = connected
         resp = list(Frames.collection.find(query))
         _unify_ids(resp)
         return resp
 
     @staticmethod
-    def get_public(active=None):
+    def get_public(connected=None):
         """
         Get a list of frames which are publicly visible (for mirroring)
         """
         query = {'settings.visible': True}
-        if active is not None:
-            query['active'] = active
+        if connected is not None:
+            query['connected'] = connected
         resp = list(Frames.collection.find(query))
         _unify_ids(resp)
         return resp

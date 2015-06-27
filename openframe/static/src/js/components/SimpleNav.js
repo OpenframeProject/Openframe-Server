@@ -6,10 +6,10 @@ var React = require('react'),
 
 var SimpleNav = React.createClass({
     componentDidMount: function() {
-        FrameStore.addChangeListener(this._onChange);
+        // FrameStore.addChangeListener(this._onChange);
     },
 
-    getInitialState: function() {
+    getDefualtProps: function() {
         return {
             frames: [],
             selectedFrame: {
@@ -24,13 +24,31 @@ var SimpleNav = React.createClass({
         }
     },
 
+    _handleOpenMenuClick: function(e) {
+        console.log('_handleOpenMenuClick');
+        UIActions.toggleMenu(true);
+    },
+
+    _handleOpenSettings: function(e) {
+        console.log('_handleOpenSettings');
+        UIActions.openSettingsModal();
+    },
+
+    // _onChange: function() {
+    //     console.log('++++++ get selected frame', FrameStore.getSelectedFrame());
+    //     this.setState({
+    //         frames: FrameStore.getAllFrames(),
+    //         selectedFrame: FrameStore.getSelectedFrame()
+    //     });
+    // },
+
     render: function() {
-        var frameName = this.state.selectedFrame.name,
-            mirroring = this.state.selectedFrame.mirroring,
-            mirror_meta = this.state.selectedFrame.mirror_meta,
+        var frameName = this.props.selectedFrame.name,
+            mirroring = this.props.selectedFrame.mirroring,
+            mirror_meta = this.props.selectedFrame.mirror_meta,
             mirroring_icon = '',
             mirroring_content = '',
-            mirroring_count = this.state.selectedFrame.mirroring_count;
+            mirroring_count = this.props.selectedFrame.mirroring_count;
 
         function connected(connected) {
             var connected_content = '';
@@ -58,14 +76,10 @@ var SimpleNav = React.createClass({
             );
         }
 
-
-
-
-
         return (
             <div className="of-nav-fixed of-nav-top">
                 <h6 className="frame-name text-center">
-                    <span className="connected" dangerouslySetInnerHTML={connected(this.state.selectedFrame.connected)} />
+                    <span className="connected" dangerouslySetInnerHTML={connected(this.props.selectedFrame.connected)} />
                     {frameName}
                     <span className="mirroring-content">
                         {mirroring_icon}
@@ -85,7 +99,11 @@ var SimpleNav = React.createClass({
                 <ul className="nav navbar-nav navbar-right hidden-xs">
                     <li className="dropdown">
                         <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Frames <span className="caret" /></a>
-                        <NavFrameList extraClasses="dropdown-menu" includeLogout={false}/>
+                        <NavFrameList
+                            frames={this.props.frames}
+                            selectedFrame={this.props.selectedFrame}
+                            extraClasses="dropdown-menu"
+                            includeLogout={false} />
                     </li>
                     <li>
                         <a href="#settings" onClick={this._handleOpenSettings}>Settings</a>
@@ -96,24 +114,6 @@ var SimpleNav = React.createClass({
                 </ul>
             </div>
         );
-    },
-
-    _handleOpenMenuClick: function(e) {
-        console.log('_handleOpenMenuClick');
-        UIActions.toggleMenu(true);
-    },
-
-    _handleOpenSettings: function(e) {
-        console.log('_handleOpenSettings');
-        UIActions.openSettingsModal();
-    },
-
-    _onChange: function() {
-        console.log('++++++ get selected frame', FrameStore.getSelectedFrame());
-        this.setState({
-            frames: FrameStore.getAllFrames(),
-            selectedFrame: FrameStore.getSelectedFrame()
-        });
     }
 
 });

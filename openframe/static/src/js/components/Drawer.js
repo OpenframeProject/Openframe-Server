@@ -45,7 +45,11 @@ var Drawer = React.createClass({
 		                    <span className="icon-close" />
 		                </button>
 					</div>
-					<NavFrameList linkClickHandler={this._handleCloseMenuClick} />
+					<NavFrameList
+						frames={this.props.frames}
+                        selectedFrame={this.props.selectedFrame}
+						linkClickHandler={this._handleCloseMenuClick}
+					/>
 				</div>
 			</div>
 		);

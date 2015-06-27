@@ -5,18 +5,12 @@ var React = require('react'),
 	UIStore = require('../stores/UIStore');
 
 var TransferButtons = React.createClass({
-    getInitialState: function() {
-        return {
-            selectionPanel: "collection"
-        };
-    },
-
     componentDidMount: function() {
-        UIStore.addChangeListener(this._onChange);
+        // UIStore.addChangeListener(this._onChange);
     },
 
     _onChange: function() {
-        this.setState(UIStore.getSelectionPanelState());
+        // this.setState(UIStore.getSelectionPanelState());
     },
 
     _handleSendClicked: function(e) {
@@ -31,7 +25,7 @@ var TransferButtons = React.createClass({
 
     render: function() {
         var icon, handler;
-        if (this.state.selectionPanel === 'collection') {
+        if (this.props.panelState === 'collection') {
             icon = 'icon-up';
             handler = this._handleSendClicked;
         } else {

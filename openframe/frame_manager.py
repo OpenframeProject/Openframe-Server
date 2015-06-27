@@ -44,8 +44,10 @@ class FrameManager():
 
         # mark frame "connected" in DB then attach the frame object to
         # the websocket connection object for easy access later
-        frame_ws.frame = Frames.update_by_id(frame_ws.frame_id,
-                                             {"connected": True})
+        # frame_ws.frame = Frames.update_by_id(frame_ws.frame_id,
+        #                                      {"connected": True})
+
+        frame_ws.frame = Frames.get_by_id(frame_ws.frame_id)
 
         # add the frame websocket connection to the in-memory list of frames
         self.frames[frame_ws.frame_id] = frame_ws
@@ -64,6 +66,11 @@ class FrameManager():
         """
         print('FrameManager::handle_remove_frame_connection: ' +
               frame_ws.frame_id)
+
+        # mark frame "connected: false" in DB then attach the frame object to
+        # the websocket connection object for easy access later
+        # frame_ws.frame = Frames.update_by_id(frame_ws.frame_id,
+        #                                      {"connected": False})
 
         del self.frames[frame_ws.frame_id]
 

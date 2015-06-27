@@ -1,32 +1,20 @@
 var React = require('react'),
 	UIActions = require('../actions/UIActions'),
-	FrameActions = require('../actions/FrameActions'),
 	UIStore = require('../stores/UIStore'),
-	FrameStore = require('../stores/FrameStore'),
 	_ = require('lodash');
 
 var SettingsModal = React.createClass({
 	getInitialState: function() {
 		return {
-			settingsOpen: false,
-			frame: {
-				name: '',
-				description: '',
-				settings: {
-					visible: true,
-					rotation: 0
-				}
-			}
+			settingsOpen: false
 		}
 	},
 
-	getDefaultProps: function() {
-		return {}
-	},
-
 	componentDidMount: function() {
+		// this.setState(this.props);
         UIStore.addChangeListener(this._onUIChange);
-        FrameStore.addChangeListener(this._onFrameChange);
+
+        // set modal event handler
         $(this.refs.modal.getDOMNode()).on('hidden.bs.modal', function() {
         	console.log('hidden.bs.modal');
         	UIActions.settingsModalClosed();
@@ -48,40 +36,43 @@ var SettingsModal = React.createClass({
 
     componentWillUnount: function() {
         UIStore.removeChangeListener(this._onUIChange);
-        FrameStore.removeChangeListener(this._onFrameChange);
         $(this.refs.modal.getDOMNode()).off('hidden.bs.modal');
     },
 
 	_handleNameChange: function(e) {
-		var val = event.target.value,
-			state = this.state;
-		state.frame.name = val;
-		this.setState(state);
+		var val = event.target.value;
+		frame = this.props.frame;
+		frame.name = val;
+		this.props.onSettingsChange(frame);
 	},
 
 	_handleDescriptionChange: function(e) {
-		var val = event.target.value,
-			state = this.state;
-		state.frame.description = val;
-		this.setState(state);
+		var val = event.target.value;
+		frame = this.props.frame;
+		frame.description = val;
+		this.props.onSettingsChange(frame);
 	},
 
 	_handleVisibilityChange: function(e) {
-		var val = event.target.checked,
-			state = this.state;
-		state.frame.settings.visible = val;
-		this.setState(state);
+		var val = event.target.checked;
+		frame = this.props.frame;
+		frame.settings.visible = val;
+		this.props.onSettingsChange(frame);
 	},
 
 	_handleRotationChange: function(e) {
-		var val = event.target.value,
-			state = this.state;
-		state.frame.settings.rotation = val;
-		this.setState(state);
+		var val = event.target.value;
+		frame = this.props.frame;
+		frame.settings.rotation = val;
+		this.props.onSettingsChange(frame);
 	},
 
+	/**
+	 * Pass along event to App, where the save Action is triggered.
+	 * @param  {[type]} e [description]
+	 */
 	_handleSave: function(e) {
-		FrameActions.saveFrame(this.state.frame);
+		this.props.onSaveSettings()
 	},
 
 	_onUIChange: function() {
@@ -94,13 +85,9 @@ var SettingsModal = React.createClass({
         });
     },
 
-    _onFrameChange: function() {
-        this.setState({
-        	frame: FrameStore.getSelectedFrame()
-        });
-    },
-
 	render: function() {
+		console.log('++++++++ ', this.props.frame);
+
 		return (
 			<div className="modal fade modal-settings" ref="modal">
 				<div className="modal-dialog">
@@ -116,7 +103,12 @@ var SettingsModal = React.createClass({
 								<div className="col-xs-12">
 						    		<div className="form-label">Name</div>
 						    		<div className="form-input">
-						    			<input ref="name" type="text" value={this.state.frame.name} onChange={this._handleNameChange} />
+						    			<input
+						    				ref="name"
+						    				type="text"
+						    				value={this.props.frame.name}
+						    				onChange={this._handleNameChange}
+					    				/>
 						    		</div>
 						    	</div>
 					    	</div>
@@ -129,7 +121,7 @@ var SettingsModal = React.createClass({
 						    			<input
 						    				ref="description"
 					    					type="text"
-					    					value={this.state.frame.description}
+					    					value={this.props.frame.description}
 					    					onChange={this._handleDescriptionChange}
 					    					placeholder="e.g. japanese art, 90s posters" />
 						    		</div>
@@ -144,8 +136,9 @@ var SettingsModal = React.createClass({
 						    	<div className="col-xs-3">
 						    		<div className="form-input-checkbox">
 						    			<input className="pull-right" ref="visibility" type="checkbox"
-						    				checked={this.state.frame.settings.visible}
-						    				onChange={this._handleVisibilityChange}/>
+						    				checked={this.props.frame.settings.visible}
+						    				onChange={this._handleVisibilityChange}
+					    				/>
 						    		</div>
 						    	</div>
 					    	</div>
@@ -154,8 +147,9 @@ var SettingsModal = React.createClass({
 				    			<div className="col-xs-6 form-label">Rotation</div>
 					    		<div className="col-xs-6 form-input-select">
 					    			<select className="pull-right" ref="rotation"
-					    				value={this.state.frame.settings.rotation}
-					    				onChange={this._handleRotationChange} >
+					    				value={this.props.frame.settings.rotation}
+					    				onChange={this._handleRotationChange}
+				    				>
 										<option value="0">0&deg;</option>
 										<option value="90">90&deg;</option>
 										<option value="-90">-90&deg;</option>

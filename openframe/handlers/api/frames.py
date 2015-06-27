@@ -51,9 +51,9 @@ class FramesByUserHandler(BaseHandler):
     """
 
     def get(self, username):
-        active = self.get_argument('active', None)
+        connected = self.get_argument('connected', None)
         if username:
-            resp = Frames.get_by_username(username, active)
+            resp = Frames.get_by_username(username, connected)
         else:
             print('username missing')
             resp = {'error': 'username required'}
@@ -68,9 +68,9 @@ class FramesByOwnerHandler(BaseHandler):
     """
 
     def get(self, owner):
-        active = self.get_argument('active', None)
+        connected = self.get_argument('connected', None)
         if owner:
-            resp = Frames.get_by_owner(owner, active)
+            resp = Frames.get_by_owner(owner, connected)
         else:
             print('owner missing')
             resp = {'error': 'owner required'}

@@ -6,13 +6,11 @@ var AppDispatcher = require('../dispatcher/AppDispatcher'),
 
 
 var _frames = {},
-	// these two are for the swiper of visible frames:
-	_visibleFrames = [],
-	_selected_visible_frame_id = null;;
+	_selectedFrameId = null;
 
 var addFrame = function(frame, select) {
 	_frames[frame._id] = frame;
-	if (select !== false) selectFrame(frame);
+	if (select === true) selectFrame(frame);
 }
 
 var removeFrame = function(frame){
@@ -24,33 +22,29 @@ var removeFrame = function(frame){
 
 var selectFrame = function(frame) {
 	console.log('selectFrame: ', frame);
+	_selectedFrameId = frame._id;
 
-	// unselect currently selected
-	var selectedFrame = FrameStore.getSelectedFrame();
-	if (selectedFrame) {
-		selectedFrame.selected = false;
-	}
+	// // unselect currently selected
+	// var selectedFrame = FrameStore.getSelectedFrame();
+	// if (selectedFrame) {
+	// 	selectedFrame.selected = false;
+	// }
 
-	// now set the new selected frame
-	var _selectedFrame = _.find(_frames, {_id: frame._id});
-	_selectedFrame.selected = true;
+	// // now set the new selected frame
+	// var _selectedFrame = _.find(_frames, {_id: frame._id});
+	// _selectedFrame.selected = true;
 }
 
 var FrameStore = assign({}, EventEmitter.prototype, {
 
+	/**
+	 * Set _selectedFrameId and add all of the frames.
+	 * @param  {[type]} frames [description]
+	 * @return {[type]}        [description]
+	 */
 	init: function(frames) {
+		_selectedFrameId = frames[0]._id;
 		_.each(frames, addFrame);
-
-		// see if any frame is marked as selected from db,
-		// otherwise select the first frame.
-		if (!_.find(_frames, {selected: true})) {
-			_.sample(_frames).selected = true;
-		}
-	},
-
-
-	getFrame: function(id) {
-		return _frames[id];
 	},
 
 	getAllFrames: function() {
@@ -61,14 +55,11 @@ var FrameStore = assign({}, EventEmitter.prototype, {
 	},
 
 	getSelectedFrame: function() {
-		return _.find(_frames, {selected: true});
-	},
-
-	getState: function() {
-		return {
-			frames: _frames,
-			selectedFrame: this.getSelectedFrame()
-		};
+		// var selected = frames[_selectedFrameId];
+		console.log('------ ', _frames);
+		console.log('------ ', _selectedFrameId);
+		console.log('------ ', _frames[_selectedFrameId]);
+		return _frames[_selectedFrameId]
 	},
 
 	emitChange: function() {
@@ -76,11 +67,12 @@ var FrameStore = assign({}, EventEmitter.prototype, {
 	},
 
 	/**
-	 * A frame has connected. Simply updated the frame object in our collection.
+	 * A frame has connected. Simply update the frame object in our collection.
 	 */
 	connectFrame: function(frame) {
-		// addFrame will overwrite previous frame
+		// addFrame will replace previous frame
 		console.log('connectFrame: ', frame);
+		frame.connected = true;
 		addFrame(frame);
 	},
 
@@ -88,8 +80,9 @@ var FrameStore = assign({}, EventEmitter.prototype, {
 	 * A frame has disconnected. Simply updated the frame object in our collection.
 	 */
 	disconnectFrame: function(frame) {
-		// addFrame will overwrite previous frame
-		addFrame(frame, false);
+		// addFrame will replace previous frame
+		frame.connected = false;
+		addFrame(frame);
 	},
 
 	addChangeListener: function(cb){

@@ -5,13 +5,13 @@ var React = require('react'),
 
 var Frame = React.createClass({
 
-	getInitialState: function() {
-		return {}
-	},
+	// getInitialState: function() {
+	// 	return {}
+	// },
 
 	componentDidMount: function() {
-		FrameActions.loadFrames();
-		FrameStore.addChangeListener(this._onChange);
+		// FrameActions.loadFrames();
+		// FrameStore.addChangeListener(this._onChange);
 	},
 
 	componentDidUpdate: function() {
@@ -19,17 +19,16 @@ var Frame = React.createClass({
 	},
 
 	_handleClick: function(e) {
-		console.log('CLICKED!');
-		UIActions.openPreview(this.state.frame);
+		UIActions.openPreview(this.props.frame);
 	},
 
-  	_onChange: function() {
-  		var selectedFrame = FrameStore.getSelectedFrame();
-  		console.log('selectedFrame:', selectedFrame);
-  		this.setState({
-  			frame: selectedFrame
-  		});
-  	},
+  	// _onChange: function() {
+  	// 	var selectedFrame = FrameStore.getSelectedFrame();
+  	// 	console.log('selectedFrame:', selectedFrame);
+  	// 	this.setState({
+  	// 		frame: selectedFrame
+  	// 	});
+  	// },
 
   	_updateContainerDimensions: function() {
   		var container = React.findDOMNode(this),
@@ -67,12 +66,12 @@ var Frame = React.createClass({
   	},
 
 	render: function() {
-		if (!this.state.frame) {
+		if (!this.props.frame) {
 			return <div className="row frames-list"></div>
 		}
-		this.w_h_ratio = this.state.frame && this.state.frame.settings ? this.state.frame.settings.w_h_ratio : 1;
+		this.w_h_ratio = this.props.frame && this.props.frame.settings ? this.props.frame.settings.w_h_ratio : 1;
 
-		var url = this.state.frame && this.state.frame.current_content ? this.state.frame.current_content.url : '';
+		var url = this.props.frame && this.props.frame.current_content ? this.props.frame.current_content.url : '';
 		var divStyle = {
 			backgroundImage: 'url(' + url + ')',
 		};

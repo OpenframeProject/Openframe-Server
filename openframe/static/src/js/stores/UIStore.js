@@ -33,9 +33,7 @@ var UIStore = assign({}, EventEmitter.prototype, {
     },
 
     getSelectionPanelState: function() {
-        return {
-            selectionPanel: _selectionPanel
-        };
+        return _selectionPanel;
     },
 
     getAddModalState: function() {

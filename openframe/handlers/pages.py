@@ -81,7 +81,7 @@ class MainHandler(BaseHandler):
         content = []
         timestamp = time.time()
         if username:
-            frames = Frames.get_by_username(username, active=True)
+            frames = Frames.get_by_username(username, connected=True)
             content = Content.get_by_username(username)
         self.render(
             "index.html", user=username, frames=frames,
