@@ -7,10 +7,10 @@ OF_Frame = (function(frame_id, socker) {
         _height = window.innerHeight;
 
 
-    function _init() {
+    function _init(port) {
         console.log('_init');
-
-        socker.connect("ws://" + _domain + ":8888/ws/" + frame_id, {
+        port = ':'+port || '';
+        socker.connect("ws://" + _domain + port + "/ws/" + frame_id, {
             onOpen: function() {
                 socker.send('frame:setup', {width: _width, height: _height});
             }

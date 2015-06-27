@@ -7,7 +7,7 @@
     * {
         cursor: none
     }
-    
+
     html,
     body {
         width: 100%;
@@ -16,7 +16,7 @@
         margin: 0;
         background-color: #000;
     }
-    
+
     body {
         background-repeat: no-repeat;
         background-position: center center;
@@ -27,13 +27,14 @@
 
 <body>
     <script type="text/javascript">
-        var OF_FRAME_ID = '{{ frame_id }}';
+        var OF_FRAME_ID = '{{ frame_id }}',
+            OF_SERVER_PORT = {{ port }};
     </script>
     <script type="text/javascript" src="/static/dist/js/libs.js"></script>
     <script type="text/javascript" src="/static/src/js/api/Socker.js"></script>
     <script type="text/javascript" src="/static/src/js/frame.js"></script>
     <script type="text/javascript">
-        OF_Frame.init();
+        OF_Frame.init(OF_SERVER_PORT);
     </script>
 </body>
 

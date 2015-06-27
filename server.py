@@ -4,6 +4,7 @@ import tornado.web
 import tornado.websocket
 
 from openframe import settings
+from openframe.options import options
 from openframe.handlers.pages import SplashHandler, MainHandler, \
     FrameHandler, CreateAccountHandler, LoginHandler, LogoutHandler, \
     TestHandler
@@ -72,7 +73,7 @@ class Application(tornado.web.Application):
             "template_path": settings.TEMPLATE_PATH,
             "static_path": settings.STATIC_PATH,
             "db": db,
-            "debug": True,
+            "debug": options.debug,
             "cookie_secret": settings.COOKIE_SECRET,
             "login_url": "/login",
         }
@@ -113,8 +114,10 @@ class Application(tornado.web.Application):
 
 
 def main():
+    tornado.options.parse_command_line()
+
     application = Application()
-    application.listen(8888)
+    application.listen(options.port)
 
     tornado.ioloop.IOLoop.instance().start()
 

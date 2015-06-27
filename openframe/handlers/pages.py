@@ -2,6 +2,7 @@ import hashlib
 import time
 from tornado.web import authenticated
 
+from openframe.options import options
 from openframe.handlers.base import BaseHandler
 from openframe.db.frames import Frames
 from openframe.db.content import Content
@@ -107,7 +108,7 @@ class FrameHandler(BaseHandler):
                     "visible": True
                 }
             })
-        self.render("frame.html", frame_id=frame_id)
+        self.render("frame.html", frame_id=frame_id, port=options.port)
 
 
 class TestHandler(BaseHandler):
