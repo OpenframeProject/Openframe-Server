@@ -51,12 +51,29 @@ class Frames():
         return resp
 
     @staticmethod
-    def get_public(connected=None):
+    def get_public(connected=None, username=None):
         """
         Get a list of frames which are publicly visible (for mirroring)
         """
-        query = {'settings.visible': True}
+        # Only return frames that are not mirroring another frame.
+        query = {
+            'settings.visible': True,
+            '$or': [
+                {
+                    'mirroring': {
+                        '$exists': False
+                    }
+                },
+                {
+                    'mirroring': None
+                }
+            ]
+        }
+        if username is not None:
+            # don't include public frames for the supplied username
+            query['users'] = {'$ne': username}
         if connected is not None:
+            # only select connected frames
             query['connected'] = connected
         resp = list(Frames.collection.find(query))
         _unify_ids(resp)

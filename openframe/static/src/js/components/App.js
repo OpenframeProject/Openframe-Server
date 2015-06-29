@@ -106,8 +106,10 @@ var App = React.createClass({
 	},
 
   	render: function(){
+  		// The ContentLlist and PublicFramesList maintain their own state
   		var contentList = <ContentList />,
   			frameList = <PublicFramesList />;
+
   		var selectionPanel = this.state.selectionPanel === 'collection' ? contentList : frameList;
 	    return (
 			<div className='container app'>

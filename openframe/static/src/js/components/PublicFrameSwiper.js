@@ -9,16 +9,39 @@ var PublicFrameSwiper = React.createClass({
     },
 
     componentDidUpdate: function(prevProps, prevState) {
+        // on first render, init swiper
         if (!this.swiper) {
             this._initSlider();
         }
     },
 
+    /**
+     * Invoked when the props are changing.
+     * Not on first render.
+     * @param  {[type]} nextProps [description]
+     * @return {[type]}           [description]
+     */
+    componentWillReceiveProps: function(nextProps) {
+        // if (this.swiper) {
+        //     this.swiper.detachEvents();
+        //     this.swiper.destroy();
+        // }
+    },
+
+    shouldComponentUpdate: function(nextProps, nextState) {
+        console.log("()()()()()()()(()");
+        console.log(this.props, nextProps);
+
+        if (this.props.frames.length && this.props.frames.length === nextProps.frames.length) {
+            console.log('should NOT update');
+            return false;
+        }
+        console.log('should update');
+        return true;
+    },
+
     _initSlider: function() {
         var el = React.findDOMNode(this.refs.Swiper);
-        if (this.swiper) {
-            this.swiper.destroy();
-        }
         this.swiper = new Swiper(el, {
             slidesPerView: 3,
             spaceBetween: 50,

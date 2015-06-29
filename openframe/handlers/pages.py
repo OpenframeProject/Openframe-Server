@@ -18,8 +18,6 @@ class SplashHandler(BaseHandler):
 class LoginHandler(BaseHandler):
 
     def get(self):
-        if self.current_user:
-            self.logout()
         self.render("login.html", error=None)
 
     def post(self):

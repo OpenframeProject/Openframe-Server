@@ -2,37 +2,41 @@ var React = require('react'),
     PublicFrameStore = require('../stores/PublicFrameStore');
 
 var FrameItemDetails = React.createClass({
-    // getInitialState: function() {
-    //     return {
-    //         frame: {
-    //             name: '',
-    //             owner: ''
-    //         }
-    //     }
-    // },
 
     getDefaultProps: function() {
         return {
             frame: {
                 name: '',
-                owner: ''
+                owner: '',
+                _id: null
             }
         }
     },
 
-    // componentDidMount: function() {
-    //     PublicFrameStore.addChangeListener(this._onChange);
-    // },
+    shouldComponentUpdate: function(nextProps, nextState) {
+        // if (this.props.frame._id !== nextProps.frame._id) {
+        //     console.log('should update...', this.props.frame, nextProps.frame);
+        //     return true;
+        // } else {
+        //     console.log('should NOT update...');
+        //     return false;
+        // }
+        return this.props.frame._id !== nextProps.frame._id;
+    },
 
-    // componentWillUnmount: function() {
-    //     PublicFrameStore.removeChangeListener(this._onChange);
-    // },
+    componentWillReceiveProps: function(nextProps) {
 
-    // _onChange: function() {
-
-    // },
+    },
 
     render: function() {
+        console.log('rendering...');
+        var frame = this.props.frame;
+
+        // If this current slide frame is the same as the selectedFrame's mirroring id
+        // if (this.props.frame._id === this.props.selectedFrame.mirroring) {
+        //     frame.mirroring_count += 1;
+        // }
+
 
         var mirroring_count = '';
 

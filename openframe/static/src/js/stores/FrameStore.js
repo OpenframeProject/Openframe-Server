@@ -48,17 +48,12 @@ var FrameStore = assign({}, EventEmitter.prototype, {
 	},
 
 	getAllFrames: function() {
-		console.log('getAllFrames: ', _frames);
 		return _.map(_frames, function(frame) {
 			return frame;
 		});
 	},
 
 	getSelectedFrame: function() {
-		// var selected = frames[_selectedFrameId];
-		console.log('------ ', _frames);
-		console.log('------ ', _selectedFrameId);
-		console.log('------ ', _frames[_selectedFrameId]);
 		return _frames[_selectedFrameId]
 	},
 

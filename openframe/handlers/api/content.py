@@ -1,5 +1,6 @@
 from tornado.escape import json_decode
 from bson.json_util import dumps
+from tornado.web import authenticated
 
 from openframe.handlers.base import BaseHandler
 from openframe.db.content import Content
@@ -11,6 +12,7 @@ from openframe.handlers.util import _unify_ids
 
 class ContentHandler(BaseHandler):
 
+    @authenticated
     def get(self, content_id=None):
         if content_id:
             print('get content: ' + content_id)
@@ -21,6 +23,7 @@ class ContentHandler(BaseHandler):
         _unify_ids(content_resp)
         self.write(dumps(content_resp))
 
+    @authenticated
     def post(self):
         print('create content item')
         doc = json_decode(self.request.body.decode('utf-8'))
@@ -30,6 +33,7 @@ class ContentHandler(BaseHandler):
         _unify_ids(doc)
         self.write(dumps(doc))
 
+    @authenticated
     def put(self, content_id):
         print('update content: ' + content_id)
         doc = json_decode(self.request.body.decode('utf-8'))
@@ -39,6 +43,7 @@ class ContentHandler(BaseHandler):
         _unify_ids(result)
         self.write(dumps(result))
 
+    @authenticated
     def delete(self, content_id):
         res = Content.delete_by_id(content_id)
         self.write(dumps(res.acknowledged))
@@ -48,9 +53,9 @@ class ContentHandler(BaseHandler):
 
 class ContentByUserHandler(BaseHandler):
 
+    @authenticated
     def get(self, username):
         content_resp = Content.get_by_username(username)
-        #_unify_ids(content_resp)
         print(username)
         print(content_resp)
         self.write(dumps(content_resp))

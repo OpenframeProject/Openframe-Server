@@ -93,30 +93,12 @@ class BaseHandler(tornado.web.RequestHandler):
             raise tornado.web.HTTPError(400, reason=json_encode(
                 {'message': 'Problems parsing JSON'}))
 
-    def get_template_namespace(self):
-        """Template globals"""
-        namespace = super().get_template_namespace()
-        namespace.update({
-            'iso_date_str_to_fmt_str': self.iso_date_str_to_fmt_str
-        })
-        return namespace
-
     def update_admins(self):
         print('updating admins ', self.admins)
         for key in self.admins:
             print(key)
             self.admins[key].write_message(
                 json_encode({'active_frames': list(self.frames.keys())}))
-
-    @staticmethod
-    def iso_date_str_to_fmt_str(iso_date_str, fmt_str):
-        """
-        Takes an ISO date string and returns a new string formated by fmt_str
-        """
-        date = datetime.datetime.strptime(
-            iso_date_str, '%Y-%m-%dT%H:%M:%S.%f+00:00')
-        date_formatted = date.strftime(fmt_str)
-        return date_formatted
 
 
 class BaseWebSocketHandler(tornado.websocket.WebSocketHandler):

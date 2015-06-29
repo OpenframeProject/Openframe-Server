@@ -98,6 +98,10 @@ var FrameActions = {
 
     mirrorFrame: function(mirrored_frame) {
         var frame = FrameStore.getSelectedFrame();
+        if (frame.mirroring === mirrored_frame._id) {
+            console.log('already mirroring.');
+            return false;
+        }
         var data = {
             frame_id: frame._id,
             mirrored_frame_id: mirrored_frame._id
@@ -200,15 +204,7 @@ var FrameActions = {
 			w: w,
 			h: h
 		});
-    },
-
-    slideChanged: function(frame_id) {
-        console.log('frame_id', frame_id);
-		AppDispatcher.handleViewAction({
-			actionType: OFConstants.FRAME_SLIDE_CHANGED,
-			frame_id: frame_id
-		});
-	}
+    }
 
 }
 

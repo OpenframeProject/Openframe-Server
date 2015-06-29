@@ -1,4 +1,6 @@
 from tornado.escape import json_decode
+from tornado.web import authenticated
+
 from bson.json_util import dumps
 
 from openframe.handlers.base import BaseHandler
@@ -11,7 +13,7 @@ class FramesHandler(BaseHandler):
     """
     endpoints for managing frames
     """
-
+    @authenticated
     def get(self, frame_id=None):
         if frame_id:
             print('get frame: ' + frame_id)
@@ -39,6 +41,7 @@ class FramesHandler(BaseHandler):
         _unify_ids(result)
         self.write(dumps(result))
 
+    @authenticated
     def delete(self, frame_id):
         res = Frames.delete_by_id(frame_id)
         self.write(dumps(res.acknowledged))
@@ -49,7 +52,7 @@ class FramesByUserHandler(BaseHandler):
     """
     Get frames by username
     """
-
+    @authenticated
     def get(self, username):
         connected = self.get_argument('connected', None)
         if username:
@@ -66,14 +69,10 @@ class FramesByOwnerHandler(BaseHandler):
     """
     Get frames by owner
     """
-
+    @authenticated
     def get(self, owner):
         connected = self.get_argument('connected', None)
-        if owner:
-            resp = Frames.get_by_owner(owner, connected)
-        else:
-            print('owner missing')
-            resp = {'error': 'owner required'}
+        resp = Frames.get_by_owner(owner, connected)
         _unify_ids(resp)
         self.write(dumps(resp))
 
@@ -83,10 +82,10 @@ class VisibleFramesHandler(BaseHandler):
     """
     endpoints for visible frames
     """
-
-    def get(self):
+    @authenticated
+    def get(self, frame_id=None):
+        # frames = Frames.get_public(username=self.current_user)
         frames = Frames.get_public()
-        print(frames)
         _unify_ids(frames)
         self.write(dumps(frames))
 
@@ -96,7 +95,7 @@ class UpdateFrameContentHandler(BaseHandler):
     """
     Push content item to frame
     """
-
+    @authenticated
     def get(self, frame_id, content_id):
         # publish an update content event, handled by the frame manager
         self.pubsub.publish(

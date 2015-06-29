@@ -34,7 +34,7 @@ var path = {
     JS_LIBS_SRC: [
         bower_path + '/jquery/dist/jquery.js',
         bower_path + '/bootstrap/dist/js/bootstrap.js',
-        bower_path + '/swiper/dist/js/swiper.min.js',
+        bower_path + '/swiper/dist/js/swiper.js',
         bower_path + '/lodash/lodash.js',
         bower_path + '/react/react.js',
         bower_path + '/flux/dist/Flux.js',
@@ -60,9 +60,9 @@ var path = {
     FONT_DIST: static_path + '/dist/fonts'
 };
 
-// 
+//
 // DEV TASKS
-// 
+//
 
 process.env.BROWSERIFYSHIM_DIAGNOSTICS=1;
 
@@ -147,7 +147,7 @@ gulp.task('watch', function() {
                 })
                 .pipe(source(path.JS_BUILD_FILENAME))
                 .pipe(gulp.dest(path.JS_DIST));
-            
+
             console.log('Updated');
 
         })
@@ -156,9 +156,9 @@ gulp.task('watch', function() {
         .pipe(gulp.dest(path.JS_DIST));
 });
 
-// 
+//
 // PROD TASKS
-// 
+//
 
 gulp.task('build', function() {
     browserify({

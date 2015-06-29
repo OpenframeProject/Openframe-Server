@@ -2,7 +2,8 @@ var React = require('react'),
 	FrameItemDetails = require('./FrameItemDetails'),
     PublicFrameSwiper = require('./PublicFrameSwiper'),
     PublicFrameActions = require('../actions/PublicFrameActions'),
-    PublicFrameStore = require('../stores/PublicFrameStore');
+    PublicFrameStore = require('../stores/PublicFrameStore'),
+    FrameStore = require('../stores/FrameStore');
 
 
 /**
@@ -11,17 +12,19 @@ var React = require('react'),
 var PublicFramesList = React.createClass({
 	getInitialState: function() {
         return {
-			frames: [],
-            selectedFrame: {
+			publicFrames: [],
+            currentSlideFrame: {
                 name: '',
                 owner: ''
-            }
+            },
+            selectedFrame: {}
 		}
 	},
 
 	componentDidMount: function() {
         console.log('PublicFramesList: component did mount');
-		PublicFrameStore.addChangeListener(this._onChange);
+        PublicFrameStore.addChangeListener(this._onChange);
+		FrameStore.addChangeListener(this._onChange);
         PublicFrameActions.loadPublicFrames();
     },
 
@@ -33,16 +36,17 @@ var PublicFramesList = React.createClass({
 
   	_onChange: function() {
   		this.setState({
-  			frames: PublicFrameStore.getPublicFrames(),
-            selectedFrame: PublicFrameStore.getSelectedPublicFrame()
+  			publicFrames: PublicFrameStore.getPublicFrames(),
+            currentSlideFrame: PublicFrameStore.getSelectedPublicFrame(),
+            selectedFrame: FrameStore.getSelectedFrame()
   		});
   	},
 
     render: function() {
         return (
             <div>
-                <PublicFrameSwiper frames={this.state.frames} />
-                <FrameItemDetails frame={this.state.selectedFrame}/>
+                <PublicFrameSwiper frames={this.state.publicFrames} />
+                <FrameItemDetails frame={this.state.currentSlideFrame} selectedFrame={this.state.selectedFrame} />
             </div>
         );
     }

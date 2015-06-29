@@ -25,7 +25,6 @@ var ContentList = React.createClass({
     },
 
     componentDidUpdate: function() {
-
     },
 
     _onChange: function() {
@@ -79,12 +78,19 @@ var ContentList = React.createClass({
      */
     _updateContainerDimensions: function() {
         console.log('_updateContainerDimensions');
-        var container = React.findDOMNode(this)
+        var container = this.refs.Swiper.getDOMNode(),
             h = container.offsetHeight,
+            // current top of the frames swiper container (i.e. screen midpoint)
+            top = container.offsetTop,
+            //  height of the footer nav (40) + frame detail text (52)
+            footerH = 50,
+            //  additional padding
             padding = 40,
-            newH = h - padding;
+            totalPad = footerH + padding,
+            newH = h - totalPad;
 
         container.style.height = newH+'px';
+        container.style.top = (top + padding/2) + 'px';
     },
 
     render: function() {
