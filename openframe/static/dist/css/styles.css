@@ -625,7 +625,7 @@ html#Website body .container-wide {
   padding: 40px 0px;
 }
 html#Website body .container-wide.setup {
-  background-color: #eee;
+  background-color: #F7F7F7;
 }
 html#Website body .container-mid {
   width: 70%;
@@ -634,6 +634,7 @@ html#Website body .container-mid {
 }
 html#Website body .container {
   text-align: left;
+  width: 90%;
 }
 html#Website body h3,
 html#Website body h4,
@@ -663,11 +664,32 @@ html#Website body .openframe .alpha {
   font-weight: bold;
   text-transform: uppercase;
 }
+html#Website body .q-a {
+  background-color: #3f3e3c;
+  color: #FFF;
+}
+html#Website body .q-a h3,
+html#Website body .q-a h4,
+html#Website body .q-a h6,
+html#Website body .q-a a {
+  color: #FFF;
+}
+html#Website body .q-a a {
+  text-decoration: underline;
+}
+html#Website body .q-a h5 {
+  color: #50E3C2;
+}
 /**
  * Import styles for larger sreens.
  */
 @media (min-width: 768px) {
   .navbar {
     border-bottom: 1px solid #d0d0d0;
+  }
+}
+@media (min-width: 992px) {
+  html#Website body .container {
+    width: 700px;
   }
 }
