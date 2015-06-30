@@ -83,11 +83,6 @@ ul {
     background-size: contain;
 }
 
-.openframe {
-    font-weight: 300;
-    color: #D0D0D0;
-}
-
 .username {
     font-weight: 400;
     color: #3F3E3C;
@@ -687,6 +682,69 @@ input[type="checkbox"]:checked {
     background-image: url('../img/check.svg');
     background-repeat: no-repeat;
     background-position: center;
+}
+
+
+// WEBSITE
+html#Website {
+    height: auto;
+    overflow: auto;
+    body {
+        height: auto;
+        overflow: auto;
+        letter-spacing: normal;
+        font-weight: 300;
+
+        .container-wide {
+            position: relative;
+            width: 100%;
+            text-align: center;
+            padding: 40px 0px;
+
+            &.setup {
+                background-color: #eee;
+            }
+        }
+
+        .container-mid {
+            width: 70%;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .container {
+            text-align: left;
+        }
+
+        h3, h4, h5, h6 {
+            font-weight: 300;
+            text-transform: none;
+        }
+
+        ul.top-nav {
+            text-align: right;
+            li {
+                display: inline-block;
+                padding: 15px 15px;
+                a {
+                    display: block;
+                }
+            }
+        }
+
+        .openframe {
+            position: relative;
+            .alpha {
+                position: absolute;
+                bottom: -9px;
+                right: 7px;
+                font-size: 8px;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+        }
+
+    }
 }
 
 /**
