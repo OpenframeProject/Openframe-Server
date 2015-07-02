@@ -5,6 +5,7 @@ __pycache__
 *.pyc
 *.log
 local_settings.py
+settings_local.py
 .idea/
 .coverage
 cover/
