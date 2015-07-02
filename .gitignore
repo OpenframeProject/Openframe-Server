@@ -17,3 +17,4 @@ reports/
 config/deploy/*.rb
 openframe/static/components
 .DS_Store
+nohup.out

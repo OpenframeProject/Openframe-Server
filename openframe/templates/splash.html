@@ -188,9 +188,11 @@
 
 <script type="text/javascript" src="/static/components/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript">
-    $(document).on('click', '.see-more a', function() {
+    $(document).on('click', '.see-more a', function(e) {
+        e.preventDefault();
         $(this).parent().remove();
         $('.more').slideToggle();
+
     });
 </script>
 

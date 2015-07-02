@@ -777,15 +777,17 @@ html#Website {
             position: relative;
             width: 400px;
             max-height: 400px;
+            overflow: hidden;
             &.more {
                 display: none;
+                // position: relative;
             }
             li {
                 position: relative;
                 padding-left: 25px;
                 background-position: 0px 3px, center;
                 background-repeat: no-repeat;
-                margin: 10px 0px;
+                margin-top: 10px;
                 &.done {
                     background-image: url('../img/DoneCheck.svg');
                 }
