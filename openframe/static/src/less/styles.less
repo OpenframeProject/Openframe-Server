@@ -40,6 +40,10 @@ html, body, #OpenFrame, .app {
 
 }
 
+a {
+
+}
+
 #Login {
     margin-top: 10%;
 }
@@ -695,8 +699,8 @@ html#Website {
             position: relative;
             width: 100%;
             text-align: center;
-            padding: 40px 0px;
-
+            padding: 40px 0px 60px 0px;
+            font-size: 1.1em;
             &.setup {
                 background-color: #F7F7F7;
             }
@@ -726,7 +730,8 @@ html#Website {
         }
 
         a {
-            text-decoration: underline;
+            text-decoration: none;
+            border-bottom: 1px solid #3a3a3a;
         }
 
         h3, h4, h5, h6 {
@@ -734,8 +739,13 @@ html#Website {
             text-transform: none;
         }
 
+        h4 {
+            font-size: 1.5em;
+        }
+
         h6 {
-            font-weight: 600;
+            font-weight: 400;
+            font-size: 1.1em;
         }
 
         ul.top-nav {
@@ -765,12 +775,17 @@ html#Website {
         }
 
         strong {
-            font-weight: 600;
+            font-weight: 400;
         }
 
         section.intro {
-            font-size: 1.2em;
+            font-size: 1.3em;
+            line-height: 1.3em;
             margin-bottom: 40px;
+        }
+
+        section.intro p {
+            margin: 0 0 20px;
         }
 
         ul.features {
@@ -788,16 +803,19 @@ html#Website {
                 background-position: 0px 3px, center;
                 background-repeat: no-repeat;
                 margin-top: 10px;
+                font-weight: 400;
+                font-size: 1.1em;
                 &.done {
                     background-image: url('../img/DoneCheck.svg');
                 }
                 &.not-done {
                     background-image: url('../img/NotDone.svg');
                 }
-                &.see-more {
-                    a {
+                &.see-more a {
                         color: @gray-lighter;
-                    }
+                        font-weight: 300;
+                        text-decoration: none;
+                        border-bottom: 1px solid #B2B2B2;
                 }
 
             }
@@ -805,8 +823,8 @@ html#Website {
 
         .fine-print {
             margin-top: 40px;
-            font-size: 0.8em;
-            color: @gray-light;
+            font-size: 0.9em;
+            color: @gray-lighter;
         }
 
         .row-step {
@@ -819,11 +837,12 @@ html#Website {
 
         .for-whom {
             h4 {
-                font-weight: 600;
+                font-weight: 400;
             }
             h5 {
                 margin-top: 40px;
-                font-weight: 600;
+                font-weight: 400;
+                font-size: 1.1em;
             }
             div[class^="col-"] {
                 padding: 0px 20px;
@@ -845,12 +864,22 @@ html#Website {
                 margin-bottom: 80px;
             }
 
-            .footer-contact-us {
-                margin-top: 80px;
-            }
-
             section {
                 margin-top: 40px;
+            }
+        }
+        .footer {
+            background-color: #363533;
+            color: #FFF;
+            h3, h4, h6, a {
+                color: #FFF;
+                text-align: center;
+            }
+
+
+            .footer-contact-us {
+                margin-top: 80px;
+                font-size: 1.2em;
             }
         }
 
