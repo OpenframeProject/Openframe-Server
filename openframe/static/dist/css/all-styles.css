@@ -6639,10 +6639,6 @@ body,
 #login-button {
   padding-top: 8px;
 }
-.splash-header {
-  border: none;
-  height: 100px;
-}
 .content-item {
   padding: 10px 0px;
   border-bottom: 1px solid #aaa;
@@ -6665,10 +6661,6 @@ ul {
   background-repeat: no-repeat;
   background-position: 0 center;
   background-size: contain;
-}
-.openframe {
-  font-weight: 300;
-  color: #D0D0D0;
 }
 .username {
   font-weight: 400;
@@ -7154,11 +7146,168 @@ input[type="checkbox"]:checked {
   background-repeat: no-repeat;
   background-position: center;
 }
+html#Website {
+  height: auto;
+  overflow: auto;
+}
+html#Website body {
+  height: auto;
+  overflow: auto;
+  letter-spacing: normal;
+  font-weight: 300;
+}
+html#Website body .container-wide {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  padding: 40px 0px;
+}
+html#Website body .container-wide.setup {
+  background-color: #F7F7F7;
+}
+html#Website body .container-mid {
+  width: 70%;
+  margin: 0 auto;
+  text-align: center;
+}
+html#Website body .container {
+  text-align: left;
+  width: 90%;
+}
+html#Website body .splash-header {
+  padding: 40px 0px;
+  border: none;
+}
+html#Website body .preview img {
+  width: 100%;
+  max-width: 1280px;
+}
+html#Website body a {
+  text-decoration: underline;
+}
+html#Website body h3,
+html#Website body h4,
+html#Website body h5,
+html#Website body h6 {
+  font-weight: 300;
+  text-transform: none;
+}
+html#Website body h6 {
+  font-weight: 600;
+}
+html#Website body ul.top-nav {
+  text-align: right;
+}
+html#Website body ul.top-nav li {
+  display: inline-block;
+  padding: 15px 15px;
+}
+html#Website body ul.top-nav li a {
+  display: block;
+}
+html#Website body .openframe {
+  line-height: 1.4em;
+}
+html#Website body .openframe span {
+  position: relative;
+}
+html#Website body .openframe .alpha {
+  position: absolute;
+  bottom: -20px;
+  right: 7px;
+  font-size: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+html#Website body strong {
+  font-weight: 600;
+}
+html#Website body section.intro {
+  font-size: 1.2em;
+  margin-bottom: 40px;
+}
+html#Website body ul.features {
+  position: relative;
+  width: 400px;
+  max-height: 400px;
+  overflow: hidden;
+}
+html#Website body ul.features.more {
+  display: none;
+}
+html#Website body ul.features li {
+  position: relative;
+  padding-left: 25px;
+  background-position: 0px 3px, center;
+  background-repeat: no-repeat;
+  margin-top: 10px;
+}
+html#Website body ul.features li.done {
+  background-image: url('../img/DoneCheck.svg');
+}
+html#Website body ul.features li.not-done {
+  background-image: url('../img/NotDone.svg');
+}
+html#Website body ul.features li.see-more a {
+  color: #dddddd;
+}
+html#Website body .fine-print {
+  margin-top: 40px;
+  font-size: 0.8em;
+  color: #d0d0d0;
+}
+html#Website body .row-step {
+  margin-top: 40px;
+}
+html#Website body .row-step img {
+  margin-bottom: 10px;
+}
+html#Website body .for-whom h4 {
+  font-weight: 600;
+}
+html#Website body .for-whom h5 {
+  margin-top: 40px;
+  font-weight: 600;
+}
+html#Website body .for-whom div[class^="col-"] {
+  padding: 0px 20px;
+}
+html#Website body .q-a {
+  background-color: #3f3e3c;
+  color: #FFF;
+}
+html#Website body .q-a h3,
+html#Website body .q-a h4,
+html#Website body .q-a h6,
+html#Website body .q-a a {
+  color: #FFF;
+  text-align: center;
+}
+html#Website body .q-a h5 {
+  color: #50E3C2;
+}
+html#Website body .q-a h4.footer-heading {
+  margin-bottom: 80px;
+}
+html#Website body .q-a .footer-contact-us {
+  margin-top: 80px;
+}
+html#Website body .q-a section {
+  margin-top: 40px;
+}
 /**
  * Import styles for larger sreens.
  */
 @media (min-width: 768px) {
   .navbar {
     border-bottom: 1px solid #d0d0d0;
+  }
+  html#Website body .container {
+    width: 700px;
+  }
+}
+@media (min-width: 992px) {
+  html#Website body .container {
+    width: 700px;
   }
 }

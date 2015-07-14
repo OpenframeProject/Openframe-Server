@@ -112,4 +112,4 @@ class FrameHandler(BaseHandler):
 class TestHandler(BaseHandler):
 
     def get(self):
-        self.render("test.html")
+        self.render("splash.html")

@@ -26,7 +26,7 @@ class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
             # Test
-            (r"/test", TestHandler),
+            (r"/splash", TestHandler),
 
             # Login, Logout
             (r"/login", LoginHandler),
@@ -65,7 +65,7 @@ class Application(tornado.web.Application):
             # /frame/[id]/[username]/[framename]
             (r"/frame/(\w+)/(\w+)/(\w+)/?", FrameHandler),
             (r"/(\w+)/?", MainHandler),
-            (r"/", SplashHandler),
+            (r"/", LoginHandler),
             (r"/create-account", CreateAccountHandler),
         ]
 

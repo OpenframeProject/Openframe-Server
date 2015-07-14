@@ -5,6 +5,7 @@ __pycache__
 *.pyc
 *.log
 local_settings.py
+settings_local.py
 .idea/
 .coverage
 cover/
@@ -17,3 +18,4 @@ reports/
 config/deploy/*.rb
 openframe/static/components
 .DS_Store
+nohup.out

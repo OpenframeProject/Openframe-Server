@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="Website">
 
 <head>
     <meta charset="utf-8">
@@ -10,16 +10,190 @@
 </head>
 
 <body>
-    <div class="container" id="OpenFrame">
+
+    <!-- Nav, Page Heading, Preview Image -->
+    <div class="top-nav-wrap">
+        <ul class="top-nav">
+            <li><a href="/request-account">Request an Account</a></li>
+            <li><a href="/login">Log In</a></li>
+        </ul>
+    </div>
+    <div class="container-wide">
         <div class="row page-header splash-header">
             <div class="col-md-12">
-                <h3 class="text-muted"><span class="openframe">openframe</span></h3>
-                <a href="/login">Log In</a>
-                &nbsp;&nbsp;|&nbsp;&nbsp;
-                <a href="/create-account">Create an Account</a>
+                <img class="logo" src="/static/dist/img/OF_Logo.svg" />
+
+                <h3 class="openframe">
+                    <span>
+                        <strong>openframe</strong>
+                        <span class="alpha">alpha 0.1</span>
+                    </span>
+                    is a platform for displaying art
+                </h3>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="preview">
+                    <img src="/static/dist/img/PreviewImage.jpg" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END Nav, Page Heading, Preview Image -->
+
+    <!-- Intro, Feature List -->
+    <div class="container-wide" >
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+
+                    <section class="intro">
+                        <p>
+                            Openframe is an <strong>open source</strong> platform for artists, developers, curators, and everyone else to explore new ways of consuming and interacting with art in our personal environment.
+                        </p>
+                        <p>
+                            Openframe is <strong>free</strong>. Anyone can set up a frame using a display and a Raspberry Pi, and following these simple <a href="#" >instructions</a>.
+                        </p>
+                        <p>
+                            Openframe is a <strong>collaborative</strong>, on-going project. Here's where we are:
+                        </p>
+                    </section>
+
+                    <ul class='features'>
+                        <li class="done">Display content from the internet, or your own<sup>*</sup></li>
+                        <li class="done">Save art to your collection</li>
+                        <li class="done">Mirror someone else's frame</li>
+                        <li class="see-more"><a href="#">See more</a></li>
+                    </ul>
+                    <ul class="features more">
+                        <li class="done">Add multiple users to a frame</li>
+                        <li class="done">Have multiple frames per user</li>
+                        <li class="done">See how many people are mirroring your frame / following your channel</li>
+                        <li class="not-done">Use tags to describe and find art</li>
+                        <li class="not-done">Chrome extension to save/display content</li>
+                        <li class="not-done">Settings for putting your frame to sleep</li>
+                    </ul>
+                    <p class="fine-print"><sup>*</sup>Currently supporting images (jpeg and png’s). Other types of content coming soon (websites, gifs, videos, Processing sketches, shaders, etc.).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END Intro, Feature List -->
+
+    <!-- Step-by-Step -->
+    <div class="container-wide setup" >
+        <div class="row">
+            <div class="col-sm-12">
+                <h4><strong>For everyone.</strong> Free and easy to set up.</h4>
+            </div>
+        </div>
+        <div class="row row-step">
+            <div class="col-sm-12">
+                <img class="setup-display" src="/static/dist/img/GetDisplay.svg" />
+                <h6>1. Get a display.</h6>
+                <p>Any display works &mdash; a new one, or that old one sitting in your parent’s basement.</p>
+            </div>
+        </div>
+        <div class="row row-step">
+            <div class="col-sm-12">
+                <img class="setup-pi" src="/static/dist/img/RPi.svg" />
+                <h6>2. Get a Raspberry Pi.</h6>
+                <p>Get one from <a href="#">here</a> or <a href="#">there</a>. Follow these <a href="#">simple steps</a> to set up the application.</p>
+            </div>
+        </div>
+        <div class="row row-step">
+            <div class="col-sm-12">
+                <img class="setup-account" src="/static/dist/img/Account.svg" />
+                <h6>3. Create an account.</h6>
+                <p>For now, <a href="#">request one here</a>. Soon you'll be able to create an account without a request.</p>
+            </div>
+        </div>
+        <div class="row row-step">
+            <div class="col-sm-12">
+                <img class="setup-display" src="/static/dist/img/DisplayArt.svg" />
+                <h6>4. Display art.</h6>
+            </div>
+        </div>
+    </div>
+    <!-- END Step-by-Step -->
+
+    <!-- For Whom? -->
+    <div class="container-wide for-whom">
+        <div class="container-mid">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h4>For developers.</h4>
+                    <h5>Contribute on <a href="#">Github</a></h5>
+                    <p>Send us an email at <a href="mailto:hello@openframe.io">hello@openframe.io</a> if you have ideas on how to improve or expand Openframe.</p>
+                </div>
+                <div class="col-sm-4">
+                    <h4>For artists.</h4>
+                    <h5>Your art in people's homes.</h5>
+                    <p>Send your art to <a href="mailto:art@openframe.io">art@openframe.io</a>. Or contact us if you have ideas or requests.</p>
+                </div>
+                <div class="col-sm-4">
+                    <h4>For curators.</h4>
+                    <h5>Create an art channel.</h5>
+                    <p>Contact us at <a href="mailto:hello@openframe.io">hello@openframe.io</a>. We’d like to learn more about how curators and galleries can contribute to this project.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END For Whom? -->
+
+    <div class="container-wide q-a" >
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h4 class="footer-heading"><strong>Questions</strong> and answers.</h4>
+
+                    <section>
+                    <h5>Why this project?</h5>
+
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </section>
+
+                    <section>
+                    <h5>What's the future of Openframe?</h5>
+
+                    <p>We don’t know. We’re just starting but we’re excited about the potential.</p>
+                    <p>We image a kid creating a drawing on an iPad and next day being in her grandmother’s living room and of 4 other strangers who liked the piece. We imagine a small gallery curating a week of artwork for your home. We imagine an artist pushing some work in progress to their followers. We imagine an historian creating a collection of artwork from xxx.</p>
+                    </section>
+
+                    <section>
+                    <h5>What artwork can I display?</h5>
+
+                    <p>The Openframe platform doesn't care what artwork you display; no content is stored on the Openframe server. It's up to you to make sure you have the permission of the content owner to display the work.</p>
+                    </section>
+
+                    <section>
+                    <h5>The installation seems complicated, I just want to buy a frame.</h5>
+
+                    <p>There are existing similar products that you can buy, plug to the wall, and viola &mdash they work. Check out <a href="#">Electric Objects</a> and <a href="#">Framed</a>.</p>
+                    </section>
+
+                    <h4 class="footer-contact-us">Contact us at <a href="mailto:hello@openframe.io">hello@openframe.io</a></h4>
+                </div>
             </div>
         </div>
     </div>
 </body>
+
+<script type="text/javascript" src="/static/components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).on('click', '.see-more a', function(e) {
+        e.preventDefault();
+        $(this).parent().remove();
+        $('.more').slideToggle();
+
+    });
+</script>
 
 </html>
