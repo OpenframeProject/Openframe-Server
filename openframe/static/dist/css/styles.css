@@ -624,6 +624,9 @@ html#Website body .container-wide {
 html#Website body .container-wide.setup {
   background-color: #F7F7F7;
 }
+html#Website body .container-wide.footer {
+  padding-bottom: 40px;
+}
 html#Website body .container-mid {
   width: 70%;
   margin: 0 auto;
@@ -634,7 +637,7 @@ html#Website body .container {
   width: 90%;
 }
 html#Website body .splash-header {
-  padding: 40px 0px;
+  padding: 0px 0px 40px 0px;
   border: none;
 }
 html#Website body .preview img {
@@ -759,6 +762,7 @@ html#Website body .q-a a {
 }
 html#Website body .q-a h5 {
   color: #50E3C2;
+  font-size: 1.1em;
 }
 html#Website body .q-a h4.footer-heading {
   margin-bottom: 80px;
@@ -780,6 +784,11 @@ html#Website body .footer a {
 html#Website body .footer .footer-contact-us {
   margin-top: 80px;
   font-size: 1.2em;
+  margin-top: 10px;
+}
+html#Website body .footer .footer-contact-us a {
+  text-decoration: none;
+  border-bottom: 1px solid white;
 }
 /**
  * Import styles for larger sreens.
