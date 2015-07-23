@@ -43,6 +43,30 @@ var AddContentModal = React.createClass({
         $(this.refs.modal.getDOMNode()).off('hidden.bs.modal');
     },
 
+	_testImage: function(url, callback, timeout) {
+	    timeout = timeout || 5000;
+	    var timedOut = false,
+	        timer;
+	    var img = new Image();
+	    img.onerror = img.onabort = function() {
+	        if (!timedOut) {
+	            clearTimeout(timer);
+	            callback(url, "error");
+	        }
+	    };
+	    img.onload = function() {
+	        if (!timedOut) {
+	            clearTimeout(timer);
+	            callback(url, "success");
+	        }
+	    };
+	    img.src = url;
+	    timer = setTimeout(function() {
+	        timedOut = true;
+	        callback(url, "timeout");
+	    }, timeout);
+	},
+
 	_handleAddContent: function() {
 		var url = this.refs.url.getDOMNode().value,
 			tags = this.refs.tags.getDOMNode().value;
@@ -51,24 +75,31 @@ var AddContentModal = React.createClass({
 			return;
 		}
 
-		tags = tags.trim().split('#');
+        function performAdd(url, success) {
+        	if (success !== 'success') {
+        		console.log('bad url');
+        		return;
+        	}
 
-		_.remove(tags, function(tag) {
-			return tag.trim() == '';
-		});
+        	tags = tags.trim().split('#');
 
-		_.each(tags, function(tag, i) {
-			tags[i] = tag.trim();
-		});
+			_.remove(tags, function(tag) {
+				return tag.trim() == '';
+			});
 
-		console.log(tags);
+			_.each(tags, function(tag, i) {
+				tags[i] = tag.trim();
+			});
 
-		var content = {
-            url: url,
-            users: [OF_USERNAME],
-            tags: tags
-        };
-		ContentActions.addContent(content);
+			var content = {
+	            url: url,
+	            users: [OF_USERNAME],
+	            tags: tags
+	        };
+			ContentActions.addContent(content);
+        }
+
+        this._testImage(url, performAdd);
 
 	},
 
