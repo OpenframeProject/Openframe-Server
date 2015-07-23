@@ -6,6 +6,12 @@ Openframe is **free**. Anyone can set up a frame using a display and a Raspberry
 
 Openframe is a **collaborative**, on-going project.
 
+## First Thing's First
+Most people who want to use the Openframe platform will never need to muck around with this repository. A public instance of this server application is online at [openframe.io](http://openframe.io). If you're looking to setup a frame, see the [setup instructions](https://github.com/OpenFrameProject/OpenFrame-NodeClient/wiki/Setup-Instructions).
+
+## Note for Developers
+This project is in its infancy. We'll be working on getting some documentation and contributor guidelines up as soon as we can. Feel free to contact us with any questions if you're anxious to dive in.
+
 ## System Requirements
 - Python 3
 - MongoDB
