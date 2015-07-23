@@ -650,8 +650,7 @@ html#Website body a {
 }
 html#Website body h3,
 html#Website body h4,
-html#Website body h5,
-html#Website body h6 {
+html#Website body h5 {
   font-weight: 300;
   text-transform: none;
 }
@@ -659,8 +658,11 @@ html#Website body h4 {
   font-size: 1.5em;
 }
 html#Website body h6 {
-  font-weight: 400;
-  font-size: 1.1em;
+  font-size: 0.8em;
+  font-weight: 300;
+  text-transform: none;
+  color: #898989;
+  text-align: center;
 }
 html#Website body ul.top-nav {
   text-align: right;
@@ -733,7 +735,12 @@ html#Website body .fine-print {
   color: #b2b2b2;
 }
 html#Website body .row-step {
-  margin-top: 40px;
+  margin-top: 50px;
+}
+html#Website body .row-step h5 {
+  margin-top: 20px;
+  font-weight: 400;
+  font-size: 1.1em;
 }
 html#Website body .row-step img {
   margin-bottom: 10px;
@@ -776,9 +783,8 @@ html#Website body .footer {
 }
 html#Website body .footer h3,
 html#Website body .footer h4,
-html#Website body .footer h6,
 html#Website body .footer a {
-  color: #FFF;
+  color: #B2B2B2;
   text-align: center;
 }
 html#Website body .footer .footer-contact-us {
@@ -788,7 +794,14 @@ html#Website body .footer .footer-contact-us {
 }
 html#Website body .footer .footer-contact-us a {
   text-decoration: none;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid #898989;
+}
+html#Website body .footer h6 {
+  color: #898989;
+  text-align: center;
+}
+html#Website body .footer h6 a {
+  color: #898989;
 }
 /**
  * Import styles for larger sreens.

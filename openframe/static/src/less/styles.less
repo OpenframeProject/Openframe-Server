@@ -737,7 +737,7 @@ html#Website {
             border-bottom: 1px solid #3a3a3a;
         }
 
-        h3, h4, h5, h6 {
+        h3, h4, h5 {
             font-weight: 300;
             text-transform: none;
         }
@@ -747,8 +747,11 @@ html#Website {
         }
 
         h6 {
-            font-weight: 400;
-            font-size: 1.1em;
+            font-size: 0.8em;
+            font-weight: 300;
+            text-transform: none;
+            color: #898989;
+            text-align: center;
         }
 
         ul.top-nav {
@@ -831,8 +834,12 @@ html#Website {
         }
 
         .row-step {
-            margin-top: 40px;
-
+            margin-top: 50px;
+            h5 {
+                margin-top: 20px;
+                font-weight: 400;
+                font-size: 1.1em;
+            }
             img {
                 margin-bottom: 10px;
             }
@@ -875,22 +882,28 @@ html#Website {
         .footer {
             background-color: #363533;
             color: #FFF;
-            h3, h4, h6, a {
-                color: #FFF;
+            h3, h4, a {
+                color: #B2B2B2;
                 text-align: center;
             }
+
 
 
             .footer-contact-us {
                 margin-top: 80px;
                 font-size: 1.2em;
                 margin-top: 10px;
-
+                a {
+                    text-decoration: none;
+                    border-bottom: 1px solid #898989;
+                }
             }
-
-            .footer-contact-us a {
-                text-decoration: none;
-                border-bottom: 1px solid white;
+            h6 {
+                color: #898989;
+                text-align: center;
+                a {
+                    color: #898989;
+                }
             }
         }
 
