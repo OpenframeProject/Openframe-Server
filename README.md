@@ -39,6 +39,8 @@ Then try starting the server:
 $ python3 server.py
 ```
 
+And browse to `http://localhost:8888`.
+
 ### Front-end Build
 
 Gulp is used for the front-end build. The default gulp task watches the .less and .js files in `openframe/static/src/less` and `openframe/static/src/js` dirs and compiles them into the appropriate `openframe/static/dist` locations. Just run:
@@ -46,6 +48,8 @@ Gulp is used for the front-end build. The default gulp task watches the .less an
 ```
 $ gulp
 ```
+
+Take a look at the `Gulpfile` for details on the build.
 
 ### Local Config
 There are some default settings located in `openframe/settings.py`. You can create your own `openframe/settings_local.py` and override any of these settings.
@@ -56,5 +60,5 @@ Additionally, you can pass a couple commandline arguments when starting the serv
 $ python3 server.py --port=6666 --debug=True
 ```
 
-The should be self explanatory (defaults are port=8888, debug=False).
+They should be self explanatory (defaults are port=8888, debug=False).
 
