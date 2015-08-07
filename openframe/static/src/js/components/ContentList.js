@@ -35,8 +35,9 @@ var ContentList = React.createClass({
         // TODO: better React integration for the swiper
 
         this._initSlider();
-
-        var content_id = this.state.content[0]._id;
+        // if (this.state.content.length) {
+        //     var content_id = this.state.content[0]._id;
+        // }
     },
 
     _initSlider: function() {

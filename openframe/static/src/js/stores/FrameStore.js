@@ -43,7 +43,9 @@ var FrameStore = assign({}, EventEmitter.prototype, {
 	 * @return {[type]}        [description]
 	 */
 	init: function(frames) {
-		_selectedFrameId = frames[0]._id;
+		if (frames.length) {
+			_selectedFrameId = frames[0]._id;
+		}
 		_.each(frames, addFrame);
 	},
 

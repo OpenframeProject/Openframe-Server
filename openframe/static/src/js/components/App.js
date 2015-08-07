@@ -107,24 +107,32 @@ var App = React.createClass({
   	render: function(){
   		// The ContentLlist and PublicFramesList maintain their own state
   		var contentList = <ContentList />,
-  			frameList = <PublicFramesList />;
+  			frameList = <PublicFramesList />,
+  			settingsModal = null,
+  			frame = null;
+
+  		if (this.state.selectedFrame) {
+  			settingsModal = <SettingsModal
+				frame={this.state.selectedFrame}
+				onSaveSettings={this._saveFrame}
+				onSettingsChange={this._onSettingsChange}
+			/>;
+
+			frame = <Frame frame={this.state.selectedFrame} />;
+  		}
 
   		var selectionPanel = this.state.selectionPanel === 'collection' ? contentList : frameList;
 	    return (
 			<div className='container app'>
 				<SimpleNav frames={this.state.frames} selectedFrame={this.state.selectedFrame}/>
-				<Frame frame={this.state.selectedFrame} />
+				{frame}
 				<TransferButtons panelState={this.state.selectionPanel} />
 				<div>{selectionPanel}</div>
 				<FooterNav ref="navFooter"/>
 				<Drawer
 					frames={this.state.frames}
 					selectedFrame={this.state.selectedFrame} />
-				<SettingsModal
-					frame={this.state.selectedFrame}
-					onSaveSettings={this._saveFrame}
-					onSettingsChange={this._onSettingsChange}
-				/>
+				{settingsModal}
 				<AddContentModal />
 				<FramePreview />
 			</div>

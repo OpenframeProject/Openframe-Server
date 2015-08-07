@@ -85,6 +85,7 @@ var PublicFrameSwiper = React.createClass({
 
     render: function() {
         var frameItems = this.props.frames.map(function (frameItem) {
+            // if (!frameItem.current_content) return;
             return (
                 <FrameItem frame={frameItem} key={frameItem._id} />
             );

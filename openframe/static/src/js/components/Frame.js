@@ -19,7 +19,9 @@ var Frame = React.createClass({
 	},
 
 	_handleClick: function(e) {
-		UIActions.openPreview(this.props.frame);
+		if (this.props.frame.current_content) {
+			UIActions.openPreview(this.props.frame);
+		}
 	},
 
   	// _onChange: function() {

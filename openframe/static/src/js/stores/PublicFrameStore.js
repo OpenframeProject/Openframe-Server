@@ -63,7 +63,9 @@ AppDispatcher.register(function(action) {
     	case OFConstants.PUBLIC_FRAMES_LOAD_DONE:
     		console.log('visible frames loaded: ', action.frames);
 			_publicFrames = action.frames;
-			_selected_public_frame_id = _publicFrames[0]._id;
+			if (_publicFrames.length) {
+				_selected_public_frame_id = _publicFrames[0]._id;
+			}
 			PublicFrameStore.emitChange();
 			break;
 
