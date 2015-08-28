@@ -7194,6 +7194,7 @@ html#Website body .container {
 }
 html#Website body .splash-header {
   padding: 0px 0px 40px 0px;
+  margin-top: 0px;
   border: none;
 }
 html#Website body .preview img {
@@ -7251,15 +7252,22 @@ html#Website body section.intro {
   font-size: 1.3em;
   line-height: 1.3em;
   margin-bottom: 40px;
+  margin-top: 20px;
+}
+html#Website body section.intro2 {
+  font-size: 1.3em;
+  line-height: 1.3em;
+  margin-bottom: 20px;
 }
 html#Website body section.intro p {
   margin: 0 0 20px;
 }
 html#Website body ul.features {
   position: relative;
-  width: 400px;
+  width: 500px;
   max-height: 400px;
   overflow: hidden;
+  margin-bottom: 40px;
 }
 html#Website body ul.features.more {
   display: none;
@@ -7326,6 +7334,8 @@ html#Website body .q-a a {
 html#Website body .q-a h5 {
   color: #50E3C2;
   font-size: 1.1em;
+  margin-top: 40px;
+  margin-bottom: 20px;
 }
 html#Website body .q-a h4.footer-heading {
   margin-bottom: 80px;
