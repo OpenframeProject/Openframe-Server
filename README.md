@@ -1,6 +1,6 @@
 # OpenFrame
 
-> NOTICE: This repo contains an early prototype which is no longer in use.
+> NOTICE: This repo contains an early prototype which is no longer being developed.
 
 Openframe is an **open source** platform for artists, developers, curators, and everyone else to explore new ways of consuming and interacting with art in our personal environment.
 
