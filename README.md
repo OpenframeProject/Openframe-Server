@@ -1,5 +1,7 @@
 # OpenFrame
 
+> NOTICE: This repo contains an early prototype which is no longer in use.
+
 Openframe is an **open source** platform for artists, developers, curators, and everyone else to explore new ways of consuming and interacting with art in our personal environment.
 
 Openframe is **free**. Anyone can set up a frame using a display and a Raspberry Pi, and following these simple instructions.
