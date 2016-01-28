@@ -767,6 +767,9 @@ html#Website body .row-step h5 {
 html#Website body .row-step img {
   margin-bottom: 10px;
 }
+html#Website body .for-whom {
+  background-color: #F7F7F7;
+}
 html#Website body .for-whom h4 {
   font-weight: 400;
 }
