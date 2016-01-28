@@ -7311,9 +7311,11 @@ html#Website body .row-step img {
 }
 html#Website body .for-whom {
   background-color: #F7F7F7;
+  padding-top: 0px;
 }
 html#Website body .for-whom h4 {
   font-weight: 400;
+  margin-top: 60px;
 }
 html#Website body .for-whom h5 {
   margin-top: 40px;
